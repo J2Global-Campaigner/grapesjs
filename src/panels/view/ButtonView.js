@@ -281,15 +281,19 @@ module.exports = Backbone.View.extend({
     if (this.parentM) this.swapParent();
 
     var active = this.model.get('active');
-    this.model.set('active', !active);
+    //we don't want to hide any of the panels when clicked twice, disable toggling
+    if(!active) {
 
-    // If the stop is requested
-    var command = this.em.get('Commands').get('select-comp');
+      this.model.set('active', !active);
 
-    if (active) {
-      if (this.model.get('runDefaultCommand')) this.em.runDefault();
-    } else {
-      if (this.model.get('stopDefaultCommand')) this.em.stopDefault();
+      // If the stop is requested
+      var command = this.em.get('Commands').get('select-comp');
+
+      if (active) {
+        if (this.model.get('runDefaultCommand')) this.em.runDefault();
+      } else {
+        if (this.model.get('stopDefaultCommand')) this.em.stopDefault();
+      }
     }
   },
 

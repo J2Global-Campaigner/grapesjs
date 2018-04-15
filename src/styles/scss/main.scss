@@ -10,8 +10,16 @@
 
 @font-face {
   font-family: 'font3336';
-  src: url('#{$fontPath}/#{$fontName}.eot?v=#{$fontV}');
+  src:  url('#{$fontPath-fallback}/#{$fontName}.eot?v=#{$fontV}'),url('#{$fontPath}/#{$fontName}.eot?v=#{$fontV}');
   src:
+
+  url('#{$fontPath-fallback}/#{$fontName}.woff?v=#{$fontV}') format('woff'),
+  //url('#{$fontPath}/#{$fontName}.woff2?v=#{$fontV}') format('woff2'),
+  url('#{$fontPath-fallback}/#{$fontName}.ttf?v=#{$fontV}') format('truetype'),
+  url('#{$fontPath-fallback}/#{$fontName}.svg?v=#{$fontV}') format('svg'),
+  url('#{$fontPath-fallback}/#{$fontName}.eot?v=#{$fontV}') format('embedded-opentype'),
+
+
     url('#{$fontPath}/#{$fontName}.woff?v=#{$fontV}') format('woff'),
     //url('#{$fontPath}/#{$fontName}.woff2?v=#{$fontV}') format('woff2'),
     url('#{$fontPath}/#{$fontName}.ttf?v=#{$fontV}') format('truetype'),

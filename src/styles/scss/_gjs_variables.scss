@@ -72,6 +72,7 @@ $animSpeed:         0.2s !default;
 /* Fonts */
 $mainFont:          Helvetica, sans-serif !default;
 $fontPath:          '../fonts' !default;
+$fontPath-fallback: '/csb/styles/fonts' !default;
 $fontName:          'main-fonts' !default;
 $fontSize:           0.7rem;
 $fontSizeS:          0.75rem;

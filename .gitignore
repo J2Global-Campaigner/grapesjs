@@ -16,3 +16,14 @@ node_modules/
 bower_components/
 grapesjs-*.tgz
 _index.html
+dist/js/node_modules/
+plugins/
+dev/
+dist/
+grapesjs.sln
+grapesjs.vssscc
+gulpfile.js
+sourceMods.txt
+.suo
+applicationhost.config
+*.json

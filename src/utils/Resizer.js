@@ -404,12 +404,19 @@ class Resizer {
    */
   handleMouseDown(e) {
     var el = e.target;
+    var wrapper = el.ownerDocument.getElementById('wrapper');
     if (this.isHandler(el)) {
       this.selectedHandler = el;
       this.start(e);
     } else if (el !== this.el) {
-      this.selectedHandler = '';
-      this.blur();
+       //we want the selected element to remain selected if we click off the canvas
+      //Let's check if the selected element's document contains the wrapper
+      //If not, do not blur as we've clicked off the canvas
+      if(wrapper != null) //wrapper does not exist based on selected element's document
+      {
+        this.selectedHandler = '';
+        this.blur();
+      }
     }
   }
 
