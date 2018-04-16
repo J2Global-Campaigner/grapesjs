@@ -74,6 +74,6 @@ $mainFont:          Helvetica, sans-serif !default;
 $fontPath:          '../fonts' !default;
 $fontPath-fallback: '/csb/styles/fonts' !default;
 $fontName:          'main-fonts' !default;
-$fontSize:           0.7rem;
-$fontSizeS:          0.75rem;
+$fontSize:           0.7rem !default;
+$fontSizeS:          0.75rem !default;
 $fontV:              20 !default;//random(1000)
