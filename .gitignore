@@ -27,3 +27,6 @@ sourceMods.txt
 .suo
 applicationhost.config
 *.json
+index.html
+csb/
+webpack.config.js
