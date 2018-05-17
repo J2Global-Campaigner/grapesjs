@@ -13,13 +13,7 @@ module.exports = {
     components: [],
     traits: [],
     stylable: [
-      'background',
       'background-color',
-      'background-image',
-      'background-repeat',
-      'background-attachment',
-      'background-position',
-      'background-size'
     ]
   },
 
