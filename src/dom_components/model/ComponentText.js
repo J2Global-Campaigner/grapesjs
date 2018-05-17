@@ -4,7 +4,7 @@ module.exports = Component.extend({
   defaults: {
     ...Component.prototype.defaults,
     type: 'text',
-    droppable: 'a',
+    droppable: false,
     editable: true,
     unstylable: ['width', 'max-width', 'height', 'min-height', 'text-shadow',
     'font', 'font-size', 'font-weight', 'letter-spacing', 'vertical-align',
