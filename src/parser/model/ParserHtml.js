@@ -180,6 +180,15 @@ module.exports = config => {
             //   break;
             // }
 
+
+            if (c.textTags.indexOf(comp.tagName) !== -1) {
+                comp.hoverable = false;
+                comp.selectable = false;
+            }
+  
+
+
+
             if (cType == 'textnode') {
               foundTextNode = 1;
             }
