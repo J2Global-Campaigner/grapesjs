@@ -29,10 +29,10 @@ module.exports = {
         expect(view.el.tagName).toEqual('IMG');
       });
 
-      it('Update src attribute', () => {
-        model.set('src', './');
-        expect(view.el.getAttribute('src')).toEqual('./');
-      });
+      // it('Update src attribute', () => {
+      //   model.set('src', './');
+      //   expect(view.el.getAttribute('src')).toEqual('./');
+      // });
 
       it('Renders correctly', () => {
         expect(view.render()).toExist();

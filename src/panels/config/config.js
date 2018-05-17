@@ -55,11 +55,17 @@ module.exports = {
       id: 'views',
       buttons: [
         {
+          id: obl,
+          className: 'fa fa-th-large',
+          command: obl,
+          attributes: { title: 'Content Blocks' }
+        },
+        {
           id: osm,
           className: 'fa fa-paint-brush',
           command: osm,
           active: true,
-          attributes: { title: 'Open Style Manager' }
+          attributes: { title: 'Style Manager' }
         },
         {
           id: otm,
@@ -73,12 +79,7 @@ module.exports = {
           command: ola,
           attributes: { title: 'Open Layer Manager' }
         },
-        {
-          id: obl,
-          className: 'fa fa-th-large',
-          command: obl,
-          attributes: { title: 'Open Blocks' }
-        }
+       
       ]
     }
   ],

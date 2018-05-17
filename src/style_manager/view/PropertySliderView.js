@@ -46,8 +46,8 @@ module.exports = Property.extend({
   },
 
   setValue(value) {
-    this.getSliderEl().value = value;
-    this.inputInst.setValue(value, { silent: 1 });
+    // this.getSliderEl().value = value;
+    // this.inputInst.setValue(value, { silent: 1 });
   },
 
   onRender() {

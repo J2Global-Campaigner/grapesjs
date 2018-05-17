@@ -5,20 +5,79 @@ module.exports = ComponentView.extend({
   tagName: 'img',
 
   events: {
-    dblclick: 'openModal',
-    click: 'initResize'
+    //dblclick: 'openModal',
+    click: 'openSettings'
   },
 
   initialize(o) {
     const model = this.model;
     ComponentView.prototype.initialize.apply(this, arguments);
-    this.listenTo(model, 'change:src', this.updateSrc);
-    this.listenTo(model, 'dblclick active', this.openModal);
+    //this.listenTo(model, 'change:src', this.updateSrc);
+    //this.listenTo(model, 'dblclick active', this.openModal);
     this.classEmpty = `${this.ppfx}plh-image`;
     const config = this.config;
     config.modal && (this.modal = config.modal);
     config.am && (this.am = config.am);
     this.fetchFile();
+  },
+  openSettings: function (e) {
+    e.preventDefault();
+    editor.select(this.model);
+    editor.Panels.getButton('views', 'open-tm').set('active', 1);
+
+    var w = e.target.style.width;
+    var h = e.target.style.height;
+
+    //we need to manually restore our traits b/c we are not saving/restoring component info
+    //img src
+    try {
+      var src = this.model.get('attributes').src;
+      editor.TraitManager.getTraitsViewer().collection.models[1].setTargetValue(src);
+    
+    }
+    catch (x) { }
+
+    //img alt
+    try {
+      var alt = this.model.get('attributes').alt;
+      if (alt == null || alt == "null")
+        alt = "";
+      editor.TraitManager.getTraitsViewer().collection.models[2].setTargetValue(alt);
+    }
+    catch (x) { }
+
+    //href
+    try {
+      var href = this.model.parent().get('attributes').href;
+      if (href == null)
+        href = "";
+      editor.TraitManager.getTraitsViewer().collection.models[3].setTargetValue(href);
+    }
+    catch (x) { }
+
+    //name & track link checkbox
+    try {
+      var name = this.model.parent().get('attributes').name;
+      if (name == null)
+        name = "";
+      editor.TraitManager.getTraitsViewer().collection.models[5].setTargetValue(name);
+
+      if (name == "LinkIsNotTracked" || name == '' || name == null)
+        editor.TraitManager.getTraitsViewer().collection.models[4].setTargetValue(false);
+      else
+        editor.TraitManager.getTraitsViewer().collection.models[4].setTargetValue(true);
+    }
+    catch (x) { }
+
+    this.model.parent().unset(src);
+
+    //refresh the view
+    editor.TraitManager.getTraitsViewer().render();
+
+    e.target.style.width = w;
+    e.target.style.height = h;
+
+    updateMediaLibaryTrait();
   },
 
   /**
@@ -55,6 +114,8 @@ module.exports = ComponentView.extend({
     el[src ? 'removeClass' : 'addClass'](this.classEmpty);
   },
 
+  
+
   /**
    * Open dialog for image changing
    * @param  {Object}  e  Event
@@ -75,6 +136,7 @@ module.exports = ComponentView.extend({
     }
   },
 
+
   render() {
     this.updateAttributes();
     this.updateClasses();
@@ -88,3 +150,4 @@ module.exports = ComponentView.extend({
     return this;
   }
 });
+

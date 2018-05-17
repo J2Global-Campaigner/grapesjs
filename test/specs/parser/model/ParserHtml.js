@@ -256,6 +256,7 @@ module.exports = {
           '<article id="test1">   <div></div> <footer id="test2"></footer>  Text mid <div id="last"></div></article>';
         var result = {
           tagName: 'article',
+          type: 'text',
           attributes: { id: 'test1' },
           components: [
             {
@@ -314,6 +315,7 @@ module.exports = {
         var str = '<div>content1 <div><span>nested</span></div> content2</div>';
         var result = {
           tagName: 'div',
+          type: 'text',
           components: [
             {
               tagName: '',
@@ -322,6 +324,7 @@ module.exports = {
             },
             {
               tagName: 'div',
+              type: 'text',
               components: [
                 {
                   tagName: 'span',

@@ -5,7 +5,11 @@ module.exports = ComponentTableBody.extend(
     defaults: {
       ...ComponentTableBody.prototype.defaults,
       type: 'thead',
-      tagName: 'thead'
+      tagName: 'thead',
+      unstylable: ['width', 'max-width', 'height', 'min-height', 'text-shadow',
+      'font', 'font-size', 'font-weight', 'letter-spacing', 'vertical-align',
+      'color', 'line-height', 'text-decoration', 'font-family', 'font-style'
+     ],
     }
   },
   {

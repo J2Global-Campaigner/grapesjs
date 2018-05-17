@@ -1083,7 +1083,9 @@
     var dpWidth = picker.outerWidth();
     var dpHeight = picker.outerHeight();
     var inputHeight = input.outerHeight();
-    var doc = picker[0].ownerDocument;
+    //var doc = picker[0].ownerDocument;
+
+    var doc = editor.Canvas.getBody().ownerDocument;
     var docElem = doc.documentElement;
     var cW = docElem.clientWidth;
     var cH = docElem.clientHeight;

@@ -36,7 +36,7 @@ module.exports = {
   // useful if for example your template is not based off a document with 0 as body margin.
   baseCss: `
     * {
-      box-sizing: border-box;
+      box-sizing:border-box;
     }
     html, body, #wrapper {
       min-height: 100%;
@@ -65,7 +65,9 @@ module.exports = {
   `,
 
   // CSS that could only be seen (for instance, inside the code viewer)
-  protectedCss: '* { box-sizing: border-box; } body {margin: 0;}',
+  protectedCss: `*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}@media only screen and (max-width: 470px), screen and (max-device-width: 470px){body{text-size-adjust:100%;line-height:125%;}img{max-width:100% !important;height:auto !important;}.row{flex-wrap:wrap !important;}table, td{max-width:100% !important;}p{margin-top:0px !important;margin-right:0px !important;margin-bottom:0px !important;margin-left:0px !important;}}
+  .row {display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;max-width:700px;margin:auto;min-height:95px;}
+  .cell {min-height:10px;flex-grow:1;flex-basis:100%;}`,
 
   // CSS for the iframe which containing the canvas, useful if you need to custom something inside
   // (eg. the style of the selected component)

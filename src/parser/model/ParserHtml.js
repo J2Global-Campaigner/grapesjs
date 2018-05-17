@@ -171,20 +171,21 @@ module.exports = config => {
             const comp = comps[ci];
             const cType = comp.type;
 
-            if (
-              ['text', 'textnode'].indexOf(cType) < 0 &&
-              c.textTags.indexOf(comp.tagName) < 0
-            ) {
-              allTxt = 0;
-              break;
-            }
+            //we need the parent to be editable if there are any sub-text compononents, otherwise they are uneditable
+            // if (
+            //   ['text', 'textnode'].indexOf(cType) < 0 &&
+            //   c.textTags.indexOf(comp.tagName) < 0
+            // ) {
+            //   allTxt = 0;
+            //   break;
+            // }
 
             if (cType == 'textnode') {
               foundTextNode = 1;
             }
           }
 
-          if (allTxt && foundTextNode) {
+          if (allTxt || foundTextNode) {
             model.type = 'text';
           }
         }

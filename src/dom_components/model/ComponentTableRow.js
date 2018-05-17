@@ -7,7 +7,11 @@ module.exports = Component.extend(
       type: 'row',
       tagName: 'tr',
       draggable: ['thead', 'tbody', 'tfoot'],
-      droppable: ['th', 'td']
+      droppable: ['th', 'td'],
+      unstylable: ['width', 'max-width', 'height', 'min-height', 'text-shadow',
+      'font', 'font-size', 'font-weight', 'letter-spacing', 'vertical-align',
+      'color', 'line-height', 'text-decoration', 'font-family', 'font-style'
+     ],
     },
 
     initialize(o, opt) {

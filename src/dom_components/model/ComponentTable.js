@@ -6,7 +6,11 @@ module.exports = Component.extend(
       ...Component.prototype.defaults,
       type: 'table',
       tagName: 'table',
-      droppable: ['tbody', 'thead', 'tfoot']
+      droppable: ['tbody', 'thead', 'tfoot'],
+      unstylable: ['width', 'max-width', 'height', 'min-height', 'text-shadow',
+      'font', 'font-size', 'font-weight', 'letter-spacing', 'vertical-align',
+      'color', 'line-height', 'text-decoration', 'font-family', 'font-style'
+     ],
     },
 
     initialize(o, opt) {

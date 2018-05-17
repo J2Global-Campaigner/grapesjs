@@ -250,7 +250,5 @@ module.exports = () => {
         });
       });
     },
-
-    Panel
   };
 };

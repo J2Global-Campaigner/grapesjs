@@ -234,6 +234,9 @@ module.exports = () => {
           console.warn('The element is not removable');
           return;
         }
+        //add logic for customImg handling
+        if(component.parent().get('type') === "customImg")
+          component.parent().destroy();
 
         ed.select(null);
         component.destroy();

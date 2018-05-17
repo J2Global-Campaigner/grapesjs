@@ -138,9 +138,26 @@ module.exports = Backbone.View.extend({
 
   toogleActive() {
     var active = this.model.get('active');
-    //we don't want to hide any of the panels when clicked twice, disable toggling
-    if(!active) {
 
+    //check if the button belongs to the views panel
+    var btn = editor.Panels.getButton('views', this.model.get('id'))
+    //we don't want to hide any of the view panels when clicked twice, disable toggling
+    if(btn != null){
+      if(!active) {
+
+        this.model.set('active', !active);
+
+        // If the stop is requested
+        var command = this.em.get('Commands').get('select-comp');
+
+        if (active) {
+          if (this.model.get('runDefaultCommand')) this.em.runDefault();
+        } else {
+          if (this.model.get('stopDefaultCommand')) this.em.stopDefault();
+        }
+      }
+    }
+    else {
       this.model.set('active', !active);
 
       // If the stop is requested

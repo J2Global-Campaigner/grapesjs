@@ -34,9 +34,6 @@ module.exports = () => ({
         case 'padding-right':
         case 'padding-bottom':
         case 'padding-left':
-        case 'width':
-        case 'max-width':
-        case 'min-width':
         case 'height':
         case 'max-height':
         case 'min-height':
@@ -66,6 +63,11 @@ module.exports = () => ({
 
       // Type
       switch (prop) {
+        case 'width':
+        case 'max-width':
+        case 'min-width':
+          obj.type = 'slider';
+          break;
         case 'float':
         case 'position':
         case 'text-align':
@@ -99,11 +101,11 @@ module.exports = () => ({
         case 'padding-bottom':
         case 'padding-left':
         case 'min-height':
-        case 'min-width':
         case 'max-height':
-        case 'max-width':
-        case 'width':
         case 'height':
+        case 'width':
+        case 'max-width':
+        case 'min-width':
         case 'font-size':
         case 'letter-spacing':
         case 'line-height':
@@ -207,10 +209,7 @@ module.exports = () => ({
           obj.defaults = '5px';
           break;
         case 'min-height':
-        case 'min-width':
         case 'max-height':
-        case 'max-width':
-        case 'width':
         case 'height':
         case 'background-size':
         case 'cursor':
@@ -270,6 +269,11 @@ module.exports = () => ({
 
       // Units
       switch (prop) {
+         case 'width':
+        case 'max-width':
+        case 'min-width':
+          obj.units = ['px'];
+          break;
         case 'top':
         case 'right':
         case 'bottom':
@@ -283,10 +287,7 @@ module.exports = () => ({
         case 'padding-bottom':
         case 'padding-left':
         case 'min-height':
-        case 'min-width':
         case 'max-height':
-        case 'max-width':
-        case 'width':
         case 'height':
         case 'text-shadow-h':
         case 'text-shadow-v':
@@ -325,16 +326,20 @@ module.exports = () => ({
 
       // Min/Max
       switch (prop) {
+        case 'min-width':
+        case 'max-width':
+        case 'width':
+          obj.min = 300;
+          obj.max = 900;
+          obj.step = 10;
+          break;
+        case 'min-height':
+        case 'max-height':
+        case 'height':
         case 'padding-top':
         case 'padding-right':
         case 'padding-bottom':
         case 'padding-left':
-        case 'min-height':
-        case 'min-width':
-        case 'max-height':
-        case 'max-width':
-        case 'width':
-        case 'height':
         case 'font-size':
         case 'text-shadow-blur':
         case 'border-radius-c':
