@@ -14,6 +14,12 @@ module.exports = {
     traits: [],
     stylable: [
       'background-color',
+      'font-size',
+      'font-family',
+      'font-weight',
+      'font-style',
+      'color',
+
     ]
   },
 
