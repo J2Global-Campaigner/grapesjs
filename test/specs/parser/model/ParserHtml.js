@@ -136,13 +136,18 @@ module.exports = {
           attributes: { id: 'test1' },
           type: 'text',
           components: [
-            { tagName: 'br' },
+            { tagName: 'br',
+            hoverable: false,
+            selectable: false
+            },
             {
               content: ' test2 ',
               type: 'textnode',
               tagName: ''
             },
-            { tagName: 'br' },
+            { tagName: 'br' ,
+            hoverable: false,
+            selectable: false},
             {
               content: ' a b ',
               type: 'textnode',
@@ -151,7 +156,9 @@ module.exports = {
             {
               content: 'b',
               type: 'text',
-              tagName: 'b'
+              tagName: 'b',
+              hoverable: false,
+              selectable: false
             },
             {
               content: ' ',
@@ -161,7 +168,9 @@ module.exports = {
             {
               content: 'i',
               tagName: 'i',
-              type: 'text'
+              type: 'text',
+              hoverable: false,
+              selectable: false
             },
             {
               content: ' ',
@@ -171,7 +180,9 @@ module.exports = {
             {
               content: 'u',
               tagName: 'u',
-              type: 'text'
+              type: 'text',
+              hoverable: false,
+              selectable: false
             },
             {
               content: ' test ',
@@ -199,7 +210,9 @@ module.exports = {
             {
               content: 'b',
               tagName: 'b',
-              type: 'text'
+              type: 'text',
+              hoverable: false,
+              selectable: false
             },
             {
               content: ' ',
@@ -209,7 +222,9 @@ module.exports = {
             {
               content: 'i',
               tagName: 'i',
-              type: 'text'
+              type: 'text',
+              hoverable: false,
+              selectable: false
             },
             {
               content: 'c ',
@@ -229,7 +244,9 @@ module.exports = {
             {
               content: 'i',
               tagName: 'i',
-              type: 'text'
+              type: 'text',
+              hoverable: false,
+              selectable: false
             },
             {
               content: ' ',
@@ -239,7 +256,9 @@ module.exports = {
             {
               content: 'u',
               tagName: 'u',
-              type: 'text'
+              type: 'text',
+              hoverable: false,
+              selectable: false
             },
             {
               content: ' test ',
