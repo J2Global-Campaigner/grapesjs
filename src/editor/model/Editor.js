@@ -308,15 +308,24 @@ module.exports = Backbone.Model.extend({
     const cssc = this.get('CssComposer');
     const wrp = this.get('DomComponents').getComponent();
     const protCss = !avoidProt ? config.protectedCss : '';
+    
 
-    return (
-      protCss +
-      this.get('CodeManager').getCode(wrp, 'css', {
-        cssc,
-        wrappesIsBody,
-        keepUnusedStyles
-      })
-    );
+    var css =  this.get('CodeManager').getCode(wrp, 'css', {
+      cssc,
+      wrappesIsBody,
+      keepUnusedStyles
+    })
+
+    if(css.indexOf('.gjsProtectedCss') === -1) {
+      console.log('protected added')
+      return protCss + css;
+    }
+    else{
+      console.log('just css');
+      return css; 
+
+    }
+
   },
 
   /**
