@@ -316,15 +316,7 @@ module.exports = Backbone.Model.extend({
       keepUnusedStyles
     })
 
-    if(css.indexOf('.gjsProtectedCss') === -1) {
-      console.log('protected added')
-      return protCss + css;
-    }
-    else{
-      console.log('just css');
-      return css; 
-
-    }
+    return css.indexOf('.gjsProtectedCss') === -1 ? protCss + css : css; 
 
   },
 
