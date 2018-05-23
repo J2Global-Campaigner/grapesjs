@@ -14,6 +14,9 @@ module.exports = ComponentView.extend({
     ComponentView.prototype.initialize.apply(this, arguments);
     //this.listenTo(model, 'change:src', this.updateSrc);
     //this.listenTo(model, 'dblclick active', this.openModal);
+  
+
+
     this.classEmpty = `${this.ppfx}plh-image`;
     const config = this.config;
     config.modal && (this.modal = config.modal);
@@ -23,7 +26,17 @@ module.exports = ComponentView.extend({
   openSettings: function (e) {
     e.preventDefault();
     editor.select(this.model);
-    editor.Panels.getButton('views', 'open-tm').set('active', 1);
+    editor.Panels.getButton('views', 'open-tm').set('active', 1); 
+
+  // we don't want the slider to be used for the width, make it an integer
+  $("#gjs-sm-width").removeClass('gjs-sm-slider').addClass('gjs-sm-integer');
+  $("#gjs-sm-width .gjs-field-range").remove();
+  let widthProp = editor.StyleManager.getProperty("Dimension", "width");
+  widthProp.set('type', 'integer');
+  widthProp.set("min", 0);
+  widthProp.set("max", "");
+  widthProp.set("step", 1);
+  widthProp.unset("showInput");
 
     var w = e.target.style.width;
     var h = e.target.style.height;
@@ -142,6 +155,7 @@ module.exports = ComponentView.extend({
   render() {
     this.updateAttributes();
     this.updateClasses();
+   
 
     var actCls = this.$el.attr('class') || '';
     if (!this.model.get('src'))

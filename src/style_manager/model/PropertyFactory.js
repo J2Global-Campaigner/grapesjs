@@ -37,6 +37,9 @@ module.exports = () => ({
         case 'height':
         case 'max-height':
         case 'min-height':
+        case 'width':
+        case 'max-width':
+        case 'min-width':
           obj.fixedValues = ['initial', 'inherit', 'auto'];
           break;
         case 'font-size':
@@ -272,7 +275,7 @@ module.exports = () => ({
          case 'width':
         case 'max-width':
         case 'min-width':
-          obj.units = ['px'];
+          obj.units = ['px', '%'];
           break;
         case 'top':
         case 'right':

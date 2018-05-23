@@ -405,12 +405,14 @@ module.exports = {
         };
         var wRes =  {
           type: 'slider',
-          units: ['px'],
+          units: ['px', '%'],
           min: 300,
           max: 900, 
-          step: 10 
+          step: 10,
+          fixedValues: ["initial", "inherit", "auto"]
         };
         wRes.property = 'width';
+        //our width property is dynamic we can't test for this
         expect(obj.build('width')).toEqual([wRes]);
         wRes.property = 'max-width';
         expect(obj.build('max-width')).toEqual([wRes]);

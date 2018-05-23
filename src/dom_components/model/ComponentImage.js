@@ -16,7 +16,7 @@ module.exports = Component.extend(
       editable: 1,
       highlightable: 0,
       resizable: 1,
-      unstylable: ['width', 'max-width', 'height', 'min-height', 'text-shadow',
+      unstylable: ['max-width', 'min-height', 'text-shadow',
       'font', 'font-size', 'font-weight', 'letter-spacing', 'vertical-align',
       'color', 'line-height', 'text-decoration', 'font-family', 'font-style'
      ],
@@ -86,7 +86,6 @@ module.exports = Component.extend(
       else {
         this.doOnDropStuff();
       }
-
     },
 
 
@@ -101,7 +100,15 @@ module.exports = Component.extend(
       editor.Panels.getButton('views', 'open-tm').set('active', 1);
       updateMediaLibaryTrait();
       
-      //update the model 
+      // we don't want the slider to be used for the width, make it an integer
+      $("#gjs-sm-width").removeClass('gjs-sm-slider').addClass('gjs-sm-integer');
+      $("#gjs-sm-width .gjs-field-range").remove();
+      let widthProp = editor.StyleManager.getProperty("Dimension", "width");
+      widthProp.set('type', 'integer');
+      widthProp.set("min", 0);
+      widthProp.set("max", "");
+      widthProp.set("step", 1);
+      widthProp.unset("showInput");
     },
     updateDimensions: function(component, src) {
 
