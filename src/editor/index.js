@@ -274,6 +274,16 @@ module.exports = config => {
       return em.getHtml(opts);
     },
 
+    
+    /**
+     * Returns HTML with inlined CSS 
+     * @return {string} HTML string
+     */
+    getInlinedHtml(opts) {
+      return em.getInlinedHtml(opts);
+    },
+
+
     /**
      * Returns CSS built inside canvas
      * @param {Object} [opts={}] Options

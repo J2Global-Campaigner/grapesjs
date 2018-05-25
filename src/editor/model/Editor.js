@@ -30,6 +30,7 @@ require('utils/extender')({
   Backbone: Backbone,
   $: Backbone.$
 });
+const juice = require('juice');
 
 const $ = Backbone.$;
 
@@ -290,6 +291,11 @@ module.exports = Backbone.Model.extend({
     });
     html += js ? `<script>${js}</script>` : '';
     return html;
+  },
+
+  getInlinedHtml() {
+    const tmpl = editor.getHtml() + `<style>${editor.getCss()}</style>`;
+    return juice(tmpl);
   },
 
   /**
