@@ -206,6 +206,7 @@ module.exports = {
     var canvas = this.canvas;
     var config = canvas.getConfig();
     var customeLabel = config.customBadgeLabel;
+    console.log(customeLabel);
 
    
 
@@ -214,7 +215,11 @@ module.exports = {
     if (!model || !model.get('badgable')) return;
     var badge = this.getBadge();
     var badgeLabel = model.getIcon() + model.getName();
-    badgeLabel = customeLabel ? customeLabel(model) : badgeLabel;
+
+    if(model.get("customBadgeLabel"))
+      customeLabel = model.get("customBadgeLabel");
+
+    badgeLabel = customeLabel ? customeLabel : badgeLabel;
 
     //add some logic to handle image badges inheriting trait: name and displaying that instead of 'Image'
     if($el.is("img"))
