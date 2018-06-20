@@ -606,6 +606,36 @@ module.exports = config => {
 
       editorView.render();
       return editorView.el;
-    }
+    },
+
+    
+ showPanel(panelName) {
+  const pn = editor.Panels;
+  const osm = 'open-sm';
+  const otm = 'open-tm';
+  const obl = 'open-blocks';
+
+  let pnl = "";
+
+  switch(panelName) {
+    case 'blocks':
+      pnl = obl;
+      break;
+    case 'style':
+      pnl = osm;
+      break;
+    case 'properties':
+      pnl = otm;
+      break;
+  }
+
+
+  const openSmBtn = pn.getButton('views', pnl);
+    openSmBtn && openSmBtn.set('active', 1);
+
+}
+
+
+
   };
 };

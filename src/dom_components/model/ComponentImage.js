@@ -20,53 +20,7 @@ module.exports = Component.extend(
       'font', 'font-size', 'font-weight', 'letter-spacing', 'vertical-align',
       'color', 'line-height', 'text-decoration', 'font-family', 'font-style'
      ],
-      traits: [
-        {
-          //placeholder for our media library link
-          type: 'text',
-
-        },
-        {
-          type: 'text',
-          label: 'Image URL',
-          name: 'src',
-          changeProp: 1
-        },
-        {
-          type: 'text',
-          label: 'Image Description',
-          name: 'alt',
-          changeProp: 1
-        },
-        {
-          type: 'text',
-          label: 'Destination URL',
-          name: 'href',
-          placeholder: 'http://www.example.com',
-          changeProp: 1
-        },
-        {
-          type: 'checkbox',
-          label: 'Track Clicks',
-          name: 'trackClicks',
-          changeProp: 1,
-          id: 'test'
-        },
-        {
-          type: 'text',
-          label: 'Reporting Name',
-          name: 'name',
-          changeProp: 1
-        },
-        {
-          type: 'buttonGroup',
-          name: 'buttonGroup',
-          label: '',
-          changeProp: 1
-        },
-
-
-      ],
+     
 
       // File to load asynchronously once the model is rendered
       file: ''
@@ -98,7 +52,7 @@ module.exports = Component.extend(
       //open the image/link settings
       editor.select(this);
       editor.Panels.getButton('views', 'open-tm').set('active', 1);
-      updateMediaLibaryTrait();
+      updateMediaLibaryTrait();    
       
       // we don't want the slider to be used for the width, make it an integer
       $("#gjs-sm-width").removeClass('gjs-sm-slider').addClass('gjs-sm-integer');
@@ -174,142 +128,38 @@ module.exports = Component.extend(
           editor.select(thisModel);
         }
     },
-    updateSrc: function (component, value) {
-      component.view.$el.attr('src', value);
-      component.view.$el.attr('data-cke-saved-src', value);
-      var imgId = component.view.$el.attr('id');
+   
+    updateHref: function (component, value) {
+
       if (this) {
         try {
-          var alt = this.view.$el.attr('alt');
-          this.attributes.src = value;
-          this.attributes.alt = alt;
+          this.attributes.attributes.href = value;
+          this.set('href', value);
         }
         catch (x) { }
       }
-      else {
-        //no model exists, so just update the view
-        this.set('content', component.view.el.outerHTML);
-      }
-
-      this.updateDimensions(component, value);
-      this.view.render();
-    },
-    updateHref: function (component, value) {
-
-      var imgLink = component.parent();
-      if(!imgLink)
-        return;
-
-      if (imgLink.view.$el.attr('name') == null) {
-        var reportName = generateReportingName('', value);
-        imgLink.view.$el.attr('name', reportName)
-      }
-      imgLink.view.$el.attr('href', value);
-
-      try {
-        var href = imgLink.view.$el.attr('href');
-        var c = imgLink.view.$el.attr('class');
-        var n = imgLink.view.$el.attr('name');
-        var a = imgLink.get('attributes');
-        var b = { "name": name, "class": c, "href": href};
-        imgLink.set('attributes', b);
-        imgLink.attributes.href = href;
-        component.attributes.set('href', "");
-      }
-      catch (x) { }
-     
-      imgLink.view.render();
     },
     updateName: function (component, value) {
-
-      var imgLink = component.parent();
-      if(!imgLink)
-        return;
-
-      imgLink.view.$el.attr('name', value);
-      try {
-        var name = imgLink.view.$el.attr('name');
-        var c = imgLink.view.$el.attr('class');
-        var a = imgLink.get('attributes');
-        var b = { "name": name, "class": c };
-        imgLink.set('attributes', b);
-        imgLink.attributes.name = name;
-        imgLink.attributes.set('name', name);
-        component.attributes.set('name', "");
+      if (this) {
+        try {
+          this.attributes.attributes.name = value;
+          this.set('name', value);
+          component.view.$el.find("a").attr('name', value);
+        }
+        catch (x) { }
       }
-      catch (x) { }
-      imgLink.view.render();
-
     },
     updateAlt: function (component, value) {
       component.view.$el.attr('alt', value);
-      var imgId = component.view.$el.attr('id');
+      component.view.$el.find("img").attr('alt', value);
       if (this) {
         try {
-          var src = this.view.$el.attr('src');
-          this.attributes.attributes.src = src;
           this.attributes.attributes.alt = value;
+          this.set('alt', value);
         }
         catch (x) { }
       }
-      else {
-        //no model exists, so just update the view
-        this.set('content', component.view.el.outerHTML);
-      }
-      this.view.render();
-
     },
-    updateTrackedLink: function (component, value) {
-
-      var imgLink = component.parent();
-      if(!imgLink)
-        return;
-     
-      //if we uncheck tracking, set the name to LinkIsNotTracked
-      var reportName = "";
-      if (!value)
-        reportName = "LinkIsNotTracked";
-      else {
-        //check if we have a report name and set the name to that
-        reportName = editor.TraitManager.getTraitsViewer().collection.models[5].attributes.value;
-
-        if (reportName != null && reportName != "" && reportName != "LinkIsNotTracked")
-          imgLink.view.$el.attr('name', reportName)
-        else {
-          //check if we have a URL and set the name to that
-          var href = imgLink.view.$el.attr('href');
-          if (href != null) {
-            reportName = generateReportingName('', href);
-            imgLink.view.$el.attr('name', reportName)
-          }
-          else {
-            //if we don't have any other data to set the name, remove it
-            imgLink.view.$el.removeAttr('name');
-          }
-        }
-      }
-      try {
-       var href = imgLink.view.$el.attr('href');
-        var c = imgLink.view.$el.attr('class');
-        var a = imgLink.get('attributes');
-        var b = { "name": reportName, "class": c, "href": href };
-        imgLink.set('attributes', b);
-        imgLink.attributes.name = reportName;
-        imgLink.attributes.set('reportName', reportName);
-        component.attributes.set('name', "");
-        
-        editor.TraitManager.getTraitsViewer().collection.models[5].setTargetValue(reportName);
-        editor.TraitManager.getTraitsViewer().render();
-        updateMediaLibaryTrait();
-
-
-      }
-      catch (x) { }
-      imgLink.view.render();
-    
-    },
-
-
 
     initToolbar(...args) {
       Component.prototype.initToolbar.apply(this, args);
@@ -390,18 +240,4 @@ module.exports = Component.extend(
   }
 );
 
-function generateReportingName(linkText, linkUrl) {
-  if (linkUrl.indexOf("#") == 0) {
-    return noTrackedLinks;
-  }
-  var usedField = linkText.trim();
-  if (usedField == "") {
-    usedField = linkUrl.trim();
-  }
-  usedField = usedField.replace("http://", "");
-  usedField = usedField.replace("www.", "");
-  //var nonChars = new XRegExp('[^\\p{L}\\s\\d]*', 'g');
-  //input.replace(/\W/g, '')
-  usedField = usedField.replace(/\W/g, '');
-  return usedField.trim().substring(0, 45);
-}
+

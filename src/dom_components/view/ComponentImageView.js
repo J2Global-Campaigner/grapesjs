@@ -26,7 +26,7 @@ module.exports = ComponentView.extend({
   openSettings: function (e) {
     e.preventDefault();
     editor.select(this.model);
-    editor.Panels.getButton('views', 'open-tm').set('active', 1); 
+    editor.showPanel('properties'); 
 
   // we don't want the slider to be used for the width, make it an integer
   $("#gjs-sm-width").removeClass('gjs-sm-slider').addClass('gjs-sm-integer');
@@ -45,6 +45,7 @@ module.exports = ComponentView.extend({
     //img src
     try {
       var src = this.model.get('attributes').src;
+      if(src.indexOf("imgPlaceholder150x150") > -1) src = "";
       editor.TraitManager.getTraitsViewer().collection.models[1].setTargetValue(src);
     
     }
@@ -61,7 +62,7 @@ module.exports = ComponentView.extend({
 
     //href
     try {
-      var href = this.model.parent().get('attributes').href;
+      var href = this.model.get('attributes').href;
       if (href == null)
         href = "";
       editor.TraitManager.getTraitsViewer().collection.models[3].setTargetValue(href);
@@ -70,7 +71,7 @@ module.exports = ComponentView.extend({
 
     //name & track link checkbox
     try {
-      var name = this.model.parent().get('attributes').name;
+      var name = this.model.get('attributes').name;
       if (name == null)
         name = "";
       editor.TraitManager.getTraitsViewer().collection.models[5].setTargetValue(name);
@@ -81,8 +82,6 @@ module.exports = ComponentView.extend({
         editor.TraitManager.getTraitsViewer().collection.models[4].setTargetValue(true);
     }
     catch (x) { }
-
-    this.model.parent().unset(src);
 
     //refresh the view
     editor.TraitManager.getTraitsViewer().render();

@@ -81,16 +81,16 @@ export default class Droppable {
         }
 
         //add special handling for image components wrapped in customImg types
-        if(model) {
-          if (model.get('type') === "customImg") {
-            //set the child img element to active
-            var imgComp = model.get('components');
-            if(imgComp) {
-              imgComp.models[0].trigger('active');
-              imgComp.models[0].set('activeOnRender', 0);
-            }
-          }
-       }
+      //   if(model) {
+      //     if (model.get('type') === "customImg") {
+      //       //set the child img element to active
+      //       var imgComp = model.get('components');
+      //       if(imgComp) {
+      //         imgComp.models[0].trigger('active');
+      //         imgComp.models[0].set('activeOnRender', 0);
+      //       }
+      //     }
+      //  }
 
         model && em.trigger('canvas:drop', dt, model);
       },
