@@ -14,6 +14,11 @@ module.exports = {
     }
 
     this.blocks.style.display = 'block';
+
+    //refresh the canvas view to resolve a bug with updating the canvas width
+    editor.DomComponents.getComponent('mj-container').view.render();
+
+
   },
 
   stop() {

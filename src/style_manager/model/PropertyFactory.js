@@ -332,8 +332,8 @@ module.exports = () => ({
         case 'min-width':
         case 'max-width':
         case 'width':
-          obj.min = 300;
-          obj.max = 900;
+          obj.min = 0;
+          obj.max = 1200;
           obj.step = 10;
           break;
         case 'min-height':

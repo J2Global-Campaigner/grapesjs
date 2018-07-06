@@ -52,21 +52,15 @@ module.exports = Component.extend(
       //open the image/link settings
       editor.select(this);
       editor.Panels.getButton('views', 'open-tm').set('active', 1);
-      updateMediaLibaryTrait();    
+      updateMediaLibaryTrait();       
       
-      // we don't want the slider to be used for the width, make it an integer
-      $("#gjs-sm-width").removeClass('gjs-sm-slider').addClass('gjs-sm-integer');
-      $("#gjs-sm-width .gjs-field-range").remove();
-      let widthProp = editor.StyleManager.getProperty("Dimension", "width");
-      widthProp.set('type', 'integer');
-      widthProp.set("min", 0);
-      widthProp.set("max", "");
-      widthProp.set("step", 1);
-      widthProp.unset("showInput");
+      
+      convertWidthToText();
+      
     },
     updateDimensions: function(component, src) {
-
      
+
       var m = this;
       var img = new Image();
       var srcHeight = 0;
@@ -86,7 +80,6 @@ module.exports = Component.extend(
     },
     //updateDimensions image load callback
     imgLoaded: function(w, h, thisModel) {
-
       var srcWidth = 0;
       var srcHeight = 0;
       var classId = "";
@@ -102,31 +95,13 @@ module.exports = Component.extend(
         srcHeight = h;
       }
 
-      //we need to get the class id that was assigned, and set our new dimensions as a class rule
-      //setting it to the model inlines the css, and the image is not resizable
-      var classes = thisModel.get('classes').models;
-     
-      for(var i=0; i<classes.length; i++) {
-        //there should only be 2 classes because we control the image component customImg
-       if(classes[i].id != "linkImage") {
-          classId = classes[i].id;
-       }
-      }
+         thisModel.attributes.attributes.width = srcWidth + "px";
+         thisModel.attributes.attributes.height = srcHeight + "px";
+         thisModel.view.$el.find("img").attr("width", srcWidth + "px").attr("height", srcHeight + "px");
 
-        if(srcHeight != 0) {
-          try {
-            var sm = editor.SelectorManager;
-            var sel1 = sm.add('linkImage');
-            var sel2 = sm.add(classId);
-            var rule = editor.CssComposer.get([sel1, sel2]);
-            rule.set('style', { width: srcWidth + 'px', height: srcHeight + 'px' });
-            thisModel.view.render();
-          }
-          catch(ex) {console.log(ex);}
           //unselect and reslect the component to adjust the resizer to the new size
           editor.select();
           editor.select(thisModel);
-        }
     },
    
     updateHref: function (component, value) {

@@ -206,9 +206,6 @@ module.exports = {
     var canvas = this.canvas;
     var config = canvas.getConfig();
     var customeLabel = config.customBadgeLabel;
-    console.log(customeLabel);
-
-   
 
     this.cacheEl = el;
     var model = $el.data('model');

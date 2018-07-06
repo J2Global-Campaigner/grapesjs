@@ -30,7 +30,7 @@ module.exports = ComponentView.extend({
 
   // we don't want the slider to be used for the width, make it an integer
   $("#gjs-sm-width").removeClass('gjs-sm-slider').addClass('gjs-sm-integer');
-  $("#gjs-sm-width .gjs-field-range").remove();
+  $("#gjs-sm-width .gjs-field-range").hide();
   let widthProp = editor.StyleManager.getProperty("Dimension", "width");
   widthProp.set('type', 'integer');
   widthProp.set("min", 0);
@@ -38,8 +38,8 @@ module.exports = ComponentView.extend({
   widthProp.set("step", 1);
   widthProp.unset("showInput");
 
-    var w = e.target.style.width;
-    var h = e.target.style.height;
+    //var w = e.target.style.width;
+    //var h = e.target.style.height;
 
     //we need to manually restore our traits b/c we are not saving/restoring component info
     //img src
@@ -86,8 +86,8 @@ module.exports = ComponentView.extend({
     //refresh the view
     editor.TraitManager.getTraitsViewer().render();
 
-    e.target.style.width = w;
-    e.target.style.height = h;
+    // e.target.style.width = w;
+    // e.target.style.height = h;
 
     updateMediaLibaryTrait();
   },
