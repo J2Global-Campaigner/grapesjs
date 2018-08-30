@@ -182,9 +182,7 @@ module.exports = () => ({
         case 'margin-right':
         case 'margin-bottom':
         case 'margin-left':
-        case 'padding-top':
         case 'padding-right':
-        case 'padding-bottom':
         case 'padding-left':
         case 'text-shadow-h':
         case 'text-shadow-v':
@@ -202,6 +200,10 @@ module.exports = () => ({
         case 'transform-rotate-y':
         case 'transform-rotate-z':
           obj.defaults = 0;
+          break;
+        case 'padding-top':
+        case 'padding-bottom':
+          obj.defaults = 20;
           break;
         case 'transform-scale-x':
         case 'transform-scale-y':
