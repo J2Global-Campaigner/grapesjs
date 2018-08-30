@@ -1,0 +1,249 @@
+#gjs, .gjs-pn-views-container.gjs-pn-panel, .gjs-cv-canvas {
+    /*min-height: 700px;*/
+    font-family: 'Open Sans',Arial,sans-serif;
+    position:absolute;
+}
+
+#gjs {
+    max-height: 87%;
+    padding-bottom: 22px; /*height of footer*/
+}
+
+#wrapper {
+    border: dashed thin lightgray;
+    margin-left:auto;
+    margin-right:auto;
+    margin-bottom:40px;
+}
+
+p {
+    font-size: 1em;
+    font-family: Arial, 'Times New Roman', Serif;
+}
+
+.cke_panel {
+    height: 150px !important;
+}
+
+.gjs-grabbing {
+    overflow-y: scroll !important;
+}
+
+.fix-small-block-icon {
+    font-size: 30px !important;
+}
+
+div.gjs-comp-selected {
+        outline: 2px solid #3b97e3 !important;
+}
+
+p.gjs-comp-selected, p.gjs-dashed, a.gjs-comp-selected:not(.customImg), a.gjs-dashed, span.gjs-comp-selected, span.gjs-dashed, span, b, strong, h1, h2, h3, h4, h5, h6 {
+    outline: none !important;
+}
+
+/*Hide border around editable text elements when actively editing*/
+.cke_editable.gjs-comp-selected[data-highlightable] {
+    outline: none !important;
+}
+
+.gjs-toolbar-item {
+    font-size: 1.4rem;
+}
+
+
+
+.customImg {
+    /*background: #f5f5f5;*/
+    border: none;
+    display: inline-block;
+    outline: none;
+    cursor: pointer;
+    outline-offset: -2px;
+    /*width:400px;
+    height:400px;*/
+}
+
+
+.btnUpdate {
+    position: relative;
+    vertical-align: top;
+    color: white;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    background: #218642;
+    border: 0;
+    border-bottom: 2px solid #18713e;
+    cursor: pointer;
+    -webkit-box-shadow: inset 0 -2px #18713e;
+    box-shadow: inset 0 -2px #18713e;
+    border-radius: 3px;
+    margin-right: 12px;
+    height: 31px;
+    line-height: normal;
+    padding: 0 6px 0 6px;
+    font: bold 12px Arial,Helvetica !important;
+    text-transform: uppercase;
+}
+
+.btnUpdate:active, .btnCancel:active {
+    top: 1px;
+    outline: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.btnCancel {
+    position: relative;
+    vertical-align: top;
+    color: #4B4B4B !important;
+    text-align: center;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+    background: #f8f8f8;
+    border: 0;
+    border-bottom: 2px solid #AAA;
+    cursor: pointer;
+    -webkit-box-shadow: inset 0 -2px #AAA;
+    box-shadow: inset 0 -2px #AAA;
+    border-radius: 3px;
+    border: 1px solid #AAA;
+    height: 31px;
+    line-height: normal;
+    padding: 0 6px 0 10px;
+    font: bold 12px Arial,Helvetica !important;
+    text-transform: uppercase;
+    width:68px;
+}
+ .gjs-mdl-headerActionArea {
+    margin-bottom:20px;
+ }
+ .selImportTemplate {
+     min-width: 300px; margin-left:5px;
+         line-height: 1.42857143;
+    text-align: left;
+    display: inline-block;
+    vertical-align: middle;
+    border: 2px solid #B1D1EA;
+    color: #404040;
+    background-color: #fff;
+    margin: 0;
+    padding: 0;
+    height: 3.05rem;
+    box-shadow: none;
+    outline: 0;
+    font: inherit;
+    display: inline-block;
+    overflow: hidden;
+    -o-text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    border-radius: 5px;
+ }
+    .selImportTemplate:hover {
+        min-width: 300px;
+        margin-left: 5px;
+        line-height: 1.42857143;
+        text-align: left;
+        display: inline-block;
+        vertical-align: middle;
+        border: 2px solid #519ECC;
+        color: #404040;
+        background-color: #fff;
+        margin: 0;
+        padding: 0;
+        height: 3.05rem;
+        box-shadow: none;
+        outline: 0;
+        font: inherit;
+        display: inline-block;
+        overflow: hidden;
+        -o-text-overflow: ellipsis;
+        -ms-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        border-radius: 5px;
+    }
+    .selImportTemplate option:hover {
+        color: #0f3789;
+        white-space:nowrap;
+        min-height: 1.42857143em;
+        padding: 4px 10px;
+        height:auto;
+        overflow:hidden;
+        font-size:13px;
+    }
+
+    .selImportTemplate option {
+        white-space:nowrap;
+        min-height: 1.42857143em;
+        padding: 4px 10px;
+        height:auto;
+        overflow:hidden;
+        font-size:13px;
+        color: #404040;
+
+    }
+    .gjs-import-label {margin-right:5px;}
+
+    #HTMLCalculatorDiv {display:none; text-align:right; margin-right:3%;}
+    .editorNotice {position:relative !important;}
+
+#HTMLCalculatorPopover {
+    width: 380px !important;
+    height: auto !important;
+    position: relative !important;
+    display:inline-block;
+}
+
+a:focus{outline:none;}
+
+
+.gjs-clm-tags { font-size:11px; color: #555; }
+
+
+/*Button*/
+.btn {
+    color: #fff;
+    background-color: #337ab7;
+    border-color: #2e6da4;
+    display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+div.gjs-mdl-container .gjs-mdl-dialog {background:  rgb(55, 61, 73);}
+
+.cke_ltr span.cke_button__anchor_icon {
+    background: none !important;
+}
+.cke_ltr span.cke_button__anchor_icon:before {
+    content: "\f13d";
+    font-family: 'FontAwesome';
+    display: inline-block;
+    margin-top: 3px;
+    margin-left: 2px;
+}
+
+ a[data-cke-saved-name] {
+    background: url(/CSB/Areas/Editor/GrapesJS/js/node_modules/ckeditor/plugins/link/images/anchor.png) no-repeat left center;
+    border: 1px dotted #00f;
+    background-size: 16px;
+    padding-left: 18px;
+    cursor: auto;
+}
+
+div.cke_editable {outline: none !important;}

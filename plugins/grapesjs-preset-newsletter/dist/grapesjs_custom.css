@@ -1,0 +1,15 @@
+.cke_combo__mergefield span.cke_combo_text {width:65px;}
+
+.customImg {
+    background: #f5f5f5;
+    border: none;
+    display: inline-block;
+    outline: 3px solid #ffca6f;
+    cursor: pointer;
+    outline-offset: -2px;
+    /*width:400px;
+    height:400px;*/
+}
+
+
+

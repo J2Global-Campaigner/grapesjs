@@ -1,0 +1,177 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Newsletter Plugin</title>
+
+    <link rel="stylesheet" href="./dist/grapes.min.css">
+    <link rel="stylesheet" href="./dist/grapesjs-preset-newsletter.css">
+    <link rel="stylesheet" href="./dist/grapesjs_custom.css">
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script src="./dist/js/grapes.js"></script>
+
+    <script src="./dist/js/grapesjs-preset-newsletter.js"></script>
+    <script src="./dist/js/node_modules/ckeditor/ckeditor.js"></script>
+    <script src="./dist/js/grapesjs-plugin-ckeditor.min.js"></script>
+    <script src="./dist/js/grapesjs-blocks-flexbox.min.js"></script>
+   
+    <script src="./dist/js/customImg-plugin.min.js"></script>
+
+    <style>
+      body,
+      html {
+        height: 100%;
+        margin: 0;
+      }
+
+
+     
+    </style>
+  </head>
+  <body>
+
+    <div id="gjs" style="height:0px; overflow:hidden">
+    
+    </div>
+
+
+    <script type="text/javascript">
+    
+    var mergeFieldTags =  [{ value:'',name:''}, { value:'[Contact.FirstName]',name:'First Name'}, { value:'[Contact.LastName]',name:'Last Name' }];
+
+
+      $(document).ready(function() {
+
+        loadEditor();
+          //hack for ckeditor allowing edit of links and spans
+    CKEDITOR.dtd.$editable.a = 1
+    CKEDITOR.dtd.$editable.span = 1
+
+      });
+
+var editor;
+function loadEditor() {
+   // Set up GrapesJS editor with the Newsletter plugin
+   
+    editor = grapesjs.init({
+        height: '100%',
+        //noticeOnUnload: 0,
+        storageManager:{
+          autoload: 0,
+        },
+        canvas: {
+            //add an external stylesheet to the editor canvas
+            styles: ['./dist/editor.css']
+
+        },
+        forceClass:true,
+        container : '#gjs',
+        autorender: 0, 
+        fromElement: true,
+        plugins: [
+             'gjs-blocks-flexbox',
+             'gjs-preset-newsletter',
+             'customImg-plugin',
+             'gjs-plugin-ckeditor'
+       
+        ],
+        pluginsOpts: {
+          
+          'gjs-preset-newsletter': {
+            modalLabelImport: 'Paste all your code here below and click import',
+            modalLabelExport: 'Copy the code and use it wherever you want',
+            codeViewerTheme: 'material',
+            //defaultTemplate: templateImport,
+            importPlaceholder: '<table class="table"><tr><td class="cell">Hello world!</td></tr></table>',
+            cellStyle: {
+              'font-size': '12px',
+              'font-weight': 300,
+              'vertical-align': 'top',
+              color: 'rgb(111, 119, 125)',
+              margin: 0,
+              padding: 0,
+            }
+          },
+          'gjs-plugin-ckeditor': {
+            position: 'center',
+            options: {
+              startupFocus: true,
+              extraAllowedContent: '*(*);*{*}', // Allows any class and any inline style
+              allowedContent: true, // Disable auto-formatting, class removing, etc.
+              //enterMode: CKEDITOR.ENTER_BR,
+              extraPlugins: 'sharedspace,justify,colorbutton,panelbutton,font',
+              //we can comment out the toolbar section to see all options or keep the below and control
+              //what appears and where
+              toolbar: [
+                { name: 'styles', items: ['Font', 'FontSize' ] },
+                ['Bold', 'Italic', 'Underline', 'Strike'],
+                {name: 'paragraph', items : [ 'NumberedList', 'BulletedList']},
+                {name: 'links', items: ['Link', 'Unlink']},
+                {name: 'colors', items: [ 'TextColor', 'BGColor' ]},
+                {name: 'DynamicContent', items: [ 'mergeField']},
+              ],
+            }
+          }
+        }
+      });
+
+
+      //get and set the html content to simulate campaigner behavior of a loaded campaign
+      var content = "";
+      if(localStorage.getItem('gjs-html') != null)
+        content = localStorage.getItem('gjs-html') + '<style>' + localStorage.getItem('gjs-css') + '</style>';
+
+      //clear local storage
+       //clear the CSS
+    editor.CssComposer.getAll().reset();
+    clearLocalStorage();
+
+    //restore the content
+    editor.setComponents(content);
+    editor.render();
+
+
+  }
+     
+
+      function updateMediaLibaryTrait() {
+        //console.log('updateMediaLibaryTrait fired');
+      }
+
+function clearLocalStorage() {
+    var arr = []; // Array to hold the keys
+    // Iterate over localStorage and insert the keys that meet the condition into arr
+    for (var i = 0; i < localStorage.length; i++) {
+        if (localStorage.key(i).substring(0, 3) === 'gjs') {
+            arr.push(localStorage.key(i));
+        }
+    }
+
+    // Iterate over arr and remove the items by key
+    for (var j = 0; j < arr.length; j++) {
+        localStorage.removeItem(arr[j]);
+    }
+   
+}
+var importIdIndex = 0;
+function createId() {
+  console.log(importIdIndex);
+    if (importIdIndex == null || importIdIndex == undefined)
+        importIdIndex = 0;
+
+    importIdIndex++;
+    const ilen = importIdIndex.toString().length + 3;
+    const uid = (Math.random() + 1.1).toString(36).slice(-ilen);
+    const nextId = 'i' + uid;
+    return nextId;
+}
+   
+   
+   
+   
+   
+   </script>
+  </body>
+</html>

@@ -1,0 +1,153 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{11EB2DB6-1321-41E0-A722-9D96CE9DFC56}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.eslintrc = .eslintrc
+		.travis.yml = .travis.yml
+		gulpfile.js = gulpfile.js
+		package-lock.json = package-lock.json
+		package.json = package.json
+		webpack.config.js = webpack.config.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dist", "dist", "{DE07C24E-95C9-4EB3-8A0F-4EE452C67E77}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DB7A55F8-9A79-4DB6-95B2-CB73207EC4E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "plugins", "plugins", "{EB96EFAB-6681-4AE2-B1A4-AC78C81805A2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CKEditor", "CKEditor", "{C4DEE86F-9F62-4F29-99B2-CBFE53E10E97}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "customImg", "customImg", "{33550565-5537-427D-A7E2-ED1E47E42A18}"
+	ProjectSection(SolutionItems) = preProject
+		plugins\customImg\index.html = plugins\customImg\index.html
+		plugins\customImg\package.json = plugins\customImg\package.json
+		plugins\customImg\webpack.config.js = plugins\customImg\webpack.config.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "grapesjs-blocks-flexbox", "grapesjs-blocks-flexbox", "{0558AB13-0AD5-4D44-8D1C-04B2F7053BEE}"
+	ProjectSection(SolutionItems) = preProject
+		plugins\grapesjs-blocks-flexbox\index.html = plugins\grapesjs-blocks-flexbox\index.html
+		plugins\grapesjs-blocks-flexbox\package.json = plugins\grapesjs-blocks-flexbox\package.json
+		plugins\grapesjs-blocks-flexbox\webpack.config.js = plugins\grapesjs-blocks-flexbox\webpack.config.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "grapesjs-preset-newsletter", "grapesjs-preset-newsletter", "{53B1BCE0-4728-4038-B810-DE497149218A}"
+	ProjectSection(SolutionItems) = preProject
+		plugins\grapesjs-preset-newsletter\index.html = plugins\grapesjs-preset-newsletter\index.html
+		plugins\grapesjs-preset-newsletter\package.json = plugins\grapesjs-preset-newsletter\package.json
+		plugins\grapesjs-preset-newsletter\webpack.config.js = plugins\grapesjs-preset-newsletter\webpack.config.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MergeField_Block", "MergeField_Block", "{FBC29377-998E-4036-916B-425DC444641D}"
+	ProjectSection(SolutionItems) = preProject
+		plugins\MergeField_Block\index.html = plugins\MergeField_Block\index.html
+		plugins\MergeField_Block\package.json = plugins\MergeField_Block\package.json
+		plugins\MergeField_Block\webpack.config.js = plugins\MergeField_Block\webpack.config.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F4BE0ADE-9788-4D60-8ACC-FCB358EBC817}"
+	ProjectSection(SolutionItems) = preProject
+		plugins\customImg\src\blocks.js = plugins\customImg\src\blocks.js
+		plugins\customImg\src\components.js = plugins\customImg\src\components.js
+		plugins\customImg\src\index.js = plugins\customImg\src\index.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "grapesjs-plugin", "grapesjs-plugin", "{6E144603-06BC-4441-8FBC-445560C9A82B}"
+	ProjectSection(SolutionItems) = preProject
+		plugins\CKEditor\grapesjs-plugin\index.html = plugins\CKEditor\grapesjs-plugin\index.html
+		plugins\CKEditor\grapesjs-plugin\package.json = plugins\CKEditor\grapesjs-plugin\package.json
+		plugins\CKEditor\grapesjs-plugin\webpack.config.js = plugins\CKEditor\grapesjs-plugin\webpack.config.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{7BD22163-C725-4589-8EE8-55103840B649}"
+	ProjectSection(SolutionItems) = preProject
+		plugins\CKEditor\grapesjs-plugin\src\index.js = plugins\CKEditor\grapesjs-plugin\src\index.js
+		plugins\CKEditor\grapesjs-plugin\src\main.js = plugins\CKEditor\grapesjs-plugin\src\main.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ckeditor", "ckeditor", "{D98A4926-1B53-4BA2-843D-734230992590}"
+	ProjectSection(SolutionItems) = preProject
+		plugins\CKEditor\ckeditor\build-config.js = plugins\CKEditor\ckeditor\build-config.js
+		plugins\CKEditor\ckeditor\ckbuilder.jar = plugins\CKEditor\ckeditor\ckbuilder.jar
+		plugins\CKEditor\ckeditor\ckeditor.js = plugins\CKEditor\ckeditor\ckeditor.js
+		plugins\CKEditor\ckeditor\config.js = plugins\CKEditor\ckeditor\config.js
+		plugins\CKEditor\ckeditor\contents.css = plugins\CKEditor\ckeditor\contents.css
+		plugins\CKEditor\ckeditor\styles.js = plugins\CKEditor\ckeditor\styles.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{8CA99E75-5AD2-4AF3-8C6C-F1D7A6A37680}"
+	ProjectSection(SolutionItems) = preProject
+		plugins\grapesjs-blocks-flexbox\src\blocks.js = plugins\grapesjs-blocks-flexbox\src\blocks.js
+		plugins\grapesjs-blocks-flexbox\src\index.js = plugins\grapesjs-blocks-flexbox\src\index.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F3B775CB-19F0-41E7-A483-79F110EE7378}"
+	ProjectSection(SolutionItems) = preProject
+		plugins\grapesjs-preset-newsletter\src\blocks.js = plugins\grapesjs-preset-newsletter\src\blocks.js
+		plugins\grapesjs-preset-newsletter\src\buttons.js = plugins\grapesjs-preset-newsletter\src\buttons.js
+		plugins\grapesjs-preset-newsletter\src\commands.js = plugins\grapesjs-preset-newsletter\src\commands.js
+		plugins\grapesjs-preset-newsletter\src\index.js = plugins\grapesjs-preset-newsletter\src\index.js
+		plugins\grapesjs-preset-newsletter\src\openExportCommand.js = plugins\grapesjs-preset-newsletter\src\openExportCommand.js
+		plugins\grapesjs-preset-newsletter\src\openImportCommand.js = plugins\grapesjs-preset-newsletter\src\openImportCommand.js
+		plugins\grapesjs-preset-newsletter\src\style.js = plugins\grapesjs-preset-newsletter\src\style.js
+		plugins\grapesjs-preset-newsletter\src\toggleImagesCommand.js = plugins\grapesjs-preset-newsletter\src\toggleImagesCommand.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "style", "style", "{8B13E378-4E2B-470A-8474-F431340C7610}"
+	ProjectSection(SolutionItems) = preProject
+		plugins\grapesjs-preset-newsletter\src\style\_gjs_variables.scss = plugins\grapesjs-preset-newsletter\src\style\_gjs_variables.scss
+		plugins\grapesjs-preset-newsletter\src\style\main.scss = plugins\grapesjs-preset-newsletter\src\style\main.scss
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "style", "style", "{21871B5F-B7DA-4D98-BB9A-9B050240DDCF}"
+	ProjectSection(SolutionItems) = preProject
+		plugins\grapesjs-preset-newsletter\style\material.css = plugins\grapesjs-preset-newsletter\style\material.css
+		plugins\grapesjs-preset-newsletter\style\toastr.min.css = plugins\grapesjs-preset-newsletter\style\toastr.min.css
+		plugins\grapesjs-preset-newsletter\style\tooltip.css = plugins\grapesjs-preset-newsletter\style\tooltip.css
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C42E6275-1122-4CB1-9410-12E01329A3A2}"
+	ProjectSection(SolutionItems) = preProject
+		plugins\MergeField_Block\src\blocks.js = plugins\MergeField_Block\src\blocks.js
+		plugins\MergeField_Block\src\components.js = plugins\MergeField_Block\src\components.js
+		plugins\MergeField_Block\src\index.js = plugins\MergeField_Block\src\index.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "asset_manager", "asset_manager", "{C7B00344-C18E-45AB-9A33-7D2FA0A5FC6B}"
+EndProject
+Global
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{DE07C24E-95C9-4EB3-8A0F-4EE452C67E77} = {11EB2DB6-1321-41E0-A722-9D96CE9DFC56}
+		{DB7A55F8-9A79-4DB6-95B2-CB73207EC4E8} = {11EB2DB6-1321-41E0-A722-9D96CE9DFC56}
+		{EB96EFAB-6681-4AE2-B1A4-AC78C81805A2} = {11EB2DB6-1321-41E0-A722-9D96CE9DFC56}
+		{C4DEE86F-9F62-4F29-99B2-CBFE53E10E97} = {EB96EFAB-6681-4AE2-B1A4-AC78C81805A2}
+		{33550565-5537-427D-A7E2-ED1E47E42A18} = {EB96EFAB-6681-4AE2-B1A4-AC78C81805A2}
+		{0558AB13-0AD5-4D44-8D1C-04B2F7053BEE} = {EB96EFAB-6681-4AE2-B1A4-AC78C81805A2}
+		{53B1BCE0-4728-4038-B810-DE497149218A} = {EB96EFAB-6681-4AE2-B1A4-AC78C81805A2}
+		{FBC29377-998E-4036-916B-425DC444641D} = {EB96EFAB-6681-4AE2-B1A4-AC78C81805A2}
+		{F4BE0ADE-9788-4D60-8ACC-FCB358EBC817} = {33550565-5537-427D-A7E2-ED1E47E42A18}
+		{6E144603-06BC-4441-8FBC-445560C9A82B} = {C4DEE86F-9F62-4F29-99B2-CBFE53E10E97}
+		{7BD22163-C725-4589-8EE8-55103840B649} = {6E144603-06BC-4441-8FBC-445560C9A82B}
+		{D98A4926-1B53-4BA2-843D-734230992590} = {C4DEE86F-9F62-4F29-99B2-CBFE53E10E97}
+		{8CA99E75-5AD2-4AF3-8C6C-F1D7A6A37680} = {0558AB13-0AD5-4D44-8D1C-04B2F7053BEE}
+		{F3B775CB-19F0-41E7-A483-79F110EE7378} = {53B1BCE0-4728-4038-B810-DE497149218A}
+		{8B13E378-4E2B-470A-8474-F431340C7610} = {F3B775CB-19F0-41E7-A483-79F110EE7378}
+		{21871B5F-B7DA-4D98-BB9A-9B050240DDCF} = {53B1BCE0-4728-4038-B810-DE497149218A}
+		{C42E6275-1122-4CB1-9410-12E01329A3A2} = {FBC29377-998E-4036-916B-425DC444641D}
+		{C7B00344-C18E-45AB-9A33-7D2FA0A5FC6B} = {DB7A55F8-9A79-4DB6-95B2-CB73207EC4E8}
+	EndGlobalSection
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 1
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = http://j2ottfs:8080/tfs/defaultcollection
+		SccLocalPath0 = .
+	EndGlobalSection
+EndGlobal

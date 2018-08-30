@@ -1,0 +1,70 @@
+{
+  "_from": "grapesjs-preset-newsletter@0.2.15",
+  "_id": "grapesjs-preset-newsletter@0.2.15",
+  "_inBundle": false,
+  "_integrity": "sha1-K01kRBLNdU7WIV5nRIkmOg4ukKo=",
+  "_location": "/grapesjs-preset-newsletter",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "grapesjs-preset-newsletter@0.2.15",
+    "name": "grapesjs-preset-newsletter",
+    "escapedName": "grapesjs-preset-newsletter",
+    "rawSpec": "0.2.15",
+    "saveSpec": null,
+    "fetchSpec": "0.2.15"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/grapesjs-preset-newsletter/-/grapesjs-preset-newsletter-0.2.15.tgz",
+  "_shasum": "2b4d644412cd754ed6215e674489263a0e2e90aa",
+  "_spec": "grapesjs-preset-newsletter@0.2.15",
+  "_where": "C:\\j2\\Protus.Net\\Protus.Net\\campaigner\\GrapesJS",
+  "author": {
+    "name": "Artur Arseniev"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "stage-3"
+    ]
+  },
+  "bundleDependencies": false,
+  "dependencies": {
+    "juice": "^4.1.1"
+  },
+  "deprecated": false,
+  "description": "GrapesJS preset configuration for the newsletter editor",
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "cross-env": "^5.0.5",
+    "eslint": "^4.1.1",
+    "node-sass": "^4.5.3",
+    "webpack": "^3.11.0",
+    "webpack-dev-server": "^2.7.1"
+  },
+  "keywords": [
+    "grapesjs",
+    "plugin",
+    "newsletter",
+    "preset"
+  ],
+  "license": "BSD-3-Clause",
+  "main": "dist/grapesjs-preset-newsletter.min.js",
+  "name": "grapesjs-preset-newsletter",
+  "scripts": {
+    "build": "cross-env WEBPACK_ENV=prod && webpack --env.production && npm run build:css ",
+    "build-dev": "cross-env WEBPACK_ENV=dev && npm run v:patch && webpack --env.development && npm run build:css ",
+    "build:css": "node-sass src/style/main.scss dist/grapesjs-preset-newsletter.css",
+    "lint": "eslint src",
+    "start": "cross-env WEBPACK_ENV=dev ./node_modules/.bin/webpack-dev-server --progress --colors --env.development & npm run build:css -w",
+    "v:patch": "npm version --no-git-tag-version patch"
+  },
+  "version": "0.2.30"
+}
