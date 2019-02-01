@@ -436,28 +436,28 @@ module.exports = {
               property: 'margin-top',
               type: 'integer',
               units: ['px', '%'],
-              defaults: 0
+              defaults: 20
             },
             {
               fixedValues: ['initial', 'inherit', 'auto'],
               property: 'margin-right',
               type: 'integer',
               units: ['px', '%'],
-              defaults: 0
+              defaults: 20
             },
             {
               fixedValues: ['initial', 'inherit', 'auto'],
               property: 'margin-bottom',
               type: 'integer',
               units: ['px', '%'],
-              defaults: 0
+              defaults: 20
             },
             {
               fixedValues: ['initial', 'inherit', 'auto'],
               property: 'margin-left',
               type: 'integer',
               units: ['px', '%'],
-              defaults: 0
+              defaults: 20
             }
           ]
         };
@@ -474,7 +474,7 @@ module.exports = {
               fixedValues: ['initial', 'inherit', 'auto'],
               type: 'integer',
               units: ['px', '%'],
-              defaults: 0,
+              defaults: 20,
               min: 0
             },
             {
@@ -482,7 +482,7 @@ module.exports = {
               fixedValues: ['initial', 'inherit', 'auto'],
               type: 'integer',
               units: ['px', '%'],
-              defaults: 0,
+              defaults: 20,
               min: 0
             },
             {
@@ -490,7 +490,7 @@ module.exports = {
               fixedValues: ['initial', 'inherit', 'auto'],
               type: 'integer',
               units: ['px', '%'],
-              defaults: 0,
+              defaults: 20,
               min: 0
             },
             {
@@ -498,7 +498,7 @@ module.exports = {
               fixedValues: ['initial', 'inherit', 'auto'],
               type: 'integer',
               units: ['px', '%'],
-              defaults: 0,
+              defaults: 20,
               min: 0
             }
           ]

@@ -3324,7 +3324,7 @@ span.CodeMirror-selectedtext {
 @font-face {
   font-family: 'font3336';
   src: url("/csb/styles/fonts/main-fonts.eot?v=20"), url("../fonts/main-fonts.eot?v=20");
-  src: url("/csb/styles/fonts/main-fonts.woff?v=20") format("woff"), url("../fonts/main-fonts.woff2?v=20") format("woff2"), url("/csb/styles/fonts/main-fonts.ttf?v=20") format("truetype"), url("/csb/styles/fonts/main-fonts.svg?v=20") format("svg"), url("/csb/styles/fonts/main-fonts.eot?v=20") format("embedded-opentype"), url("../fonts/main-fonts.woff?v=20") format("woff"), url("../fonts/main-fonts.woff2?v=20") format("woff2"), url("../fonts/main-fonts.ttf?v=20") format("truetype"), url("../fonts/main-fonts.svg?v=20") format("svg"), url("../fonts/main-fonts.eot?v=20") format("embedded-opentype");
+  src: url("/csb/styles/fonts/main-fonts.woff?v=20") format("woff"), url("/csb/styles/fonts/main-fonts.woff2?v=20") format("woff2"), url("/csb/styles/fonts/main-fonts.ttf?v=20") format("truetype"), url("/csb/styles/fonts/main-fonts.svg?v=20") format("svg"), url("/csb/styles/fonts/main-fonts.eot?v=20") format("embedded-opentype"), url("../fonts/main-fonts.woff?v=20") format("woff"), url("../fonts/main-fonts.woff2?v=20") format("woff2"), url("../fonts/main-fonts.ttf?v=20") format("truetype"), url("../fonts/main-fonts.svg?v=20") format("svg"), url("../fonts/main-fonts.eot?v=20") format("embedded-opentype");
   font-weight: normal;
   font-style: normal; }
 
@@ -4260,15 +4260,21 @@ span.CodeMirror-selectedtext {
     width: 100%;
     position: relative; }
     .gjs-sm-sector .gjs-sm-field input, .gjs-clm-tags .gjs-sm-field input, .gjs-sm-sector .gjs-clm-field input, .gjs-clm-tags .gjs-clm-field input,
-    .gjs-sm-sector .gjs-sm-field select, .gjs-clm-tags .gjs-sm-field select,
-    .gjs-sm-sector .gjs-clm-field select, .gjs-clm-tags .gjs-clm-field select {
+    .gjs-sm-sector .gjs-sm-field select,
+    .gjs-clm-tags .gjs-sm-field select,
+    .gjs-sm-sector .gjs-clm-field select,
+    .gjs-clm-tags .gjs-clm-field select {
       background-color: transparent;
       color: rgba(255, 255, 255, 0.7);
       border: none;
       width: 100%; }
     .gjs-sm-sector .gjs-sm-field input, .gjs-clm-tags .gjs-sm-field input, .gjs-sm-sector .gjs-clm-field input, .gjs-clm-tags .gjs-clm-field input {
       box-sizing: border-box; }
-    .gjs-sm-sector .gjs-sm-field select, .gjs-clm-tags .gjs-sm-field select, .gjs-sm-sector .gjs-clm-field select, .gjs-clm-tags .gjs-clm-field select {
+    
+    .gjs-sm-sector .gjs-sm-field select,
+    .gjs-clm-tags .gjs-sm-field select,
+    .gjs-sm-sector .gjs-clm-field select,
+    .gjs-clm-tags .gjs-clm-field select {
       position: relative;
       z-index: 1;
       -webkit-appearance: none;
@@ -4280,8 +4286,10 @@ span.CodeMirror-selectedtext {
       color: transparent;
       text-shadow: 0 0 0 rgba(255, 255, 255, 0.7); }
     .gjs-sm-sector .gjs-sm-field input:focus, .gjs-clm-tags .gjs-sm-field input:focus, .gjs-sm-sector .gjs-clm-field input:focus, .gjs-clm-tags .gjs-clm-field input:focus,
-    .gjs-sm-sector .gjs-sm-field select:focus, .gjs-clm-tags .gjs-sm-field select:focus,
-    .gjs-sm-sector .gjs-clm-field select:focus, .gjs-clm-tags .gjs-clm-field select:focus {
+    .gjs-sm-sector .gjs-sm-field select:focus,
+    .gjs-clm-tags .gjs-sm-field select:focus,
+    .gjs-sm-sector .gjs-clm-field select:focus,
+    .gjs-clm-tags .gjs-clm-field select:focus {
       outline: none; }
     .gjs-sm-sector .gjs-sm-field .gjs-sm-unit, .gjs-clm-tags .gjs-sm-field .gjs-sm-unit, .gjs-sm-sector .gjs-clm-field .gjs-sm-unit, .gjs-clm-tags .gjs-clm-field .gjs-sm-unit {
       position: absolute;
@@ -4291,44 +4299,68 @@ span.CodeMirror-selectedtext {
       color: rgba(255, 255, 255, 0.7);
       cursor: pointer; }
     .gjs-sm-sector .gjs-sm-field .gjs-clm-sel-arrow, .gjs-clm-tags .gjs-sm-field .gjs-clm-sel-arrow, .gjs-sm-sector .gjs-clm-field .gjs-clm-sel-arrow, .gjs-clm-tags .gjs-clm-field .gjs-clm-sel-arrow,
-    .gjs-sm-sector .gjs-sm-field .gjs-sm-int-arrows, .gjs-clm-tags .gjs-sm-field .gjs-sm-int-arrows,
-    .gjs-sm-sector .gjs-clm-field .gjs-sm-int-arrows, .gjs-clm-tags .gjs-clm-field .gjs-sm-int-arrows,
-    .gjs-sm-sector .gjs-sm-field .gjs-sm-sel-arrow, .gjs-clm-tags .gjs-sm-field .gjs-sm-sel-arrow,
-    .gjs-sm-sector .gjs-clm-field .gjs-sm-sel-arrow, .gjs-clm-tags .gjs-clm-field .gjs-sm-sel-arrow {
+    .gjs-sm-sector .gjs-sm-field .gjs-sm-int-arrows,
+    .gjs-clm-tags .gjs-sm-field .gjs-sm-int-arrows,
+    .gjs-sm-sector .gjs-clm-field .gjs-sm-int-arrows,
+    .gjs-clm-tags .gjs-clm-field .gjs-sm-int-arrows,
+    .gjs-sm-sector .gjs-sm-field .gjs-sm-sel-arrow,
+    .gjs-clm-tags .gjs-sm-field .gjs-sm-sel-arrow,
+    .gjs-sm-sector .gjs-clm-field .gjs-sm-sel-arrow,
+    .gjs-clm-tags .gjs-clm-field .gjs-sm-sel-arrow {
       height: 100%;
       width: 9px;
       position: absolute;
       right: 0;
       top: 0;
       cursor: ns-resize; }
-    .gjs-sm-sector .gjs-sm-field .gjs-sm-sel-arrow, .gjs-clm-tags .gjs-sm-field .gjs-sm-sel-arrow, .gjs-sm-sector .gjs-clm-field .gjs-sm-sel-arrow, .gjs-clm-tags .gjs-clm-field .gjs-sm-sel-arrow {
+    
+    .gjs-sm-sector .gjs-sm-field .gjs-sm-sel-arrow,
+    .gjs-clm-tags .gjs-sm-field .gjs-sm-sel-arrow,
+    .gjs-sm-sector .gjs-clm-field .gjs-sm-sel-arrow,
+    .gjs-clm-tags .gjs-clm-field .gjs-sm-sel-arrow {
       cursor: pointer; }
     .gjs-sm-sector .gjs-sm-field .gjs-clm-d-s-arrow, .gjs-clm-tags .gjs-sm-field .gjs-clm-d-s-arrow, .gjs-sm-sector .gjs-clm-field .gjs-clm-d-s-arrow, .gjs-clm-tags .gjs-clm-field .gjs-clm-d-s-arrow,
-    .gjs-sm-sector .gjs-sm-field .gjs-sm-d-arrow, .gjs-clm-tags .gjs-sm-field .gjs-sm-d-arrow,
-    .gjs-sm-sector .gjs-clm-field .gjs-sm-d-arrow, .gjs-clm-tags .gjs-clm-field .gjs-sm-d-arrow,
-    .gjs-sm-sector .gjs-sm-field .gjs-sm-d-s-arrow, .gjs-clm-tags .gjs-sm-field .gjs-sm-d-s-arrow,
-    .gjs-sm-sector .gjs-clm-field .gjs-sm-d-s-arrow, .gjs-clm-tags .gjs-clm-field .gjs-sm-d-s-arrow,
-    .gjs-sm-sector .gjs-sm-field .gjs-sm-u-arrow, .gjs-clm-tags .gjs-sm-field .gjs-sm-u-arrow,
-    .gjs-sm-sector .gjs-clm-field .gjs-sm-u-arrow, .gjs-clm-tags .gjs-clm-field .gjs-sm-u-arrow {
+    .gjs-sm-sector .gjs-sm-field .gjs-sm-d-arrow,
+    .gjs-clm-tags .gjs-sm-field .gjs-sm-d-arrow,
+    .gjs-sm-sector .gjs-clm-field .gjs-sm-d-arrow,
+    .gjs-clm-tags .gjs-clm-field .gjs-sm-d-arrow,
+    .gjs-sm-sector .gjs-sm-field .gjs-sm-d-s-arrow,
+    .gjs-clm-tags .gjs-sm-field .gjs-sm-d-s-arrow,
+    .gjs-sm-sector .gjs-clm-field .gjs-sm-d-s-arrow,
+    .gjs-clm-tags .gjs-clm-field .gjs-sm-d-s-arrow,
+    .gjs-sm-sector .gjs-sm-field .gjs-sm-u-arrow,
+    .gjs-clm-tags .gjs-sm-field .gjs-sm-u-arrow,
+    .gjs-sm-sector .gjs-clm-field .gjs-sm-u-arrow,
+    .gjs-clm-tags .gjs-clm-field .gjs-sm-u-arrow {
       position: absolute;
       height: 0;
       width: 0;
       border-left: 3px solid transparent;
       border-right: 4px solid transparent;
       cursor: pointer; }
-    .gjs-sm-sector .gjs-sm-field .gjs-sm-u-arrow, .gjs-clm-tags .gjs-sm-field .gjs-sm-u-arrow, .gjs-sm-sector .gjs-clm-field .gjs-sm-u-arrow, .gjs-clm-tags .gjs-clm-field .gjs-sm-u-arrow {
+    
+    .gjs-sm-sector .gjs-sm-field .gjs-sm-u-arrow,
+    .gjs-clm-tags .gjs-sm-field .gjs-sm-u-arrow,
+    .gjs-sm-sector .gjs-clm-field .gjs-sm-u-arrow,
+    .gjs-clm-tags .gjs-clm-field .gjs-sm-u-arrow {
       border-bottom: 4px solid rgba(255, 255, 255, 0.7);
       top: 4px; }
     .gjs-sm-sector .gjs-sm-field .gjs-clm-d-s-arrow, .gjs-clm-tags .gjs-sm-field .gjs-clm-d-s-arrow, .gjs-sm-sector .gjs-clm-field .gjs-clm-d-s-arrow, .gjs-clm-tags .gjs-clm-field .gjs-clm-d-s-arrow,
-    .gjs-sm-sector .gjs-sm-field .gjs-sm-d-arrow, .gjs-clm-tags .gjs-sm-field .gjs-sm-d-arrow,
-    .gjs-sm-sector .gjs-clm-field .gjs-sm-d-arrow, .gjs-clm-tags .gjs-clm-field .gjs-sm-d-arrow,
-    .gjs-sm-sector .gjs-sm-field .gjs-sm-d-s-arrow, .gjs-clm-tags .gjs-sm-field .gjs-sm-d-s-arrow,
-    .gjs-sm-sector .gjs-clm-field .gjs-sm-d-s-arrow, .gjs-clm-tags .gjs-clm-field .gjs-sm-d-s-arrow {
+    .gjs-sm-sector .gjs-sm-field .gjs-sm-d-arrow,
+    .gjs-clm-tags .gjs-sm-field .gjs-sm-d-arrow,
+    .gjs-sm-sector .gjs-clm-field .gjs-sm-d-arrow,
+    .gjs-clm-tags .gjs-clm-field .gjs-sm-d-arrow,
+    .gjs-sm-sector .gjs-sm-field .gjs-sm-d-s-arrow,
+    .gjs-clm-tags .gjs-sm-field .gjs-sm-d-s-arrow,
+    .gjs-sm-sector .gjs-clm-field .gjs-sm-d-s-arrow,
+    .gjs-clm-tags .gjs-clm-field .gjs-sm-d-s-arrow {
       border-top: 4px solid rgba(255, 255, 255, 0.7);
       bottom: 4px; }
     .gjs-sm-sector .gjs-sm-field .gjs-clm-d-s-arrow, .gjs-clm-tags .gjs-sm-field .gjs-clm-d-s-arrow, .gjs-sm-sector .gjs-clm-field .gjs-clm-d-s-arrow, .gjs-clm-tags .gjs-clm-field .gjs-clm-d-s-arrow,
-    .gjs-sm-sector .gjs-sm-field .gjs-sm-d-s-arrow, .gjs-clm-tags .gjs-sm-field .gjs-sm-d-s-arrow,
-    .gjs-sm-sector .gjs-clm-field .gjs-sm-d-s-arrow, .gjs-clm-tags .gjs-clm-field .gjs-sm-d-s-arrow {
+    .gjs-sm-sector .gjs-sm-field .gjs-sm-d-s-arrow,
+    .gjs-clm-tags .gjs-sm-field .gjs-sm-d-s-arrow,
+    .gjs-sm-sector .gjs-clm-field .gjs-sm-d-s-arrow,
+    .gjs-clm-tags .gjs-clm-field .gjs-sm-d-s-arrow {
       bottom: 7px; }
     .gjs-sm-sector .gjs-sm-field.gjs-sm-color, .gjs-clm-tags .gjs-sm-field.gjs-sm-color, .gjs-sm-sector .gjs-sm-color.gjs-clm-field, .gjs-clm-tags .gjs-sm-color.gjs-clm-field, .gjs-sm-sector .gjs-sm-field.gjs-sm-input, .gjs-clm-tags .gjs-sm-field.gjs-sm-input, .gjs-sm-sector .gjs-sm-input.gjs-clm-field, .gjs-clm-tags .gjs-sm-input.gjs-clm-field, .gjs-sm-sector .gjs-sm-field.gjs-sm-integer, .gjs-clm-tags .gjs-sm-field.gjs-sm-integer, .gjs-sm-sector .gjs-sm-integer.gjs-clm-field, .gjs-clm-tags .gjs-sm-integer.gjs-clm-field, .gjs-sm-sector .gjs-sm-field.gjs-sm-list, .gjs-clm-tags .gjs-sm-field.gjs-sm-list, .gjs-sm-sector .gjs-sm-list.gjs-clm-field, .gjs-clm-tags .gjs-sm-list.gjs-clm-field, .gjs-sm-sector .gjs-sm-field.gjs-sm-select, .gjs-clm-tags .gjs-sm-field.gjs-sm-select, .gjs-sm-sector .gjs-sm-select.gjs-clm-field, .gjs-clm-tags .gjs-sm-select.gjs-clm-field, .gjs-sm-sector .gjs-clm-select, .gjs-clm-tags .gjs-clm-select {
       background-color: rgba(0, 0, 0, 0.2);
@@ -4443,7 +4475,8 @@ span.CodeMirror-selectedtext {
         top: 6px;
         width: 15px; }
       .gjs-sm-sector .gjs-sm-property .gjs-sm-layer #gjs-sm-preview, .gjs-clm-tags .gjs-sm-property .gjs-sm-layer #gjs-sm-preview,
-      .gjs-sm-sector .gjs-sm-property .gjs-sm-layer #gjs-sm-preview-box, .gjs-clm-tags .gjs-sm-property .gjs-sm-layer #gjs-sm-preview-box {
+      .gjs-sm-sector .gjs-sm-property .gjs-sm-layer #gjs-sm-preview-box,
+      .gjs-clm-tags .gjs-sm-property .gjs-sm-layer #gjs-sm-preview-box {
         border-radius: 2px; }
       .gjs-sm-sector .gjs-sm-property .gjs-sm-layer #gjs-sm-close-layer, .gjs-clm-tags .gjs-sm-property .gjs-sm-layer #gjs-sm-close-layer {
         display: block;
