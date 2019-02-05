@@ -63394,7 +63394,6 @@ module.exports = Component.extend({
     convertWidthToText();
   },
   updateDimensions: function updateDimensions(component, src) {
-
     var m = this;
     var img = new Image();
     var srcHeight = 0;
@@ -63414,10 +63413,10 @@ module.exports = Component.extend({
   imgLoaded: function imgLoaded(w, h, thisModel) {
     var srcWidth = 0;
     var srcHeight = 0;
-    var classId = "";
+    var classId = '';
 
-    //check if we have info passed in or an object 
-    if ((typeof w === 'undefined' ? 'undefined' : _typeof(w)) === "object") {
+    //check if we have info passed in or an object
+    if ((typeof w === 'undefined' ? 'undefined' : _typeof(w)) === 'object') {
       thisModel = editor.getSelected();
       srcWidth = w.target.width;
       srcHeight = w.target.height;
@@ -63426,9 +63425,9 @@ module.exports = Component.extend({
       srcHeight = h;
     }
 
-    thisModel.attributes.attributes.width = srcWidth + "px";
-    thisModel.attributes.attributes.height = srcHeight + "px";
-    thisModel.view.$el.find("img").attr("width", srcWidth + "px").attr("height", srcHeight + "px");
+    thisModel.attributes.attributes.width = srcWidth + 'px';
+    thisModel.attributes.attributes.height = srcHeight + 'px';
+    thisModel.view.$el.find('img').attr('width', srcWidth + 'px').attr('height', srcHeight + 'px');
 
     //unselect and reslect the component to adjust the resizer to the new size
     editor.select();
@@ -63436,7 +63435,6 @@ module.exports = Component.extend({
   },
 
   updateHref: function updateHref(component, value) {
-
     if (this) {
       try {
         this.attributes.attributes.href = value;
@@ -63449,13 +63447,13 @@ module.exports = Component.extend({
       try {
         this.attributes.attributes.name = value;
         this.set('name', value);
-        component.view.$el.find("a").attr('name', value);
+        component.view.$el.find('a').attr('name', value);
       } catch (x) {}
     }
   },
   updateAlt: function updateAlt(component, value) {
     component.view.$el.attr('alt', value);
-    component.view.$el.find("img").attr('alt', value);
+    component.view.$el.find('img').attr('alt', value);
     if (this) {
       try {
         this.attributes.attributes.alt = value;
@@ -64753,14 +64751,14 @@ module.exports = ComponentView.extend({
     editor.showPanel('properties');
 
     // we don't want the slider to be used for the width, make it an integer
-    $("#gjs-sm-width").removeClass('gjs-sm-slider').addClass('gjs-sm-integer');
-    $("#gjs-sm-width .gjs-field-range").hide();
-    var widthProp = editor.StyleManager.getProperty("Dimension", "width");
+    $('#gjs-sm-width').removeClass('gjs-sm-slider').addClass('gjs-sm-integer');
+    $('#gjs-sm-width .gjs-field-range').hide();
+    var widthProp = editor.StyleManager.getProperty('Dimension', 'width');
     widthProp.set('type', 'integer');
-    widthProp.set("min", 0);
-    widthProp.set("max", "");
-    widthProp.set("step", 1);
-    widthProp.unset("showInput");
+    widthProp.set('min', 0);
+    widthProp.set('max', '');
+    widthProp.set('step', 1);
+    widthProp.unset('showInput');
 
     //var w = e.target.style.width;
     //var h = e.target.style.height;
@@ -64769,31 +64767,31 @@ module.exports = ComponentView.extend({
     //img src
     try {
       var src = this.model.get('attributes').src;
-      if (src.indexOf("imgPlaceholder150x150") > -1) src = "";
+      if (src.indexOf('imgPlaceholder150x150') > -1) src = '';
       editor.TraitManager.getTraitsViewer().collection.models[1].setTargetValue(src);
     } catch (x) {}
 
     //img alt
     try {
       var alt = this.model.get('attributes').alt;
-      if (alt == null || alt == "null") alt = "";
+      if (alt == null || alt == 'null') alt = '';
       editor.TraitManager.getTraitsViewer().collection.models[2].setTargetValue(alt);
     } catch (x) {}
 
     //href
     try {
       var href = this.model.get('attributes').href;
-      if (href == null) href = "";
+      if (href == null) href = '';
       editor.TraitManager.getTraitsViewer().collection.models[3].setTargetValue(href);
     } catch (x) {}
 
     //name & track link checkbox
     try {
       var name = this.model.get('attributes').name;
-      if (name == null) name = "";
+      if (name == null) name = '';
       editor.TraitManager.getTraitsViewer().collection.models[5].setTargetValue(name);
 
-      if (name == "LinkIsNotTracked" || name == '' || name == null) editor.TraitManager.getTraitsViewer().collection.models[4].setTargetValue(false);else editor.TraitManager.getTraitsViewer().collection.models[4].setTargetValue(true);
+      if (name == 'LinkIsNotTracked' || name == '' || name == null) editor.TraitManager.getTraitsViewer().collection.models[4].setTargetValue(false);else editor.TraitManager.getTraitsViewer().collection.models[4].setTargetValue(true);
     } catch (x) {}
 
     //refresh the view
@@ -67453,7 +67451,7 @@ module.exports = function (config) {
 
 
     /**
-     * Returns HTML with inlined CSS 
+     * Returns HTML with inlined CSS
      * @return {string} HTML string
      */
     getInlinedHtml: function getInlinedHtml(opts) {
@@ -67950,7 +67948,7 @@ module.exports = function (config) {
       var otm = 'open-tm';
       var obl = 'open-blocks';
 
-      var pnl = "";
+      var pnl = '';
 
       switch (panelName) {
         case 'blocks':
@@ -72015,7 +72013,6 @@ module.exports = function (config) {
             //   allTxt = 0;
             //   break;
             // }
-
 
             if (c.textTags.indexOf(comp.tagName) !== -1) {
               comp.hoverable = false;
@@ -83080,11 +83077,11 @@ var Resizer = function () {
         //we want the selected element to remain selected if we click off the canvas
         //Let's check if the selected element's document contains the wrapper
         //If not, do not blur as we've clicked off the canvas
-        if (wrapper != null) //wrapper does not exist based on selected element's document
-          {
-            this.selectedHandler = '';
-            this.blur();
-          }
+        if (wrapper != null) {
+          //wrapper does not exist based on selected element's document
+          this.selectedHandler = '';
+          this.blur();
+        }
       }
     }
 
