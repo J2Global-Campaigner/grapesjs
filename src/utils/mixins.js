@@ -1,4 +1,4 @@
-import { omit, keys, isUndefined } from 'underscore';
+import { omit, keys, isUndefined, isElement } from 'underscore';
 
 const elProt = window.Element.prototype;
 const matches =
@@ -97,13 +97,39 @@ const hasDnd = em => {
   );
 };
 
+/**
+ * Ensure to fetch the element from the input argument
+ * @param  {HTMLElement|Component} el Component or HTML element
+ * @return {HTMLElement}
+ */
+const getElement = el => {
+  if (isElement(el)) {
+    return el;
+  } else if (el && el.getEl) {
+    return el.getEl();
+  }
+};
+
+/**
+ * Ensure to fetch the model from the input argument
+ * @param  {HTMLElement|Component} el Component or HTML element
+ * @return {Component}
+ */
+const getModel = (el, $) => {
+  let model = el;
+  isElement(el) && (model = $(el).data('model'));
+  return model;
+};
+
 export {
   on,
   off,
   hasDnd,
   upFirst,
   matches,
+  getModel,
   camelCase,
+  getElement,
   shallowDiff,
   normalizeFloat,
   getUnitFromValue

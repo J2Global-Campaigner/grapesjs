@@ -16,11 +16,21 @@ module.exports = Component.extend(
       editable: 1,
       highlightable: 0,
       resizable: 1,
-      unstylable: ['max-width', 'min-height', 'text-shadow',
-      'font', 'font-size', 'font-weight', 'letter-spacing', 'vertical-align',
-      'color', 'line-height', 'text-decoration', 'font-family', 'font-style'
-     ],
-     
+      unstylable: [
+        'max-width',
+        'min-height',
+        'text-shadow',
+        'font',
+        'font-size',
+        'font-weight',
+        'letter-spacing',
+        'vertical-align',
+        'color',
+        'line-height',
+        'text-decoration',
+        'font-family',
+        'font-style'
+      ],
 
       // File to load asynchronously once the model is rendered
       file: ''
@@ -34,39 +44,31 @@ module.exports = Component.extend(
       this.listenTo(this, 'active', this.doOnDropStuff); // listen for active event
       this.on('destroy', this.handleRemove);
 
-      if(!this.get('isdrop')) {
+      if (!this.get('isdrop')) {
         this.set({ style: {} });
-      }
-      else {
+      } else {
         this.doOnDropStuff();
       }
     },
 
-
     /* CUSTOM CODE TO HANDLE TRAITS & ON DROP/REMOVE LOGIC */
     handleRemove: function() {
       editor.Panels.getButton('views', 'open-blocks').set('active', 1);
-
     },
-    doOnDropStuff: function (component, value) {
+    doOnDropStuff: function(component, value) {
       //open the image/link settings
       editor.select(this);
       editor.Panels.getButton('views', 'open-tm').set('active', 1);
-      updateMediaLibaryTrait();       
-      
-      
+      updateMediaLibaryTrait();
+
       convertWidthToText();
-      
     },
     updateDimensions: function(component, src) {
-     
-
       var m = this;
       var img = new Image();
       var srcHeight = 0;
       var srcWidth = 0;
-        
-    
+
       //set the image src in order to get the read dimensions
       img.src = src;
 
@@ -74,65 +76,62 @@ module.exports = Component.extend(
       if (img.complete) {
         this.imgLoaded(img.width, img.height, component);
       } else {
-        img.addEventListener('load', this.imgLoaded)
+        img.addEventListener('load', this.imgLoaded);
       }
-     
     },
     //updateDimensions image load callback
     imgLoaded: function(w, h, thisModel) {
       var srcWidth = 0;
       var srcHeight = 0;
-      var classId = "";
+      var classId = '';
 
-      //check if we have info passed in or an object 
-      if(typeof w === "object") {
+      //check if we have info passed in or an object
+      if (typeof w === 'object') {
         thisModel = editor.getSelected();
         srcWidth = w.target.width;
         srcHeight = w.target.height;
-      }
-      else {
+      } else {
         srcWidth = w;
         srcHeight = h;
       }
 
-         thisModel.attributes.attributes.width = srcWidth + "px";
-         thisModel.attributes.attributes.height = srcHeight + "px";
-         thisModel.view.$el.find("img").attr("width", srcWidth + "px").attr("height", srcHeight + "px");
+      thisModel.attributes.attributes.width = srcWidth + 'px';
+      thisModel.attributes.attributes.height = srcHeight + 'px';
+      thisModel.view.$el
+        .find('img')
+        .attr('width', srcWidth + 'px')
+        .attr('height', srcHeight + 'px');
 
-          //unselect and reslect the component to adjust the resizer to the new size
-          editor.select();
-          editor.select(thisModel);
+      //unselect and reslect the component to adjust the resizer to the new size
+      editor.select();
+      editor.select(thisModel);
     },
-   
-    updateHref: function (component, value) {
 
+    updateHref: function(component, value) {
       if (this) {
         try {
           this.attributes.attributes.href = value;
           this.set('href', value);
-        }
-        catch (x) { }
+        } catch (x) {}
       }
     },
-    updateName: function (component, value) {
+    updateName: function(component, value) {
       if (this) {
         try {
           this.attributes.attributes.name = value;
           this.set('name', value);
-          component.view.$el.find("a").attr('name', value);
-        }
-        catch (x) { }
+          component.view.$el.find('a').attr('name', value);
+        } catch (x) {}
       }
     },
-    updateAlt: function (component, value) {
+    updateAlt: function(component, value) {
       component.view.$el.attr('alt', value);
-      component.view.$el.find("img").attr('alt', value);
+      component.view.$el.find('img').attr('alt', value);
       if (this) {
         try {
           this.attributes.attributes.alt = value;
           this.set('alt', value);
-        }
-        catch (x) { }
+        } catch (x) {}
       }
     },
 
@@ -146,12 +145,23 @@ module.exports = Component.extend(
 
         // Add Image Editor button only if the default command exists
         if (cmd.has(cmdName)) {
+          let hasButtonBool = false;
           var tb = this.get('toolbar');
-          tb.push({
-            attributes: { class: 'fa fa-pencil' },
-            command: cmdName
-          });
-          this.set('toolbar', tb);
+
+          for (let i = 0; i < tb.length; i++) {
+            if (tb[i].command === 'image-editor') {
+              hasButtonBool = true;
+              break;
+            }
+          }
+
+          if (!hasButtonBool) {
+            tb.push({
+              attributes: { class: 'fa fa-pencil' },
+              command: cmdName
+            });
+            this.set('toolbar', tb);
+          }
         }
       }
     },
@@ -214,5 +224,3 @@ module.exports = Component.extend(
     }
   }
 );
-
-

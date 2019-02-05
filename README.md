@@ -73,12 +73,12 @@ Newsletter Demo - http://grapesjs.com/demo-newsletter-editor.html
 ## Download
 
 * CDNs
-  * UNPKG
+  * UNPKG (resolves to the latest version)
     * `https://unpkg.com/grapesjs`
     * `https://unpkg.com/grapesjs/dist/css/grapes.min.css`
-  * CDNJS
-    * `https://cdnjs.cloudflare.com/ajax/libs/grapesjs/0.12.17/grapes.min.js`
-    * `https://cdnjs.cloudflare.com/ajax/libs/grapesjs/0.12.17/css/grapes.min.css`
+  * CDNJS (replace `X.X.X` with the current version)
+    * `https://cdnjs.cloudflare.com/ajax/libs/grapesjs/X.X.X/grapes.min.js`
+    * `https://cdnjs.cloudflare.com/ajax/libs/grapesjs/X.X.X/css/grapes.min.css`
 * NPM
   * `npm i grapesjs`
 * GIT
@@ -152,7 +152,7 @@ Once the development server is started you should be able to reach the demo page
 
 ## Documentation
 
-Check the getting started guide here: [wiki]
+Check the getting started guide here: [Documentation]
 
 
 
@@ -187,10 +187,17 @@ $ npm test
 * [grapesjs-plugin-forms](https://github.com/artf/grapesjs-plugin-forms) - Set of form components and blocks
 * [grapesjs-navbar](https://github.com/artf/grapesjs-navbar) - Simple navbar component
 * [grapesjs-component-countdown](https://github.com/artf/grapesjs-component-countdown) - Simple countdown component
-* [grapesjs-style-gradient](https://github.com/artf/grapesjs-style-gradient) - Add a gradient type input
+* [grapesjs-style-gradient](https://github.com/artf/grapesjs-style-gradient) - Add `gradient` type input to the Style Manager
+* [grapesjs-style-filter](https://github.com/artf/grapesjs-style-filter) - Add `filter` type input to the Style Manager
 * [grapesjs-blocks-flexbox](https://github.com/artf/grapesjs-blocks-flexbox) - Add the flexbox block
 * [grapesjs-lory-slider](https://github.com/artf/grapesjs-lory-slider) - Slider component by using [lory](https://github.com/meandmax/lory)
 * [grapesjs-tabs](https://github.com/artf/grapesjs-tabs) - Simple tabs component
+* [grapesjs-tooltip](https://github.com/artf/grapesjs-tooltip) - Simple, CSS only, tooltip component for GrapesJS
+* [grapesjs-custom-code](https://github.com/artf/grapesjs-custom-code) - Embed custom code
+* [grapesjs-touch](https://github.com/artf/grapesjs-touch) - Enable touch support
+* [grapesjs-indexeddb](https://github.com/artf/grapesjs-indexeddb) - Storage wrapper for IndexedDB
+* [grapesjs-firestore](https://github.com/artf/grapesjs-firestore) - Storage wrapper for [Cloud Firestore](https://firebase.google.com/docs/firestore)
+* [grapesjs-parser-postcss](https://github.com/artf/grapesjs-parser-postcss) - Custom CSS parser for GrapesJS by using [PostCSS](https://github.com/postcss/postcss)
 
 ### Presets
 * [grapesjs-preset-webpage](https://github.com/artf/grapesjs-preset-webpage) - Webpage Builder
@@ -246,6 +253,6 @@ Thanks to [BrowserStack](https://www.browserstack.com) for providing us browser 
 BSD 3-clause
 
 
-[wiki]: <https://github.com/artf/grapesjs/wiki>
-[API-Reference]: <https://github.com/artf/grapesjs/wiki/API-Reference>
+[Documentation]: <https://grapesjs.com/docs/>
+[API-Reference]: <https://grapesjs.com/docs/api/>
 [CMS]: <https://it.wikipedia.org/wiki/Content_management_system>

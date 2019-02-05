@@ -95,9 +95,13 @@ export default {
       const imp = opts.important;
       const important = isArray(imp) ? imp.indexOf(prop) >= 0 : imp;
       const value = `${style[prop]}${important ? ' !important' : ''}`;
-      result.push(`${prop}:${value};`);
+      value && result.push(`${prop}:${value};`);
     }
 
     return result.join('');
+  },
+
+  getSelectors() {
+    return this.get('selectors') || this.get('classes');
   }
 };

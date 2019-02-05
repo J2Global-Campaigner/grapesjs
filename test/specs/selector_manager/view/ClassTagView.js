@@ -1,3 +1,4 @@
+const EditorModel = require('editor/model/Editor');
 const ClassTagView = require('selector_manager/view/ClassTagView');
 const Selectors = require('selector_manager/model/Selectors');
 
@@ -17,12 +18,14 @@ module.exports = {
           label: testLabel
         });
         obj = new ClassTagView({
-          config: {},
+          config: {
+            em: new EditorModel()
+          },
           model,
           coll
         });
-        obj.target = { get() {} };
-        _.extend(obj.target, Backbone.Events);
+        //obj.target = { get() {} };
+        //_.extend(obj.target, Backbone.Events);
         document.body.innerHTML = '<div id="fixtures"></div>';
         fixtures = document.body.querySelector('#fixtures');
         fixtures.appendChild(obj.render().el);
@@ -32,41 +35,41 @@ module.exports = {
         obj.model = null;
       });
 
-      it('Object exists', () => {
-        expect(ClassTagView).toExist();
+      test('Object exists', () => {
+        expect(ClassTagView).toBeTruthy();
       });
 
-      it('Not empty', () => {
+      test('Not empty', () => {
         var $el = obj.$el;
-        expect($el.html()).toExist();
+        expect($el.html()).toBeTruthy();
       });
 
-      it('Not empty', () => {
+      test('Not empty', () => {
         var $el = obj.$el;
         expect($el.html()).toContain(testLabel);
       });
 
       describe('Should be rendered correctly', () => {
-        it('Has close button', () => {
+        test('Has close button', () => {
           var $el = obj.$el;
-          expect($el.find('#close')[0]).toExist();
+          expect($el.find('#close')[0]).toBeTruthy();
         });
-        it('Has checkbox', () => {
+        test('Has checkbox', () => {
           var $el = obj.$el;
-          expect($el.find('#checkbox')[0]).toExist();
+          expect($el.find('#checkbox')[0]).toBeTruthy();
         });
-        it('Has label', () => {
+        test('Has label', () => {
           var $el = obj.$el;
-          expect($el.find('#tag-label')[0]).toExist();
+          expect($el.find('#tag-label')[0]).toBeTruthy();
         });
       });
 
-      it('Could be removed', () => {
+      test('Could be removed', () => {
         obj.$el.find('#close').trigger('click');
-        setTimeout(() => expect(fixtures.innerHTML).toNotExist(), 0);
+        setTimeout(() => expect(fixtures.innerHTML).toBeFalsy(), 5);
       });
 
-      it('Checkbox toggles status', () => {
+      test('Checkbox toggles status', () => {
         var spy = sinon.spy();
         obj.model.on('change:active', spy);
         obj.model.set('active', true);
@@ -75,16 +78,16 @@ module.exports = {
         expect(spy.called).toEqual(true);
       });
 
-      it('Label input is disabled', () => {
-        expect(obj.getInputEl().contentEditable).toNotEqual(true);
+      test('Label input is disabled', () => {
+        expect(obj.getInputEl().contentEditable).toBeFalsy();
       });
 
-      it('On double click label input is enable', () => {
+      test('On double click label input is enable', () => {
         obj.$el.find('#tag-label').trigger('dblclick');
         expect(obj.getInputEl().contentEditable).toEqual(true);
       });
 
-      it('On blur label input turns back disabled', () => {
+      test('On blur label input turns back disabled', () => {
         obj.$el.find('#tag-label').trigger('dblclick');
         obj.endEditTag();
         expect(obj.getInputEl().contentEditable).toEqual(false);

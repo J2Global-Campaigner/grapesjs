@@ -1,6 +1,9 @@
+import Backbone from 'backbone';
 import { isArray, isEmpty } from 'underscore';
 
+const Components = require('../model/Components');
 const ComponentsView = require('./ComponentsView');
+const Selectors = require('selector_manager/model/Selectors');
 
 module.exports = Backbone.View.extend({
   className() {
@@ -14,41 +17,68 @@ module.exports = Backbone.View.extend({
   initialize(opt = {}) {
     const model = this.model;
     const config = opt.config || {};
+    const em = config.em;
     this.opts = opt;
     this.config = config;
-    this.em = config.em || '';
+    this.em = em || '';
     this.pfx = config.stylePrefix || '';
     this.ppfx = config.pStylePrefix || '';
     this.attr = model.get('attributes');
     this.classe = this.attr.class || [];
     const $el = this.$el;
-    const classes = model.get('classes');
-    this.listenTo(model, 'destroy remove', this.remove);
     this.listenTo(model, 'change:style', this.updateStyle);
-    this.listenTo(model, 'change:attributes', this.updateAttributes);
+    this.listenTo(model, 'change:attributes', this.renderAttributes);
     this.listenTo(model, 'change:highlightable', this.updateHighlight);
     this.listenTo(model, 'change:status', this.updateStatus);
     this.listenTo(model, 'change:state', this.updateState);
     this.listenTo(model, 'change:script', this.render);
+    this.listenTo(model, 'change:content', this.updateContent);
     this.listenTo(model, 'change', this.handleChange);
-    this.listenTo(classes, 'add remove change', this.updateClasses);
+    this.listenTo(model, 'active', this.onActive);
     $el.data('model', model);
-    $el.data('collection', model.get('components'));
     model.view = this;
-    classes.length && this.importClasses();
+    this.initClasses();
+    this.initComponents({ avoidRender: 1 });
     this.init();
-  },
-
-  remove() {
-    Backbone.View.prototype.remove.apply(this);
-    const children = this.childrenView;
-    children && children.stopListening();
   },
 
   /**
    * Initialize callback
    */
   init() {},
+
+  /**
+   * Callback executed when the `active` event is triggered on component
+   */
+  onActive() {},
+
+  initClasses() {
+    const { model } = this;
+    const event = 'change:classes';
+    const classes = model.get('classes');
+
+    if (classes instanceof Selectors) {
+      this.stopListening(model, event, this.initClasses);
+      this.listenTo(model, event, this.initClasses);
+      this.listenTo(classes, 'add remove change', this.updateClasses);
+      classes.length && this.importClasses();
+    }
+  },
+
+  initComponents(opts = {}) {
+    const { model, $el, childrenView } = this;
+    const event = 'change:components';
+    const comps = model.get('components');
+    const toListen = [model, event, this.initComponents];
+
+    if (comps instanceof Components) {
+      $el.data('collection', comps);
+      childrenView && childrenView.remove();
+      this.stopListening(...toListen);
+      !opts.avoidRender && this.renderChildren();
+      this.listenTo(...toListen);
+    }
+  },
 
   /**
    * Handle any property change
@@ -98,15 +128,18 @@ module.exports = Backbone.View.extend({
    * @param  {Event} e
    * @private
    * */
-  updateStatus(e) {
-    var el = this.el;
-    var status = this.model.get('status');
-    var pfx = this.pfx;
-    var ppfx = this.ppfx;
-    var selectedCls = pfx + 'selected';
-    var selectedParentCls = selectedCls + '-parent';
-    var freezedCls = `${ppfx}freezed`;
-    this.$el.removeClass(`${selectedCls} ${selectedParentCls} ${freezedCls}`);
+  updateStatus(opts = {}) {
+    const em = this.em;
+    const el = this.el;
+    const status = this.model.get('status');
+    const pfx = this.pfx;
+    const ppfx = this.ppfx;
+    const selectedCls = `${pfx}selected`;
+    const selectedParentCls = `${selectedCls}-parent`;
+    const freezedCls = `${ppfx}freezed`;
+    const hoveredCls = `${ppfx}hovered`;
+    const toRemove = [selectedCls, selectedParentCls, freezedCls, hoveredCls];
+    this.$el.removeClass(toRemove.join(' '));
     var actualCls = el.getAttribute('class') || '';
     var cls = '';
 
@@ -123,13 +156,13 @@ module.exports = Backbone.View.extend({
       case 'freezed-selected':
         cls = `${actualCls} ${freezedCls} ${selectedCls}`;
         break;
+      case 'hovered':
+        cls = !opts.avoidHover ? `${actualCls} ${hoveredCls}` : '';
+        break;
     }
 
     cls = cls.trim();
-
-    if (cls) {
-      el.setAttribute('class', cls);
-    }
+    cls && el.setAttribute('class', cls);
   },
 
   /**
@@ -191,15 +224,7 @@ module.exports = Backbone.View.extend({
    * @private
    * */
   getClasses() {
-    var attr = this.model.get('attributes'),
-      classes = attr['class'] || [];
-    classes = isArray(classes) ? classes : [classes];
-
-    if (classes.length) {
-      return classes.join(' ');
-    } else {
-      return null;
-    }
+    return this.model.getClasses().join(' ');
   },
 
   /**
@@ -208,17 +233,16 @@ module.exports = Backbone.View.extend({
    * */
   updateAttributes() {
     const model = this.model;
-    const attrs = {};
-    const attr = model.get('attributes');
-    const src = model.get('src');
+    const defaultAttr = { 'data-gjs-type': model.get('type') || 'default' };
 
-    for (let key in attr) {
-      attrs[key] = attr[key];
+    if (model.get('highlightable')) {
+      defaultAttr['data-highlightable'] = 1;
     }
 
-    src && (attrs.src = src);
-    this.$el.attr(attrs);
-    this.updateHighlight();
+    this.$el.attr({
+      ...defaultAttr,
+      ...model.getAttributes()
+    });
     this.updateStyle();
   },
 
@@ -296,6 +320,7 @@ module.exports = Backbone.View.extend({
    * @private
    */
   renderChildren() {
+    this.updateContent();
     const container = this.getChildrenContainer();
     const view = new ComponentsView({
       collection: this.model.get('components'),
@@ -310,23 +335,6 @@ module.exports = Backbone.View.extend({
     for (var i = 0, len = childNodes.length; i < len; i++) {
       container.appendChild(childNodes.shift());
     }
-
-    // If the children container is not the same as the component
-    // (so likely fetched with getChildrenSelector()) is necessary
-    // to disable pointer-events for all nested components as they
-    // might prevent the component to be selected
-    if (container !== this.el) {
-      var disableNode = el => {
-        var children = Array.prototype.slice.call(el.children);
-        children.forEach(el => {
-          el.style['pointer-events'] = 'none';
-          if (container !== el) {
-            disableNode(el);
-          }
-        });
-      };
-      disableNode(this.el);
-    }
   },
 
   renderAttributes() {
@@ -336,11 +344,17 @@ module.exports = Backbone.View.extend({
 
   render() {
     this.renderAttributes();
-    this.updateContent();
     this.renderChildren();
     this.updateScript();
-    this.onRender();
+    this.postRender();
+
     return this;
+  },
+
+  postRender() {
+    const { em, model } = this;
+    this.onRender();
+    em && em.trigger('component:mount', model);
   },
 
   onRender() {}

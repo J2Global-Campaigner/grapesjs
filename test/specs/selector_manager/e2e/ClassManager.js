@@ -29,7 +29,7 @@ module.exports = {
           this.$fixture   = $('<div id="SelectorManager-fixture"></div>');
         });
 */
-      beforeEach(function() {
+      beforeEach(() => {
         document.body.innerHTML =
           '<div id="fixtures"><div id="SelectorManager-fixture"></div></div>';
         fixtures = document.body.firstChild;
@@ -44,12 +44,12 @@ module.exports = {
       });
 
       describe('Interaction with Components', () => {
-        beforeEach(function() {
+        beforeEach(() => {
           components = gjs.getComponents();
           tagEl = instClassTagViewer(gjs, fixtures);
         });
 
-        it('Assign correctly new class to component', function() {
+        test('Assign correctly new class to component', () => {
           var model = components.add({});
           expect(model.get('classes').length).toEqual(0);
           gjs.select(model);
@@ -63,7 +63,7 @@ module.exports = {
           ).toEqual('test');
         });
 
-        it('Classes from components are correctly imported inside main container', function() {
+        test('Classes from components are correctly imported inside main container', () => {
           var model = components.add([
             { classes: ['test11', 'test12', 'test13'] },
             { classes: ['test11', 'test22', 'test22'] }
@@ -71,7 +71,7 @@ module.exports = {
           expect(gjs.editor.get('SelectorManager').getAll().length).toEqual(4);
         });
 
-        it('Class imported into component is the same model from main container', function() {
+        test('Class imported into component is the same model from main container', () => {
           var model = components.add({ classes: ['test1'] });
           var clModel = model.get('classes').at(0);
           var clModel2 = gjs.editor
@@ -81,15 +81,15 @@ module.exports = {
           expect(clModel).toEqual(clModel2);
         });
 
-        it('Can assign only one time the same class on selected component and the class viewer', function() {
+        test('Can assign only one time the same class on selected component and the class viewer', () => {
           var model = components.add({});
-          gjs.editor.set('selectedComponent', model);
+          gjs.editor.setSelected(model);
           tagEl.addNewTag('test');
           tagEl.addNewTag('test');
-          expect(model.get('classes').length).toEqual(1);
+          expect(model.getSelectors().length).toEqual(1);
           expect(
             model
-              .get('classes')
+              .getSelectors()
               .at(0)
               .get('name')
           ).toEqual('test');
@@ -97,21 +97,21 @@ module.exports = {
           expect(tagEl.collection.at(0).get('name')).toEqual('test');
         });
 
-        it('Removing from container removes also from selected component', function() {
+        test('Removing from container removes also from selected component', () => {
           var model = components.add({});
-          gjs.editor.set('selectedComponent', model);
+          gjs.editor.setSelected(model);
           tagEl.addNewTag('test');
           tagEl
             .getClasses()
             .find('.tag #close')
             .trigger('click');
-          expect(model.get('classes').length).toEqual(0);
+          setTimeout(() => expect(model.get('classes').length).toEqual(0));
         });
 
-        it('Trigger correctly event on target with new class add', function() {
+        test('Trigger correctly event on target with new class add', () => {
           var spy = sinon.spy();
           var model = components.add({});
-          gjs.editor.set('selectedComponent', model);
+          gjs.editor.setSelected(model);
           tagEl.addNewTag('test');
           gjs.editor.on('component:update:classes', spy);
           tagEl.addNewTag('test');

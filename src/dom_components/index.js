@@ -1,4 +1,18 @@
 /**
+ * With this module is possible to manage components inside the canvas. You can customize the initial state of the module from the editor initialization, by passing the following [Configuration Object](https://github.com/artf/grapesjs/blob/master/src/dom_components/config/config.js)
+ * ```js
+ * const editor = grapesjs.init({
+ *  domComponents: {
+ *    // options
+ *  }
+ * })
+ * ```
+ *
+ * Once the editor is instantiated you can use its API. Before using these methods you should get the module from the instance
+ *
+ * ```js
+ * const domComponents = editor.DomComponents;
+ * ```
  *
  * * [getWrapper](#getwrapper)
  * * [getComponents](#getcomponents)
@@ -8,30 +22,11 @@
  * * [store](#store)
  * * [render](#render)
  *
- * With this module is possible to manage components inside the canvas.
- * Before using methods you should get first the module from the editor instance, in this way:
- *
- * ```js
- * var domComponents = editor.DomComponents;
- * ```
- *
  * @module DomComponents
- * @param {Object} config Configurations
- * @param {string|Array<Object>} [config.components=[]] HTML string or an array of possible components
- * @example
- * ...
- * domComponents: {
- *    components: '<div>Hello world!</div>',
- * }
- * // Or
- * domComponents: {
- *    components: [
- *      { tagName: 'span', style: {color: 'red'}, content: 'Hello'},
- *      { style: {width: '100px', content: 'world!'}}
- *    ],
- * }
- * ...
  */
+import Backbone from 'backbone';
+import { isEmpty, isString, isObject, isArray } from 'underscore';
+
 module.exports = () => {
   var c = {};
   let em;
@@ -84,6 +79,11 @@ module.exports = () => {
       view: require('./view/ComponentLinkView')
     },
     {
+      id: 'label',
+      model: require('./model/ComponentLabel'),
+      view: require('./view/ComponentLabelView')
+    },
+    {
       id: 'video',
       model: require('./model/ComponentVideo'),
       view: require('./view/ComponentVideoView')
@@ -112,6 +112,11 @@ module.exports = () => {
       id: 'text',
       model: require('./model/ComponentText'),
       view: require('./view/ComponentTextView')
+    },
+    {
+      id: 'wrapper',
+      model: require('./model/ComponentWrapper'),
+      view: ComponentView
     },
     {
       id: 'default',
@@ -167,6 +172,7 @@ module.exports = () => {
     init(config) {
       c = config || {};
       em = c.em;
+      this.em = em;
 
       if (em) {
         c.components = em.config.components || c.components;
@@ -184,7 +190,15 @@ module.exports = () => {
         c.modal = em.get('Modal') || '';
         c.am = em.get('AssetManager') || '';
         em.get('Parser').compTypes = componentTypes;
-        em.on('change:selectedComponent', this.componentChanged, this);
+        em.on('change:componentHovered', this.componentHovered, this);
+
+        const selected = em.get('selected');
+        em.listenTo(selected, 'add', (sel, c, opts) =>
+          this.selectAdd(sel, opts)
+        );
+        em.listenTo(selected, 'remove', (sel, c, opts) =>
+          this.selectRemove(sel, opts)
+        );
       }
 
       // Build wrapper
@@ -192,6 +206,7 @@ module.exports = () => {
       let wrapper = { ...c.wrapper };
       wrapper['custom-name'] = c.wrapperName;
       wrapper.wrapper = 1;
+      wrapper.type = 'wrapper';
 
       // Components might be a wrapper
       if (
@@ -251,6 +266,7 @@ module.exports = () => {
       const um = em.get('UndoManager');
       const handleUpdates = em.handleUpdates.bind(em);
       const handleChanges = this.handleChanges.bind(this);
+      const handleChangesColl = this.handleChangesColl.bind(this);
       const handleRemoves = this.handleRemoves.bind(this);
       um && um.add(model);
       um && comps && um.add(comps);
@@ -258,6 +274,7 @@ module.exports = () => {
 
       [
         [model, evn, handleUpdates],
+        [model, 'change:components', handleChangesColl],
         [comps, 'add', handleChanges],
         [comps, 'remove', handleRemoves],
         [model.get('classes'), 'add remove', handleUpdates]
@@ -268,6 +285,21 @@ module.exports = () => {
 
       !opts.avoidStore && handleUpdates('', '', opts);
       comps.each(model => this.handleChanges(model, value, opts));
+    },
+
+    handleChangesColl(model, coll) {
+      const um = em.get('UndoManager');
+      if (um && coll instanceof Backbone.Collection) {
+        const handleChanges = this.handleChanges.bind(this);
+        const handleRemoves = this.handleRemoves.bind(this);
+        um.add(coll);
+        [[coll, 'add', handleChanges], [coll, 'remove', handleRemoves]].forEach(
+          els => {
+            em.stopListening(els[0], els[1], els[2]);
+            em.listenTo(els[0], els[1], els[2]);
+          }
+        );
+      }
     },
 
     /**
@@ -286,33 +318,37 @@ module.exports = () => {
      * @return {Object} Loaded data
      */
     load(data = '') {
+      const { em } = this;
       let result = '';
 
       if (!data && c.stm) {
         data = c.em.getCacheLoad();
       }
 
-      if (data.components) {
-        try {
-          result = JSON.parse(data.components);
-        } catch (err) {}
-      } else if (data.html) {
-        result = data.html;
+      const { components, html } = data;
+
+      if (components) {
+        if (isObject(components) || isArray(components)) {
+          result = components;
+        } else {
+          try {
+            result = JSON.parse(components);
+          } catch (err) {
+            em && em.logError(err);
+          }
+        }
+      } else if (html) {
+        result = html;
       }
 
       const isObj = result && result.constructor === Object;
 
       if ((result && result.length) || isObj) {
         this.clear();
-        this.getComponents().reset();
 
         // If the result is an object I consider it the wrapper
         if (isObj) {
-          this.getWrapper()
-            .set(result)
-            .initComponents()
-            .initClasses()
-            .loadTraits();
+          this.getWrapper().set(result);
         } else {
           this.getComponents().add(result);
         }
@@ -339,9 +375,10 @@ module.exports = () => {
       }
 
       if (keys.indexOf('components') >= 0) {
-        const toStore = c.storeWrapper
-          ? this.getWrapper()
-          : this.getComponents();
+        const { em } = this;
+        // const storeWrap = (em && !em.getConfig('avoidInlineStyle')) || c.storeWrapper;
+        const storeWrap = c.storeWrapper;
+        const toStore = storeWrap ? this.getWrapper() : this.getComponents();
         obj.components = JSON.stringify(toStore);
       }
 
@@ -362,7 +399,7 @@ module.exports = () => {
     },
 
     /**
-     * Returns root component inside the canvas. Something like <body> inside HTML page
+     * Returns root component inside the canvas. Something like `<body>` inside HTML page
      * The wrapper doesn't differ from the original Component Model
      * @return {Component} Root Component
      * @example
@@ -454,8 +491,7 @@ module.exports = () => {
      * @return {this}
      */
     clear() {
-      var c = this.getComponents();
-      for (var i = 0, len = c.length; i < len; i++) c.pop();
+      this.getComponents().reset();
       return this;
     },
 
@@ -503,23 +539,49 @@ module.exports = () => {
       return;
     },
 
+    selectAdd(component, opts = {}) {
+      if (component) {
+        component.set({
+          status: 'selected'
+        });
+        ['component:selected', 'component:toggled'].forEach(event =>
+          this.em.trigger(event, component, opts)
+        );
+      }
+    },
+
+    selectRemove(component, opts = {}) {
+      if (component) {
+        const { em } = this;
+        component.set({
+          status: '',
+          state: ''
+        });
+        ['component:deselected', 'component:toggled'].forEach(event =>
+          this.em.trigger(event, component, opts)
+        );
+      }
+    },
+
     /**
-     * Triggered when the selected component is changed
+     * Triggered when the component is hovered
      * @private
      */
-    componentChanged() {
+    componentHovered() {
       const em = c.em;
-      const model = em.get('selectedComponent');
-      const previousModel = em.previous('selectedComponent');
+      const model = em.get('componentHovered');
+      const previous = em.previous('componentHovered');
+      const state = 'hovered';
 
       // Deselect the previous component
-      previousModel &&
-        previousModel.set({
+      previous &&
+        previous.get('status') == state &&
+        previous.set({
           status: '',
           state: ''
         });
 
-      model && model.set('status', 'selected');
+      model && isEmpty(model.get('status')) && model.set('status', state);
     }
   };
 };

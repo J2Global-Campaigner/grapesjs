@@ -204,44 +204,22 @@ module.exports = () => {
       // Core commands
       defaultCommands['core:undo'] = e => e.UndoManager.undo();
       defaultCommands['core:redo'] = e => e.UndoManager.redo();
-      defaultCommands['core:canvas-clear'] = e => {
-        e.DomComponents.clear();
-        e.CssComposer.clear();
-      };
-      defaultCommands['core:copy'] = ed => {
-        const em = ed.getModel();
-        const model = ed.getSelected();
-
-        if (model && model.get('copyable') && !ed.Canvas.isInputFocused()) {
-          em.set('clipboard', model);
-        }
-      };
-      defaultCommands['core:paste'] = ed => {
-        const em = ed.getModel();
-        const clp = em.get('clipboard');
-        const model = ed.getSelected();
-        const coll = model && model.collection;
-
-        if (coll && clp && !ed.Canvas.isInputFocused()) {
-          const at = coll.indexOf(model) + 1;
-          coll.add(clp.clone(), { at });
-        }
-      };
-      defaultCommands['core:component-delete'] = (ed, sender, opts = {}) => {
-        let component = opts.component || ed.getSelected();
-
-        if (!component || !component.get('removable')) {
-          console.warn('The element is not removable');
-          return;
-        }
-        //add logic for customImg handling
-        if(component.parent().get('type') === "customImg")
-          component.parent().destroy();
-
-        ed.select(null);
-        component.destroy();
-        return component;
-      };
+      [
+        ['copy', 'CopyComponent'],
+        ['paste', 'PasteComponent'],
+        ['component-next', 'ComponentNext'],
+        ['component-prev', 'ComponentPrev'],
+        ['component-enter', 'ComponentEnter'],
+        ['component-exit', 'ComponentExit'],
+        ['canvas-clear', 'CanvasClear'],
+        ['component-delete', 'ComponentDelete'],
+        ['component-style-clear', 'ComponentStyleClear']
+      ].forEach(
+        item =>
+          (defaultCommands[`core:${item[0]}`] = require(`./view/${
+            item[1]
+          }`).run)
+      );
 
       if (c.em) c.model = c.em.get('Canvas');
 

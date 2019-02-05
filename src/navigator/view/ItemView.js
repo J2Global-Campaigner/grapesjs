@@ -1,13 +1,18 @@
-import { isUndefined } from 'underscore';
+import { isUndefined, isString } from 'underscore';
+import { getModel } from 'utils/mixins';
+import Backbone from 'backbone';
 const ComponentView = require('dom_components/view/ComponentView');
 const inputProp = 'contentEditable';
+const $ = Backbone.$;
 let ItemsView;
 
-module.exports = require('backbone').View.extend({
+module.exports = Backbone.View.extend({
   events: {
     'mousedown [data-toggle-move]': 'startSort',
+    'touchstart [data-toggle-move]': 'startSort',
     'click [data-toggle-visible]': 'toggleVisibility',
     'click [data-toggle-select]': 'handleSelect',
+    'mouseover [data-toggle-select]': 'handleHover',
     'click [data-toggle-open]': 'toggleOpening',
     'dblclick [data-name]': 'handleEdit',
     'focusout [data-name]': 'handleEditEnd'
@@ -26,6 +31,7 @@ module.exports = require('backbone').View.extend({
     const level = this.level + 1;
     const gut = `${30 + level * 10}px`;
     const name = model.getName();
+
     return `
       ${
         hidable
@@ -34,7 +40,6 @@ module.exports = require('backbone').View.extend({
             }" data-toggle-visible></i>`
           : ''
       }
-
       <div class="${clsTitleC}">
         <div class="${clsTitle}" style="padding-left: ${gut}" data-toggle-select>
           <div class="${pfx}layer-title-inn">
@@ -48,8 +53,7 @@ module.exports = require('backbone').View.extend({
       <div class="${this.clsMove}" data-toggle-move>
         <i class="fa fa-arrows"></i>
       </div>
-      <div class="${this.clsChildren}"></div>
-    `;
+      <div class="${this.clsChildren}"></div>`;
   },
 
   initialize(o = {}) {
@@ -65,8 +69,7 @@ module.exports = require('backbone').View.extend({
     const model = this.model;
     const components = model.get('components');
     model.set('open', false);
-    this.listenTo(components, 'remove add change reset', this.checkChildren);
-    this.listenTo(model, 'destroy remove', this.remove);
+    this.listenTo(components, 'remove add reset', this.checkChildren);
     this.listenTo(model, 'change:status', this.updateStatus);
     this.listenTo(model, 'change:open', this.updateOpening);
     this.listenTo(model, 'change:style:display', this.updateVisibility);
@@ -81,6 +84,7 @@ module.exports = require('backbone').View.extend({
     this.clsNoChild = `${pfx}layer-no-chld`;
     this.$el.data('model', model);
     this.$el.data('collection', components);
+    model.viewLayer = this;
   },
 
   getVisibilityEl() {
@@ -128,9 +132,11 @@ module.exports = require('backbone').View.extend({
    */
   handleEdit(e) {
     e && e.stopPropagation();
+    const em = this.em;
     const inputEl = this.getInputName();
     inputEl[inputProp] = true;
     inputEl.focus();
+    em && em.setEditing(1);
   },
 
   /**
@@ -138,10 +144,12 @@ module.exports = require('backbone').View.extend({
    */
   handleEditEnd(e) {
     e && e.stopPropagation();
+    const em = this.em;
     const inputEl = this.getInputName();
     const name = inputEl.textContent;
     inputEl[inputProp] = false;
     this.model.set({ name });
+    em && em.setEditing(0);
   },
 
   /**
@@ -195,7 +203,23 @@ module.exports = require('backbone').View.extend({
    */
   handleSelect(e) {
     e.stopPropagation();
-    this.em && this.em.setSelected(this.model, { fromLayers: 1 });
+    const { em, config } = this;
+
+    if (em) {
+      const model = this.model;
+      em.setSelected(model, { fromLayers: 1 });
+      const scroll = config.scrollCanvas;
+      scroll && em.get('Canvas').scrollTo(model, scroll);
+    }
+  },
+
+  /**
+   * Handle component selection
+   */
+  handleHover(e) {
+    e.stopPropagation();
+    const { em, config, model } = this;
+    em && config.showHover && em.setHovered(model, { fromLayers: 1 });
   },
 
   /**
@@ -206,7 +230,7 @@ module.exports = require('backbone').View.extend({
     e.stopPropagation();
     const sorter = this.sorter;
     // Right or middel click
-    if (e.button !== 0) return;
+    if (e.button && e.button !== 0) return;
     sorter && sorter.startSort(e.target);
   },
 
@@ -232,7 +256,11 @@ module.exports = require('backbone').View.extend({
    * @param	Event
    * */
   updateStatus(e) {
-    ComponentView.prototype.updateStatus.apply(this, arguments);
+    ComponentView.prototype.updateStatus.apply(this, [
+      {
+        avoidHover: !this.config.highlightHover
+      }
+    ]);
   },
 
   /**
@@ -254,7 +282,7 @@ module.exports = require('backbone').View.extend({
    * */
   checkChildren() {
     const model = this.model;
-    const c = this.countChildren(model);
+    const count = this.countChildren(model);
     const pfx = this.pfx;
     const noChildCls = this.clsNoChild;
     const title = this.$el
@@ -265,9 +293,9 @@ module.exports = require('backbone').View.extend({
       this.cnt = this.$el.children(`.${this.clsCount}`);
     }
 
-    if (c) {
+    if (count) {
       title.removeClass(noChildCls);
-      this.cnt.html(c);
+      this.cnt.html(count);
     } else {
       title.addClass(noChildCls);
       this.cnt.empty();
@@ -293,7 +321,7 @@ module.exports = require('backbone').View.extend({
   },
 
   getCaret() {
-    if (!this.caret) {
+    if (!this.caret || !this.caret.length) {
       const pfx = this.pfx;
       this.caret = this.$el
         .children(`.${this.clsTitleC}`)
@@ -303,13 +331,22 @@ module.exports = require('backbone').View.extend({
     return this.caret;
   },
 
+  setRoot(el) {
+    el = isString(el) ? this.em.getWrapper().find(el)[0] : el;
+    const model = getModel(el, $);
+    if (!model) return;
+    this.stopListening();
+    this.model = model;
+    this.initialize(this.opt);
+    this.render();
+  },
+
   render() {
     const model = this.model;
     var pfx = this.pfx;
     var vis = this.isVisible();
-    const el = this.$el;
+    const el = this.$el.empty();
     const level = this.level + 1;
-    el.html(this.template(model));
 
     if (isUndefined(ItemsView)) {
       ItemsView = require('./ItemsView');
@@ -323,7 +360,13 @@ module.exports = require('backbone').View.extend({
       parent: model,
       level
     }).render().$el;
-    el.find(`.${this.clsChildren}`).append(children);
+
+    if (!this.config.showWrapper && level === 1) {
+      el.append(children);
+    } else {
+      el.html(this.template(model));
+      el.find(`.${this.clsChildren}`).append(children);
+    }
 
     if (!model.get('draggable') || !this.config.sortable) {
       el.children(`.${this.clsMove}`).remove();

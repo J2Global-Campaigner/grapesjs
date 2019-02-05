@@ -45,6 +45,18 @@ var defaultOpts = {
   // If true the container of handlers won't be updated
   avoidContainerUpdate: 0,
 
+  // If height is 'auto', this setting will preserve it and only update  width
+  keepAutoHeight: false,
+
+  // If width is 'auto', this setting will preserve it and only update height
+  keepAutoWidth: false,
+
+  // When keepAutoHeight is true and the height has the value 'auto', this is set to true and height isn't updated
+  autoHeight: false,
+
+  // When keepAutoWidth is true and the width has the value 'auto', this is set to true and width isn't updated
+  autoWidth: false,
+
   // Handlers
   tl: 1, // Top left
   tc: 1, // Top center
@@ -409,11 +421,11 @@ class Resizer {
       this.selectedHandler = el;
       this.start(e);
     } else if (el !== this.el) {
-       //we want the selected element to remain selected if we click off the canvas
+      //we want the selected element to remain selected if we click off the canvas
       //Let's check if the selected element's document contains the wrapper
       //If not, do not blur as we've clicked off the canvas
-      if(wrapper != null) //wrapper does not exist based on selected element's document
-      {
+      if (wrapper != null) {
+        //wrapper does not exist based on selected element's document
         this.selectedHandler = '';
         this.blur();
       }

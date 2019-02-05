@@ -1,32 +1,32 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const pkg = require('./package.json');
 const webpack = require('webpack');
+const path = require('path');
 const fs = require('fs');
-
 let plugins = [];
 
 module.exports = env => {
-
-
+  const name = pkg.name;
+  const isProd = env === 'prod';
   const output = {
-    filename: './dist/js/grapes.min.js',
-    library: 'grapesjs',
+    path: path.join(__dirname),
+    filename: 'dist/grapes.min.js',
+    library: name,
     libraryTarget: 'umd',
   };
-  console.log(env);
-  if (env.production) {
+
+  if (isProd) {
     plugins = [
       new webpack.optimize.ModuleConcatenationPlugin(),
-      new webpack.optimize.UglifyJsPlugin({ minimize:true, compressor: {warnings:false}}),
-      new webpack.BannerPlugin(`${pkg.name} - ${pkg.version}`),
+      new webpack.BannerPlugin(`${name} - ${pkg.version}`),
     ];
-  } else if (env.development) {
-    output.filename = './dist/js/grapes.js';
+  } else if (env === 'dev') {
+    output.filename = 'dist/grapes.js';
   } else {
     const index = 'index.html';
     const indexDev = `_${index}`;
     const template = fs.existsSync(indexDev) ? indexDev : index;
-    plugins.push(new HtmlWebpackPlugin({ template }));
+    plugins.push(new HtmlWebpackPlugin({ template, inject: false }));
   }
 
   plugins.push(new webpack.ProvidePlugin({
@@ -38,14 +38,17 @@ module.exports = env => {
     entry: './src',
     output: output,
     plugins: plugins,
+    mode: isProd ? 'production' : 'development',
+    devtool: 'source-map',
+    devServer: { headers: { 'Access-Control-Allow-Origin': '*' } },
     module: {
-      loaders: [{
+      rules: [{
         test: /\/index\.js$/,
         loader: 'string-replace-loader',
-        // query: {
-        //   search: '<# VERSION #>',
-        //   replace: pkg.version
-        // }
+        query: {
+          search: '<# VERSION #>',
+          replace: pkg.version
+        }
       },{
         test: /\.js$/,
         loader: 'babel-loader',

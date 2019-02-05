@@ -1,3 +1,4 @@
+import { isString } from 'underscore';
 var Backbone = require('backbone');
 var ComponentView = require('./ComponentView');
 
@@ -14,29 +15,28 @@ module.exports = ComponentView.extend({
     ComponentView.prototype.initialize.apply(this, arguments);
     //this.listenTo(model, 'change:src', this.updateSrc);
     //this.listenTo(model, 'dblclick active', this.openModal);
-  
-
-
     this.classEmpty = `${this.ppfx}plh-image`;
     const config = this.config;
     config.modal && (this.modal = config.modal);
     config.am && (this.am = config.am);
     this.fetchFile();
   },
-  openSettings: function (e) {
+  openSettings: function(e) {
     e.preventDefault();
     editor.select(this.model);
-    editor.showPanel('properties'); 
+    editor.showPanel('properties');
 
-  // we don't want the slider to be used for the width, make it an integer
-  $("#gjs-sm-width").removeClass('gjs-sm-slider').addClass('gjs-sm-integer');
-  $("#gjs-sm-width .gjs-field-range").hide();
-  let widthProp = editor.StyleManager.getProperty("Dimension", "width");
-  widthProp.set('type', 'integer');
-  widthProp.set("min", 0);
-  widthProp.set("max", "");
-  widthProp.set("step", 1);
-  widthProp.unset("showInput");
+    // we don't want the slider to be used for the width, make it an integer
+    $('#gjs-sm-width')
+      .removeClass('gjs-sm-slider')
+      .addClass('gjs-sm-integer');
+    $('#gjs-sm-width .gjs-field-range').hide();
+    let widthProp = editor.StyleManager.getProperty('Dimension', 'width');
+    widthProp.set('type', 'integer');
+    widthProp.set('min', 0);
+    widthProp.set('max', '');
+    widthProp.set('step', 1);
+    widthProp.unset('showInput');
 
     //var w = e.target.style.width;
     //var h = e.target.style.height;
@@ -45,43 +45,47 @@ module.exports = ComponentView.extend({
     //img src
     try {
       var src = this.model.get('attributes').src;
-      if(src.indexOf("imgPlaceholder150x150") > -1) src = "";
-      editor.TraitManager.getTraitsViewer().collection.models[1].setTargetValue(src);
-    
-    }
-    catch (x) { }
+      if (src.indexOf('imgPlaceholder150x150') > -1) src = '';
+      editor.TraitManager.getTraitsViewer().collection.models[1].setTargetValue(
+        src
+      );
+    } catch (x) {}
 
     //img alt
     try {
       var alt = this.model.get('attributes').alt;
-      if (alt == null || alt == "null")
-        alt = "";
-      editor.TraitManager.getTraitsViewer().collection.models[2].setTargetValue(alt);
-    }
-    catch (x) { }
+      if (alt == null || alt == 'null') alt = '';
+      editor.TraitManager.getTraitsViewer().collection.models[2].setTargetValue(
+        alt
+      );
+    } catch (x) {}
 
     //href
     try {
       var href = this.model.get('attributes').href;
-      if (href == null)
-        href = "";
-      editor.TraitManager.getTraitsViewer().collection.models[3].setTargetValue(href);
-    }
-    catch (x) { }
+      if (href == null) href = '';
+      editor.TraitManager.getTraitsViewer().collection.models[3].setTargetValue(
+        href
+      );
+    } catch (x) {}
 
     //name & track link checkbox
     try {
       var name = this.model.get('attributes').name;
-      if (name == null)
-        name = "";
-      editor.TraitManager.getTraitsViewer().collection.models[5].setTargetValue(name);
+      if (name == null) name = '';
+      editor.TraitManager.getTraitsViewer().collection.models[5].setTargetValue(
+        name
+      );
 
-      if (name == "LinkIsNotTracked" || name == '' || name == null)
-        editor.TraitManager.getTraitsViewer().collection.models[4].setTargetValue(false);
+      if (name == 'LinkIsNotTracked' || name == '' || name == null)
+        editor.TraitManager.getTraitsViewer().collection.models[4].setTargetValue(
+          false
+        );
       else
-        editor.TraitManager.getTraitsViewer().collection.models[4].setTargetValue(true);
-    }
-    catch (x) { }
+        editor.TraitManager.getTraitsViewer().collection.models[4].setTargetValue(
+          true
+        );
+    } catch (x) {}
 
     //refresh the view
     editor.TraitManager.getTraitsViewer().render();
@@ -107,7 +111,7 @@ module.exports = ComponentView.extend({
         },
         res => {
           const obj = res && res.data && res.data[0];
-          const src = obj && obj.src;
+          const src = obj && (isString(obj) ? obj : obj.src);
           src && model.set({ src });
         }
       );
@@ -120,20 +124,19 @@ module.exports = ComponentView.extend({
    * @private
    * */
   updateSrc() {
-    const src = this.model.get('src');
-    const el = this.$el;
-    el.attr('src', src);
-    el[src ? 'removeClass' : 'addClass'](this.classEmpty);
+    const { model, classEmpty, $el } = this;
+    const src = model.get('src');
+    model.addAttributes({ src });
+    $el[src ? 'removeClass' : 'addClass'](classEmpty);
   },
-
-  
 
   /**
    * Open dialog for image changing
    * @param  {Object}  e  Event
    * @private
    * */
-  openModal(e) {
+  onActive(ev) {
+    ev && ev.stopPropagation();
     var em = this.opts.config.em;
     var editor = em ? em.get('Editor') : '';
 
@@ -150,11 +153,14 @@ module.exports = ComponentView.extend({
     }
   },
 
-
   render() {
-    this.updateAttributes();
-    this.updateClasses();
-   
+    this.renderAttributes();
+    const { $el, model } = this;
+    const cls = $el.attr('class') || '';
+    !model.get('src') && $el.attr('class', `${cls} ${this.classEmpty}`.trim());
+    // Avoid strange behaviours with drag and drop
+    $el.attr('onmousedown', 'return false');
+    this.postRender();
 
     var actCls = this.$el.attr('class') || '';
     if (!this.model.get('src'))
@@ -165,4 +171,3 @@ module.exports = ComponentView.extend({
     return this;
   }
 });
-

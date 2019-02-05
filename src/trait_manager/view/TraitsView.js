@@ -1,9 +1,10 @@
-var DomainViews = require('domain_abstract/view/DomainViews');
-var TraitView = require('./TraitView');
-var TraitSelectView = require('./TraitSelectView');
-var TraitCheckboxView = require('./TraitCheckboxView');
-var TraitNumberView = require('./TraitNumberView');
-var TraitColorView = require('./TraitColorView');
+const DomainViews = require('domain_abstract/view/DomainViews');
+const TraitView = require('./TraitView');
+const TraitSelectView = require('./TraitSelectView');
+const TraitCheckboxView = require('./TraitCheckboxView');
+const TraitNumberView = require('./TraitNumberView');
+const TraitColorView = require('./TraitColorView');
+const TraitButtonView = require('./TraitButtonView');
 
 module.exports = DomainViews.extend({
   itemView: TraitView,
@@ -23,9 +24,8 @@ module.exports = DomainViews.extend({
     this.pfx = config.stylePrefix || '';
     this.ppfx = config.pStylePrefix || '';
     this.className = this.pfx + 'traits';
-    this.listenTo(this.em, 'change:selectedComponent', this.updatedCollection);
-    // const toListen = 'component:selected component:update:traits';
-    // this.listenTo(this.em, toListen, this.updatedCollection);
+    const toListen = 'component:toggled';
+    //this.listenTo(this.em, toListen, this.updatedCollection);
     this.updatedCollection();
   },
 
@@ -37,10 +37,7 @@ module.exports = DomainViews.extend({
     const ppfx = this.ppfx;
     const comp = this.em.getSelected();
     this.el.className = `${this.className} ${ppfx}one-bg ${ppfx}two-color`;
-
-    if (comp) {
-      this.collection = comp.get('traits');
-      this.render();
-    }
+    this.collection = comp ? comp.get('traits') : [];
+    this.render();
   }
 });

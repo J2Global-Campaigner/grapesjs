@@ -47,7 +47,7 @@ module.exports = require('backbone')
       },
       {
         id: 'select',
-        model: require('./PropertyRadio'),
+        model: require('./PropertySelect').default,
         view: require('./../view/PropertySelectView'),
         isType(value) {
           if (value && value.type == 'select') {
@@ -119,6 +119,7 @@ module.exports = require('backbone')
       const values = value.split(' ');
       values.forEach((value, i) => {
         const property = this.at(i);
+        if (!property) return;
         properties.push({ ...property.attributes, ...{ value } });
       });
       return properties;

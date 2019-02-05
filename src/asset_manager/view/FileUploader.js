@@ -1,3 +1,5 @@
+import _ from 'underscore';
+import Backbone from 'backbone';
 import fetch from 'utils/fetch';
 
 module.exports = Backbone.View.extend(
@@ -5,7 +7,7 @@ module.exports = Backbone.View.extend(
     template: _.template(`
   <form>
     <div id="<%= pfx %>title"><%= title %></div>
-    <input type="file" id="<%= uploadId %>" name="file" accept="*/*" <%= disabled ? 'disabled' : '' %> multiple/>
+    <input type="file" id="<%= uploadId %>" name="file" accept="*/*" <%= disabled ? 'disabled' : '' %> <%= multiUpload ? 'multiple' : '' %>/>
     <div style="clear:both;"></div>
   </form>
   `),
@@ -24,6 +26,7 @@ module.exports = Backbone.View.extend(
         c.disableUpload !== undefined
           ? c.disableUpload
           : !c.upload && !c.embedAsBase64;
+      this.multiUpload = c.multiUpload !== undefined ? c.multiUpload : true;
       this.events['change #' + this.uploadId] = 'uploadFile';
       let uploadFile = c.uploadFile;
 
@@ -76,7 +79,13 @@ module.exports = Backbone.View.extend(
       const em = this.config.em;
       const config = this.config;
       const target = this.target;
-      const json = typeof text === 'string' ? JSON.parse(text) : text;
+      let json;
+      try {
+        json = typeof text === 'string' ? JSON.parse(text) : text;
+      } catch (e) {
+        json = text;
+      }
+
       em && em.trigger('asset:upload:response', json);
 
       if (config.autoAdd && target) {
@@ -99,12 +108,16 @@ module.exports = Backbone.View.extend(
       const config = this.config;
       const params = config.params;
 
-      for (let i = 0; i < files.length; i++) {
-        body.append(`${config.uploadName}[]`, files[i]);
-      }
-
       for (let param in params) {
         body.append(param, params[param]);
+      }
+
+      if (this.multiUpload) {
+        for (let i = 0; i < files.length; i++) {
+          body.append(`${config.uploadName}[]`, files[i]);
+        }
+      } else if (files.length) {
+        body.append(config.uploadName, files[0]);
       }
 
       var target = this.target;
@@ -120,7 +133,7 @@ module.exports = Backbone.View.extend(
         this.onUploadStart();
         return fetch(url, {
           method: 'post',
-          credentials: 'include',
+          credentials: config.credentials || 'include',
           headers,
           body
         })
@@ -227,6 +240,7 @@ module.exports = Backbone.View.extend(
           title: this.config.uploadText,
           uploadId: this.uploadId,
           disabled: this.disabled,
+          multiUpload: this.multiUpload,
           pfx: this.pfx
         })
       );

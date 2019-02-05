@@ -17,6 +17,7 @@ module.exports = Backbone.View.extend({
     const name = model.get('name');
     const target = model.target;
     this.config = o.config || {};
+    this.em = this.config.em;
     this.pfx = this.config.stylePrefix || '';
     this.ppfx = this.config.pStylePrefix || '';
     this.target = target;
@@ -27,6 +28,7 @@ module.exports = Backbone.View.extend({
     this.inputhClass = this.ppfx + 'input-holder';
     model.off('change:value', this.onValueChange);
     this.listenTo(model, 'change:value', this.onValueChange);
+    model.view = this;
     this.tmpl =
       '<div class="' +
       this.fieldClass +
@@ -64,7 +66,7 @@ module.exports = Backbone.View.extend({
       this.setInputValue(mod.get('value'));
     } else {
       const value = this.getValueForTarget();
-      mod.setTargetValue(value);
+      mod.setTargetValue(value, opts);
     }
   },
 
@@ -73,8 +75,9 @@ module.exports = Backbone.View.extend({
    * @private
    */
   renderLabel() {
+    const label = this.getLabel();
     this.$el.html(
-      '<div class="' + this.labelClass + '">' + this.getLabel() + '</div>'
+      `<div class="${this.labelClass}" title="${label}">${label}</div>`
     );
   },
 
@@ -96,20 +99,16 @@ module.exports = Backbone.View.extend({
    */
   getInputEl() {
     if (!this.$input) {
-      var md = this.model;
-      var trg = this.target;
-      var name = md.get('name');
+      const md = this.model;
       const plh = md.get('placeholder') || md.get('default') || '';
       const type = md.get('type') || 'text';
-      const attrs = trg.get('attributes');
       const min = md.get('min');
       const max = md.get('max');
-      const value = md.get('changeProp')
-        ? trg.get(name)
-        : md.get('value') || attrs[name];
+      const value = this.getModelValue();
       const input = $(`<input type="${type}" placeholder="${plh}">`);
 
       if (value) {
+        md.set({ value }, { silent: true });
         input.prop('value', value);
       }
 
@@ -127,19 +126,19 @@ module.exports = Backbone.View.extend({
   },
 
   getModelValue() {
-    var value;
-    var model = this.model;
-    var target = this.target;
-    var name = model.get('name');
+    let value;
+    const model = this.model;
+    const target = this.target;
+    const name = model.get('name');
 
     if (model.get('changeProp')) {
       value = target.get(name);
     } else {
-      var attrs = target.get('attributes');
+      const attrs = target.get('attributes');
       value = model.get('value') || attrs[name];
     }
 
-    return value;
+    return !isUndefined(value) ? value : '';
   },
 
   /**

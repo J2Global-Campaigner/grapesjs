@@ -40,12 +40,11 @@ module.exports = config => {
      * // ['test1', 'test2', 'test3']
      */
     parseClass(str) {
-      var result = [];
-      var cls = str.split(' ');
-      for (var i = 0, len = cls.length; i < len; i++) {
-        var cl = cls[i].trim();
-        var reg = new RegExp('^' + c.pStylePrefix);
-        if (!cl || reg.test(cl)) continue;
+      const result = [];
+      const cls = str.split(' ');
+      for (let i = 0, len = cls.length; i < len; i++) {
+        const cl = cls[i].trim();
+        if (!cl) continue;
         result.push(cl);
       }
       return result;
@@ -72,15 +71,22 @@ module.exports = config => {
         // Start with understanding what kind of component it is
         if (ct) {
           let obj = '';
+          let type =
+            node.getAttribute && node.getAttribute(`${modelAttrStart}type`);
 
-          // Iterate over all available Component Types and
-          // the first with a valid result will be that component
-          for (let it = 0; it < ct.length; it++) {
-            obj = ct[it].model.isComponent(node);
-            if (obj) break;
+          // If the type is already defined, use it
+          if (type) {
+            model = { type };
+          } else {
+            // Iterate over all available Component Types and
+            // the first with a valid result will be that component
+            for (let it = 0; it < ct.length; it++) {
+              obj = ct[it].model.isComponent(node);
+              if (obj) break;
+            }
+
+            model = obj;
           }
-
-          model = obj;
         }
 
         // Set tag name if not yet done
@@ -180,14 +186,10 @@ module.exports = config => {
             //   break;
             // }
 
-
             if (c.textTags.indexOf(comp.tagName) !== -1) {
-                comp.hoverable = false;
-                comp.selectable = false;
+              comp.hoverable = false;
+              comp.selectable = false;
             }
-  
-
-
 
             if (cType == 'textnode') {
               foundTextNode = 1;

@@ -206,22 +206,12 @@ module.exports = {
     var canvas = this.canvas;
     var config = canvas.getConfig();
     var customeLabel = config.customBadgeLabel;
-
     this.cacheEl = el;
     var model = $el.data('model');
     if (!model || !model.get('badgable')) return;
     var badge = this.getBadge();
     var badgeLabel = model.getIcon() + model.getName();
-
-    if(model.get("customBadgeLabel"))
-      customeLabel = model.get("customBadgeLabel");
-
-    badgeLabel = customeLabel ? customeLabel : badgeLabel;
-
-    //add some logic to handle image badges inheriting trait: name and displaying that instead of 'Image'
-    if($el.is("img"))
-    badgeLabel = "Image";
-
+    badgeLabel = customeLabel ? customeLabel(model) : badgeLabel;
     badge.innerHTML = badgeLabel;
     var bStyle = badge.style;
     var u = 'px';
@@ -278,15 +268,16 @@ module.exports = {
     const model = this.em.getSelected();
     this.updateToolbar(model);
 
-    if (model) {
+    if (view) {
       try {
-        const el = model.view.el;
+        const { el } = view;
         this.showFixedElementOffset(el);
         this.hideElementOffset();
         this.hideHighlighter();
         this.initResize(el);
+      } catch (x) {
+        console.log(x);
       }
-      catch(x) {}
     } else {
       this.editor.stopCommand('resize');
     }
@@ -518,12 +509,8 @@ module.exports = {
 
     if (model) {
       var view = model.view;
-      if(view) {
-        if(view.el) {
-          this.updateToolbarPos(view.el);
-          this.showFixedElementOffset(view.el);
-        }
-      }
+      this.updateToolbarPos(view.el);
+      this.showFixedElementOffset(view.el);
     }
   },
 

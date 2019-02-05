@@ -1,4 +1,5 @@
-import { extend } from 'underscore';
+import Backbone from 'backbone';
+import { extend, isString } from 'underscore';
 
 const SectorView = require('./SectorView');
 
@@ -21,7 +22,7 @@ module.exports = Backbone.View.extend({
     this.propTarget = target;
     const coll = this.collection;
     const events =
-      'change:selectedComponent component:update:classes component:update:state change:device';
+      'component:toggled component:update:classes component:update:state change:device';
     this.listenTo(coll, 'add', this.addTo);
     this.listenTo(coll, 'reset', this.render);
     this.listenTo(this.target, events, this.targetUpdated);
@@ -82,6 +83,47 @@ module.exports = Backbone.View.extend({
     state && appendStateRule(model.getStyle());
     pt.model = model;
     pt.trigger('update');
+  },
+
+  /**
+   * Select different target for the Style Manager.
+   * It could be a Component, CSSRule, or a string of any CSS selector
+   * @param {Component|CSSRule|String} target
+   * @return {Styleable} A Component or CSSRule
+   */
+  setTarget(target, opts = {}) {
+    const em = this.target;
+    const config = em.get('Config');
+    const { targetIsClass, stylable } = opts;
+    let model = target;
+
+    if (isString(target)) {
+      let rule;
+      const rules = em.get('CssComposer').getAll();
+
+      if (targetIsClass) {
+        rule = rules.filter(
+          rule => rule.get('selectors').getFullString() === target
+        )[0];
+      }
+
+      if (!rule) {
+        rule = rules.filter(rule => rule.get('selectorsAdd') === target)[0];
+      }
+
+      if (!rule) {
+        rule = rules.add({ selectors: [], selectorsAdd: target });
+      }
+
+      stylable && rule.set({ stylable });
+      model = rule;
+    }
+
+    const state = !config.devicePreviewMode ? model.get('state') : '';
+    const pt = this.propTarget;
+    pt.model = model;
+    pt.trigger('styleManager:update', model);
+    return model;
   },
 
   /**

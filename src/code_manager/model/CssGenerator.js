@@ -1,3 +1,7 @@
+import { isUndefined, each } from 'underscore';
+
+const maxValue = Number.MAX_VALUE;
+
 module.exports = require('backbone').Model.extend({
   initialize() {
     this.compCls = [];
@@ -22,7 +26,7 @@ module.exports = require('backbone').Model.extend({
     // Let's know what classes I've found
     classes.each(model => this.compCls.push(model.getFullName()));
 
-    if ((!avoidInline || isWrapper) && style) {
+    if (!avoidInline && style) {
       let selector = `#${model.getId()}`;
       selector = wrappesIsBody && isWrapper ? 'body' : selector;
       code = `${selector}{${style}}`;
@@ -40,6 +44,10 @@ module.exports = require('backbone').Model.extend({
     this.compCls = [];
     this.ids = [];
     var code = this.buildFromModel(model, opts);
+    const clearStyles =
+      isUndefined(opts.clearStyles) && em
+        ? em.getConfig('clearStyles')
+        : opts.clearStyles;
 
     if (cssc) {
       const rules = cssc.getAll();
@@ -62,20 +70,27 @@ module.exports = require('backbone').Model.extend({
         code += this.buildFromRule(rule, dump, opts);
       });
 
-      // Get at-rules
-      for (let atRule in atRules) {
+      this.sortMediaObject(atRules).forEach(item => {
         let rulesStr = '';
-        const mRules = atRules[atRule];
-        mRules.forEach(
-          rule => (rulesStr += this.buildFromRule(rule, dump, opts))
-        );
+        const atRule = item.key;
+        const mRules = item.value;
+
+        mRules.forEach(rule => {
+          const ruleStr = this.buildFromRule(rule, dump, opts);
+
+          if (rule.get('singleAtRule')) {
+            code += `${atRule}{${ruleStr}}`;
+          } else {
+            rulesStr += ruleStr;
+          }
+        });
 
         if (rulesStr) {
           code += `${atRule}{${rulesStr}}`;
         }
-      }
+      });
 
-      em && em.getConfig('clearStyles') && rules.remove(dump);
+      em && clearStyles && rules.remove(dump);
     }
 
     return code;
@@ -113,5 +128,31 @@ module.exports = require('backbone').Model.extend({
     }
 
     return result;
+  },
+
+  /**
+   * Get the numeric length of the media query string
+   * @param  {String} mediaQuery Media query string
+   * @return {Number}
+   */
+  getQueryLength(mediaQuery) {
+    const length = /(-?\d*\.?\d+)\w{0,}/.exec(mediaQuery);
+    if (!length) return maxValue;
+
+    return parseFloat(length[1]);
+  },
+
+  /**
+   * Return a sorted array from media query object
+   * @param  {Object} items
+   * @return {Array}
+   */
+  sortMediaObject(items = {}) {
+    const result = {};
+    const itemsArr = [];
+    each(items, (value, key) => itemsArr.push({ key, value }));
+    return itemsArr.sort(
+      (a, b) => this.getQueryLength(b.key) - this.getQueryLength(a.key)
+    );
   }
 });

@@ -1,16 +1,19 @@
+import Backbone from 'backbone';
+
 module.exports = Backbone.View.extend({
   events: {
     click: 'active',
     'click [data-close-layer]': 'remove',
-    'mousedown [data-move-layer]': 'initSorter'
+    'mousedown [data-move-layer]': 'initSorter',
+    'touchstart [data-move-layer]': 'initSorter'
   },
 
   template(model) {
-    const pfx = this.pfx;
+    const { pfx, ppfx } = this;
     const label = `Layer ${model.get('index')}`;
 
     return `
-      <div id="${pfx}move" data-move-layer>
+      <div id="${pfx}move" class="${ppfx}no-touch-actions" data-move-layer>
         <i class="fa fa-arrows"></i>
       </div>
       <div id="${pfx}label">${label}</div>
@@ -30,16 +33,13 @@ module.exports = Backbone.View.extend({
     this.stackModel = o.stackModel || {};
     this.config = o.config || {};
     this.pfx = this.config.stylePrefix || '';
+    this.ppfx = this.config.pStylePrefix || '';
     this.sorter = o.sorter || null;
     this.propsConfig = o.propsConfig || {};
     this.customPreview = o.onPreview;
     this.listenTo(model, 'destroy remove', this.remove);
     this.listenTo(model, 'change:active', this.updateVisibility);
     this.listenTo(model.get('properties'), 'change', this.updatePreview);
-
-    if (!model.get('preview')) {
-      this.$el.addClass(this.pfx + 'no-preview');
-    }
 
     // For the sorter
     model.view = this;
@@ -148,9 +148,8 @@ module.exports = Backbone.View.extend({
   render() {
     const PropertiesView = require('./PropertiesView');
     const propsConfig = this.propsConfig;
-    const className = `${this.pfx}layer`;
-    const model = this.model;
-    const el = this.el;
+    const { model, el, pfx } = this;
+    const preview = model.get('preview');
     const properties = new PropertiesView({
       collection: model.get('properties'),
       config: this.config,
@@ -159,8 +158,9 @@ module.exports = Backbone.View.extend({
       propTarget: propsConfig.propTarget,
       onChange: propsConfig.onChange
     }).render().el;
+
     el.innerHTML = this.template(model);
-    el.className = className;
+    el.className = `${pfx}layer${!preview ? ` ${pfx}no-preview` : ''}`;
     this.getPropertiesWrapper().appendChild(properties);
     this.updateVisibility();
     this.updatePreview();

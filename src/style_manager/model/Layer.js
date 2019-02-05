@@ -1,3 +1,5 @@
+import Backbone from 'backbone';
+
 module.exports = Backbone.Model.extend({
   defaults: {
     index: '',
@@ -29,6 +31,15 @@ module.exports = Backbone.Model.extend({
 
       this.set('value', val.trim());
     }
+  },
+
+  /**
+   * Get property at some index
+   * @param  {Number} index
+   * @return {Object}
+   */
+  getPropertyAt(index) {
+    return this.get('properties').at(index);
   },
 
   getPropertyValue(property) {

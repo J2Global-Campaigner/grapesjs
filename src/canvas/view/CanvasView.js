@@ -1,4 +1,5 @@
-import { on, off } from 'utils/mixins';
+import Backbone from 'backbone';
+import { on, off, getElement } from 'utils/mixins';
 const FrameView = require('./FrameView');
 const $ = Backbone.$;
 
@@ -23,7 +24,7 @@ module.exports = Backbone.View.extend({
    * @return {Boolean}
    */
   isElInViewport(el) {
-    const rect = el.getBoundingClientRect();
+    const rect = getElement(el).getBoundingClientRect();
     const frameRect = this.getFrameOffset(1);
     const rTop = rect.top;
     const rLeft = rect.left;
@@ -79,19 +80,20 @@ module.exports = Backbone.View.extend({
    * @private
    */
   renderBody() {
-    var wrap = this.model.get('frame').get('wrapper');
-    var em = this.config.em;
-    if (wrap) {
-      var ppfx = this.ppfx;
-      //var body = this.frame.$el.contents().find('body');
-      var body = $(this.frame.el.contentWindow.document.body);
-      var cssc = em.get('CssComposer');
-      var conf = em.get('Config');
-      var confCanvas = this.config;
-      var protCss = conf.protectedCss;
-      var externalStyles = '';
+    const { config, model } = this;
+    const wrap = this.model.get('frame').get('wrapper');
+    const em = config.em;
 
-      confCanvas.styles.forEach(style => {
+    if (wrap) {
+      const Canvas = em.get('Canvas');
+      const ppfx = this.ppfx;
+      const body = $(Canvas.getBody());
+      const head = $(Canvas.getDocument().head);
+      const cssc = em.get('CssComposer');
+      const conf = em.get('Config');
+      let externalStyles = '';
+
+      config.styles.forEach(style => {
         externalStyles += `<link rel="stylesheet" href="${style}"/>`;
       });
 
@@ -154,11 +156,11 @@ module.exports = Backbone.View.extend({
         }
 
         ${conf.canvasCss || ''}
-        ${protCss || ''}
+        ${conf.protectedCss || ''}
       `;
 
       if (externalStyles) {
-        body.append(externalStyles);
+        head.append(externalStyles);
       }
 
       body.append('<style>' + frameCss + '</style>');
@@ -311,7 +313,7 @@ module.exports = Backbone.View.extend({
     view.el.id = id;
     view.scriptContainer.html('');
     // In editor, I make use of setTimeout as during the append process of elements
-    // those will not be available immediatly, therefore 'item' variable
+    // those will not be available immediately, therefore 'item' variable
     const script = document.createElement('script');
     script.innerHTML = `
         setTimeout(function() {

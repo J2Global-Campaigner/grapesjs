@@ -25,7 +25,7 @@ module.exports = {
         }
       ];
 
-      beforeEach(function() {
+      beforeEach(() => {
         const col = new CssRules([]);
         obj = new CssRulesView({
           collection: col,
@@ -45,12 +45,12 @@ module.exports = {
         obj.collection.reset();
       });
 
-      it('Object exists', () => {
-        expect(CssRulesView).toExist();
+      test('Object exists', () => {
+        expect(CssRulesView).toBeTruthy();
       });
 
-      it('Collection is empty. Styles structure bootstraped', () => {
-        expect(obj.$el.html()).toExist();
+      test('Collection is empty. Styles structure bootstraped', () => {
+        expect(obj.$el.html()).toBeTruthy();
         const foundStylesContainers = obj.$el.find('div');
         expect(foundStylesContainers.length).toEqual(devices.length);
 
@@ -61,20 +61,22 @@ module.exports = {
               ((right && right.replace('px', '')) || Number.MAX_VALUE) -
               ((left && left.replace('px', '')) || Number.MAX_VALUE)
             );
-          });
+          })
+          .map(widthMedia => parseFloat(widthMedia));
+
         foundStylesContainers.each(($styleC, idx) => {
           const width = sortedDevicesWidthMedia[idx];
           expect($styleC.id).toEqual(`${prefix}${width ? `-${width}` : ''}`);
         });
       });
 
-      it('Add new rule', () => {
+      test('Add new rule', () => {
         sinon.stub(obj, 'addToCollection');
         obj.collection.add({});
-        expect(obj.addToCollection.calledOnce).toExist(true);
+        expect(obj.addToCollection.calledOnce).toBeTruthy();
       });
 
-      it('Add correctly rules with different media queries', () => {
+      test('Add correctly rules with different media queries', () => {
         const foundStylesContainers = obj.$el.find('div');
         const rules = [
           {
@@ -98,9 +100,9 @@ module.exports = {
         expect(stylesCont.children.length).toEqual(rules.length);
       });
 
-      it('Render new rule', () => {
+      test('Render new rule', () => {
         obj.collection.add({});
-        expect(obj.$el.find(`#${prefix}`).html()).toExist();
+        expect(obj.$el.find(`#${prefix}`).html()).toBeTruthy();
       });
     });
   }

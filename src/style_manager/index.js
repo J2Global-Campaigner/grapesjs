@@ -1,43 +1,39 @@
 /**
- * With Style Manager you basically build categories (called sectors) of CSS properties which could
- * be used to custom components and classes.
- * You can init the editor with all sectors and properties via configuration
- *
+ * With Style Manager you build categories (called sectors) of CSS properties which could be used to customize the style of components.
+ * You can customize the initial state of the module from the editor initialization, by passing the following [Configuration Object](https://github.com/artf/grapesjs/blob/master/src/style_manager/config/config.js)
  * ```js
- * var editor = grapesjs.init({
- *   ...
- *  styleManager: {...} // Check below for the possible properties
- *   ...
- * });
+ * const editor = grapesjs.init({
+ *  styleManager: {
+ *    // options
+ *  }
+ * })
  * ```
  *
- * Before using methods you should get first the module from the editor instance, in this way:
+ * Once the editor is instantiated you can use its API. Before using these methods you should get the module from the instance
  *
  * ```js
- * var styleManager = editor.StyleManager;
+ * const styleManager = editor.StyleManager;
  * ```
+ *
+ * * [getConfig](#getconfig)
+ * * [addSector](#addsector)
+ * * [getSector](#getsector)
+ * * [removeSector](#removesector)
+ * * [getSectors](#getsectors)
+ * * [addProperty](#addproperty)
+ * * [getProperty](#getproperty)
+ * * [removeProperty](#removeproperty)
+ * * [getProperties](#getproperties)
+ * * [getModelToStyle](#getmodeltostyle)
+ * * [getModelToStyle](#getmodeltostyle)
+ * * [addType](#addtype)
+ * * [getType](#gettype)
+ * * [getTypes](#gettypes)
+ * * [createType](#createtype)
  *
  * @module StyleManager
- * @param {Object} config Configurations
- * @param {Array<Object>} [config.sectors=[]] Array of possible sectors
- * @example
- * ...
- * styleManager: {
- *    sectors: [{
- *      id: 'dim',
- *      name: 'Dimension',
- *      properties: [{
- *        name: 'Width',
- *        property: 'width',
- *        type: 'integer',
- *        units: ['px', '%'],
- *        defaults: 'auto',
- *        min: 0,
-          }],
- *     }],
- * }
- * ...
  */
+
 import { isElement } from 'underscore';
 
 module.exports = () => {
@@ -60,7 +56,6 @@ module.exports = () => {
     /**
      * Get configuration object
      * @return {Object}
-     * @private
      */
     getConfig() {
       return c;
@@ -69,6 +64,7 @@ module.exports = () => {
     /**
      * Initialize module. Automatically called with a new instance of the editor
      * @param {Object} config Configurations
+     * @private
      */
     init(config) {
       c = config || {};
@@ -78,15 +74,19 @@ module.exports = () => {
 
       var ppfx = c.pStylePrefix;
       if (ppfx) c.stylePrefix = ppfx + c.stylePrefix;
-
       properties = new Properties();
-      sectors = new Sectors(c.sectors, c);
+      sectors = new Sectors([], c);
       SectView = new SectorsView({
         collection: sectors,
         target: c.em,
         config: c
       });
+
       return this;
+    },
+
+    onLoad() {
+      sectors.add(c.sectors);
     },
 
     postRender() {
@@ -270,27 +270,29 @@ module.exports = () => {
         const opts = { state };
         let rule;
 
+        // I stop undo manager here as after adding the CSSRule (generally after
+        // selecting the component) and calling undo() it will remove the rule from
+        // the collection, therefore updating it in style manager will not affect it
+        // #268
+        um.stop();
+
         if (hasClasses) {
           const deviceW = em.getCurrentMedia();
           rule = cssC.get(valid, state, deviceW);
 
           if (!rule) {
-            // I stop undo manager here as after adding the CSSRule (generally after
-            // selecting the component) and calling undo() it will remove the rule from
-            // the collection, therefore updating it in style manager will not affect it
-            // #268
-            um.stop();
             rule = cssC.add(valid, state, deviceW);
             rule.setStyle(model.getStyle());
             model.setStyle({});
-            um.start();
           }
         } else if (config.avoidInlineStyle) {
           rule = cssC.getIdRule(id, opts);
           !rule && (rule = cssC.setIdRule(id, {}, opts));
+          if (model.is('wrapper')) rule.set('wrapper', 1);
         }
 
         rule && (model = rule);
+        um.start();
       }
 
       return model;
@@ -303,7 +305,8 @@ module.exports = () => {
      *                            `model` (business logic), `view` (presentation logic)
      *                            and `isType` function which recognize the type of the
      *                            passed entity
-     * addType('my-type', {
+     *@example
+     * styleManager.addType('my-type', {
      *  model: {},
      *  view: {},
      *  isType: (value) => {
@@ -362,8 +365,23 @@ module.exports = () => {
     },
 
     /**
+     * Select different target for the Style Manager.
+     * It could be a Component, CSSRule, or a string of any CSS selector
+     * @param {Component|CSSRule|String} target
+     * @return {Styleable} A Component or CSSRule
+     */
+    setTarget(target, opts) {
+      return SectView.setTarget(target, opts);
+    },
+
+    getEmitter() {
+      return SectView.propTarget;
+    },
+
+    /**
      * Render sectors and properties
      * @return  {HTMLElement}
+     * @private
      * */
     render() {
       return SectView.render().el;

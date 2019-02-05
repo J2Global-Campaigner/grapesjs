@@ -1,3 +1,5 @@
+import _ from 'underscore';
+import Backbone from 'backbone';
 const SelectPosition = require('./SelectPosition');
 const $ = Backbone.$;
 
@@ -10,7 +12,7 @@ module.exports = _.extend({}, SelectPosition, {
   },
 
   /**
-   * Start with enabling to select position and listening to start drawning
+   * Start with enabling to select position and listening to start drawing
    * @private
    * */
   enable(...args) {

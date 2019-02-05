@@ -30,6 +30,11 @@ module.exports = {
   // Width for the editor container
   width: '100%',
 
+  // Type of logs to print with the logger (by default is used the devtool console).
+  // Available by default: debug, info, warning, error
+  // You can use `false` to disable all of them or `true` to print all of them
+  log: ['warning', 'error'],
+
   // By default Grapes injects base CSS into the canvas. For example, it sets body margin to 0
   // and sets a default background color of white. This CSS is desired in most cases.
   // use this property if you wish to overwrite the base CSS to your own CSS. This is most
@@ -65,7 +70,7 @@ module.exports = {
   `,
 
   // CSS that could only be seen (for instance, inside the code viewer)
-  protectedCss:'',
+  protectedCss: '',
 
   // CSS for the iframe which containing the canvas, useful if you need to custom something inside
   // (eg. the style of the selected component)
@@ -104,6 +109,9 @@ module.exports = {
 
   // Enable native HTML5 drag and drop
   nativeDnD: 1,
+
+  // Enable multiple selection
+  multipleSelection: 1,
 
   // Show the wrapper component in the final code, eg. in editor.getHtml()
   exportWrapper: 0,
