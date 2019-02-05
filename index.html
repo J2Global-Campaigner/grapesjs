@@ -1,549 +1,126 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>GrapesJS</title>
-    <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./dist/css/grapes.min.css" type="text/css">
-    <link rel="stylesheet" href="./dist/css/grapesjs-preset-newsletter.css" type="text/css">
-    <link rel="stylesheet" href="./dist/css/tooltips.css" type="text/css">
-    <!-- <link rel="stylesheet" href="./dist/css/grapesjs_custom.css" type="text/css"> -->
-    <link rel="stylesheet" href="./dev/editor.css" type="text/css">
-    <link rel="stylesheet" href="./dev/custom.css" type="text/css">
-
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
-    <script src="./dist/js/grapes.js"></script>
-
-    <script src="./plugins/grapesjs-mjml/dist/grapesjs-mjml.min.js"></script>
-
-    <script src="./dist/js/grapesjs-preset-newsletter.min.js"></script>
-    <script src="./plugins/CKEditor/ckeditor-dev/dev/builder/release/ckeditor/ckeditor.js"></script>
-    <script src="./dist/js/grapesjs-plugin-ckeditor.min.js"></script>
-
+    <link rel="stylesheet" href="dist/css/grapes.min.css">
+    <script src="dist/grapes.js"></script>
     <style>
       body,
       html {
         height: 100%;
+        margin: 0;
       }
-   
-
-
-     
     </style>
   </head>
-  <body>
 
-    <div id="gjs" style="height:0px; overflow:hidden">
-    
-      <mj-container>
-     
-      </mj-container>
+  <body>
+    <div id="gjs" style="height:0px; overflow:hidden;">
+      <div class="panel">
+        <h1 class="welcome">Welcome to</h1>
+        <div class="big-title">
+          <svg class="logo" viewBox="0 0 100 100">
+            <path d="M40 5l-12.9 7.4 -12.9 7.4c-1.4 0.8-2.7 2.3-3.7 3.9 -0.9 1.6-1.5 3.5-1.5 5.1v14.9 14.9c0 1.7 0.6 3.5 1.5 5.1 0.9 1.6 2.2 3.1 3.7 3.9l12.9 7.4 12.9 7.4c1.4 0.8 3.3 1.2 5.2 1.2 1.9 0 3.8-0.4 5.2-1.2l12.9-7.4 12.9-7.4c1.4-0.8 2.7-2.2 3.7-3.9 0.9-1.6 1.5-3.5 1.5-5.1v-14.9 -12.7c0-4.6-3.8-6-6.8-4.2l-28 16.2"/>
+          </svg>
+          <span>GrapesJS</span>
+        </div>
+        <div class="description">
+          This is a demo content from index.html. For the development, you shouldn't edit this file, instead you can
+          copy and rename it to _index.html, on next server start the new file will be served, and it will be ignored by git.
+        </div>
+      </div>
+      <style>
+        .panel {
+          width: 90%;
+          max-width: 700px;
+          border-radius: 3px;
+          padding: 30px 20px;
+          margin: 150px auto 0px;
+          background-color: #d983a6;
+          box-shadow: 0px 3px 10px 0px rgba(0,0,0,0.25);
+          color:rgba(255,255,255,0.75);
+          font: caption;
+          font-weight: 100;
+        }
+
+        .welcome {
+          text-align: center;
+          font-weight: 100;
+          margin: 0px;
+        }
+
+        .logo {
+          width: 70px;
+          height: 70px;
+          vertical-align: middle;
+        }
+
+        .logo path {
+          pointer-events: none;
+          fill: none;
+          stroke-linecap: round;
+          stroke-width: 7;
+          stroke: #fff
+        }
+
+        .big-title {
+          text-align: center;
+          font-size: 3.5rem;
+          margin: 15px 0;
+        }
+
+        .description {
+          text-align: justify;
+          font-size: 1rem;
+          line-height: 1.5rem;
+        }
+
+      </style>
     </div>
 
-
     <script type="text/javascript">
-    
-    var mergeFieldTags =  [{ value:'',name:''}, { value:'[Contact.FirstName]',name:'First Name'}, { value:'[Contact.LastName]',name:'Last Name' }];
-
-      $(document).ready(function() {
-
-        loadEditor();
-      //hack for ckeditor allowing edit of links and spans
-      CKEDITOR.dtd.$editable.a = 1
-      CKEDITOR.dtd.$editable.span = 1
-      CKEDITOR.dtd.$editable.strong = 1
-      CKEDITOR.dtd.$editable.b = 1
-      CKEDITOR.dtd.$editable.em = 1
-
-      //override default use of em tags in editor for italic content
-      CKEDITOR.config.coreStyles_italic =
-      {
-          element : 'span',
-          attributes : { 'style' : 'font-style:italic' }
-      };
-
-
-      });
-
-var editor;
-var protectedCSS = `.gjsProtectedCss{box-sizing:border-box;}*{box-sizing:border-box;}body{margin-top:0px;margin-right:0px;margin-bottom:0px;margin-left:0px;}@media only screen and (max-width: 470px), screen and (max-device-width: 470px){body{text-size-adjust:100%;line-height:125%;}img{max-width:100% !important;height:auto !important;}.row{flex-wrap:wrap !important;}table, td{max-width:100% !important;}p{margin-top:0px !important;margin-right:0px !important;margin-bottom:0px !important;margin-left:0px !important;}}
-  .row {display:flex;justify-content:flex-start;align-items:stretch;flex-wrap:nowrap;padding:10px;max-width:700px;margin:auto;min-height:95px;}
-  .cell {min-height:10px;flex-grow:1;flex-basis:100%;}`;
-
-function loadEditor() {
-   // Set up GrapesJS editor with the Newsletter plugin
-   
-    editor = grapesjs.init({
+      var editor = grapesjs.init({
+        showOffsets: 1,
+        noticeOnUnload: 0,
+        container: '#gjs',
         height: '100%',
-        //noticeOnUnload: 0,
-        storageManager:{
-          autoload: 0,
-        },
-        canvas: {
-            //add an external stylesheet to the editor canvas
-            styles: ['./dev/editor.css']
-
-        },
-        protectedCss: protectedCSS,
-        keepUnusedStyles: 1,
-        //wrappesIsBody: false,
-        forceClass: true,
-        container : '#gjs',
-        autorender: 0, 
         fromElement: true,
-        plugins: [
-             'gjs-mjml',
-             'gjs-preset-newsletter',
-             'gjs-plugin-ckeditor',
-             //'blocks'
-        ],
-        pluginsOpts: {
-          
-          'gjs-preset-newsletter': {
-            modalLabelImport: 'Paste all your code here below and click import',
-            modalLabelExport: 'Copy the code and use it wherever you want',
-            codeViewerTheme: 'material',
-            //defaultTemplate: templateImport,
-            importPlaceholder: '<table class="table"><tr><td class="cell">Hello world!</td></tr></table>',
-            cellStyle: {
-              'font-size': '12px',
-              'font-weight': 300,
-              'vertical-align': 'top',
-              color: 'rgb(111, 119, 125)',
-              margin: 0,
-              padding: 0,
+        storageManager: { autoload: 0 },
+        styleManager : {
+          sectors: [{
+              name: 'General',
+              open: false,
+              buildProps: ['float', 'display', 'position', 'top', 'right', 'left', 'bottom']
+            },{
+              name: 'Flex',
+              open: false,
+              buildProps: ['flex-direction', 'flex-wrap', 'justify-content', 'align-items', 'align-content', 'order', 'flex-basis', 'flex-grow', 'flex-shrink', 'align-self']
+            },{
+              name: 'Dimension',
+              open: false,
+              buildProps: ['width', 'height', 'max-width', 'min-height', 'margin', 'padding'],
+            },{
+              name: 'Typography',
+              open: false,
+              buildProps: ['font-family', 'font-size', 'font-weight', 'letter-spacing', 'color', 'line-height', 'text-shadow'],
+            },{
+              name: 'Decorations',
+              open: false,
+              buildProps: ['border-radius-c', 'background-color', 'border-radius', 'border', 'box-shadow', 'background'],
+            },{
+              name: 'Extra',
+              open: false,
+              buildProps: ['transition', 'perspective', 'transform'],
             }
-          },
-          'gjs-plugin-ckeditor': {
-            position: 'center',
-            options: {
-              startupFocus: true,
-              extraAllowedContent: '*(*);*{*}', // Allows any class and any inline style
-              allowedContent: true, // Disable auto-formatting, class removing, etc.
-              enterMode: CKEDITOR.ENTER_BR,
-              extraPlugins: 'sharedspace,justify,colorbutton,panelbutton,font,indent,indentblock,closebtn',
-              //we can comment out the toolbar section to see all options or keep the below and control
-              //what appears and where
-              toolbar: [
-              { name: 'styles', items: ['Font', 'FontSize'] },
-                      ['Bold', 'Italic', 'Underline', 'Strike', 'Superscript', 'Subscript', 'RemoveFormat'],
-                      { name: 'paragraph', items: ['JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock','NumberedList', 'BulletedList', 'Indent', 'Outdent', ] },
-                      { name: 'links', items: ['Link', 'Unlink', 'Anchor'] },
-                      { name: 'colors', items: ['TextColor', 'BGColor'] },
-                      { name: 'insert', items: ['Table', 'SpecialChar'] },
-                      { name: 'DynamicContent', items: ['mergeField'] },
-                      { name: 'closebtn', items: ['closebtn'] },
-              ],
-            },
-           
-          }
-        }
+          ],
+        },
       });
 
-
-   
-   
-   //get and set the html content to simulate campaigner behavior of a loaded campaign
-      var content = "";
-      if(localStorage.getItem('gjs-html') != null)
-        content = localStorage.getItem('gjs-html') + '<style>' + localStorage.getItem('gjs-css') + '</style>';
-
-      //clear local storage
-       //clear the CSS
-       editor.DomComponents.clear();
-       editor.CssComposer.clear()
-       editor.CssComposer.getAll().reset();
-       editor.DomComponents.getWrapper().setStyle('') //needed to reset the body background
-       setTimeout(function () {
-           clearLocalStorage();
-       }, 0);
-       editor.DomComponents.clear();
-       setTimeout(function () {
-           clearLocalStorage();
-       }, 0);
-           //lets try to fix these links
-    content = fixLinks(content);
-
-    //restore the content
-    editor.setComponents(content);
-    //editor.setStyle(content);
-
-   
-    editor.render();
-    var editorBody = editor.Canvas.getBody();
-
-
-    //setBodyWidth();
-
-  // Beautify tooltips
-     setTimeout(function() {beautifyTooltips(), 2000});
-
-      //  $(editor.Canvas.getWrapperEl()).bind("DOMSubtreeModified", function(e) {
-      //     console.log(e);
-      //     editor.RichTextEditor.udpatePosition();
-      //   });
-
-$(editor.Canvas.getWrapperEl()).keyup(function(e){
-  if(e.keyCode == 13){
-    //$(this).trigger('enter'); //cool idea to listen for a custom event in a backbone view
-    editor.RichTextEditor.udpatePosition();
-  }
-});
-
- 
- setEditorListeners();
- 
-  //move the classes section to the bottom of the style panel section
-  $(".gjs-pn-panels .gjs-clm-tags").parent().append($(".gjs-pn-panels .gjs-clm-tags"))
-
-  }
-
-
-
-
-  function setBodyWidth() {
-    //the wrapper width is not restored with setComponents (possible bug)
-    //we need to clear it from our css, then set it, otherwise will result in duplicate css rules
-    var editorCss = editor.getCss();
-    var wrapperCssItems = getWrapperCss(editorCss);
-    var wrapperElem = editor.DomComponents.getWrapper();
-
-    //do we have a body css rule defined, wrapperCssItems will be array length == 3 
-    if(wrapperCssItems.length == 3) {
-      //we have a defined body width, so we need to replcace body css with new css which excludes width
-      var newCss = editorCss.replace(wrapperCssItems[0], wrapperCssItems[1])
-      //clear the css
-      editor.CssComposer.clear(); 
-      //restore with new css
-      editor.setStyle(newCss);
-      //restore wrapper width
-      wrapperElem.set('style', {width: wrapperCssItems[2]} ); 
-    }
-    else {
-      wrapperElem.set('style', { width: '600px' }); 
-    }
-  }
-     
-  //return array in form [all body css, new body css (removed width), body width]
-  var getWrapperCss = function (styleContent) {
-    var doc = document.implementation.createHTMLDocument(""),
-        styleElement = document.createElement("style");
-    
-    styleElement.textContent = styleContent;
-    // the style will only be parsed once it is added to a document
-    doc.body.appendChild(styleElement);
-    var rule;
-    var ruleStyle = ""; //full body style
-    var newRuleStyle = ""; //will exclude width
-    var bodyWidth = "";
-    var returnVal = [];
-    for(var i=0;i<styleElement.sheet.cssRules.length;i++) {
-      rule = styleElement.sheet.cssRules[i];
-      if(rule.selectorText == "body") {
-        //loop through all of the style items
-        for(j=0;j<rule.style.length; j++) {
-          var prop = rule.style[j];
-          //we want all body styles, excluding width to be added to the newRuleStyle
-          if(prop != 'width') {
-            ruleStyle += rule.style[j] + ':' + rule.style[prop] + ';';
-            newRuleStyle += rule.style[j] + ':' + rule.style[prop] + ';';
-          }
-          else {
-            ruleStyle += rule.style[j] + ':' + rule.style[prop] + ';';
-            bodyWidth = rule.style[prop];
-          }
-        }
-        if(ruleStyle.length)
-          returnVal.push('body{' + ruleStyle + '}');
-        if(newRuleStyle.length)
-          returnVal.push('body{' + newRuleStyle + '}');
-        if(bodyWidth.length)
-          returnVal.push(bodyWidth);
-        
-      }
-        
-    }
-    return returnVal;
-};
-
-
-
-function fixLinks(content) {
-
-  var $html = $('<div />', {html:content});
-
-  $html.find('a').each(function() {
-    var $link = $(this);
-    if(!$link.hasClass('customImg') && !$link.attr('customLink'))
-    {
-      $link.attr('data-gjs-type', 'customLink' );
-      $link.attr('data-gjs-badgable', false );
-      $link.attr('data-gjs-selectable', false );
-      $link.attr('data-gjs-highlightable', false );
-      $link.attr('data-gjs-hoverable', false );
-      $link.attr('data-gjs-editable', false );
-    }
-    
-    });
-  return $html.html();
-}
-
-function updateMediaLibaryTrait() {
-      //console.log('updateMediaLibaryTrait fired');
-}
-
-function clearLocalStorage() {
-    var arr = []; // Array to hold the keys
-    // Iterate over localStorage and insert the keys that meet the condition into arr
-    for (var i = 0; i < localStorage.length; i++) {
-        if (localStorage.key(i).substring(0, 3) === 'gjs') {
-            arr.push(localStorage.key(i));
-        }
-    }
-
-    // Iterate over arr and remove the items by key
-    for (var j = 0; j < arr.length; j++) {
-        localStorage.removeItem(arr[j]);
-    }
-   
-}
-var importIdIndex = 0;
-function createId() {
-    if (importIdIndex == null || importIdIndex == undefined)
-        importIdIndex = 0;
-
-    importIdIndex++;
-    const ilen = importIdIndex.toString().length + 3;
-    const uid = (Math.random() + 1.1).toString(36).slice(-ilen);
-    const nextId = 'i' + uid;
-    return nextId;
-}
-   
-   function populateImportTemplates() {}
-   
-   function updateImportForEditor(code){return code;}
-
-   function beautifyTooltips() {
-    var titles = document.querySelectorAll('*[title]');
-      for (var i = 0; i < titles.length; i++) {
-        var el = titles[i];
-        var title = el.getAttribute('title');
-        title = title ? title.trim(): '';
-        if(!title)
-          break;
-        el.setAttribute('data-tooltip', title);
-        el.setAttribute('data-tooltip-pos', 'bottom');
-        el.setAttribute('title', '');
-      }
-   }
-   
-
-   function showQuickLinkDialog() {
-     console.log('Quicklink Dialog Called');
-
-
-     //hide the dialog
-     CKEDITOR.dialog.getCurrent().hide();
-
-     //hide the inline editor
-     $(".gjs-rte-toolbar").hide();
-   }
-
-
-   
-
-function expandSections() {
- //expand all the sections
- var sectors = editor.StyleManager.getSectors();
- for (var i = 0; i < sectors.length; i++) {
-     var m = sectors.models[i];
-     m.set("open", 1);
- }
-}
-
-  function setSliderValue(model) {
-
-      //the slider position does not get set properly, so set it here:
-      //get the style property:
-      var widthProp = editor.StyleManager.getProperty('Dimension', 'width');
-      //get the slider element
-      var sliderElem = widthProp.view.el.querySelector('input[type=range]')
-      //get the text element
-      var txtElem = widthProp.view.el.querySelector('input[type=text]');
-      var wrapperWidth;
-
-      if (model.is('mj-container')) {
-        //set the slider position to the wrapper width
-        wrapperWidth = model.attributes.attributes.width;
-        if (wrapperWidth) {
-          sliderElem.value = parseInt(wrapperWidth);
-          txtElem.value = parseInt(wrapperWidth);
-          $(sliderElem).attr("max", "1200");
-        }
-        else {
-          if (sliderElem) {
-            txtElem.value = 600;
-            sliderElem.value = 600;
-            model.set("width", "600px");
-            $(sliderElem).attr("max", "1200");
-          }
-        }
-      }
-      else if (model.is('mj-column')) {
-        //set the slider position to the wrapper width
-        wrapperWidth = $(editor.Canvas.getWrapperEl()).find('[data-type="mj-container"]').attr("width");
-        if (!wrapperWidth)
-          wrapperWidth = $(editor.Canvas.getWrapperEl()).find('[data-type="mj-container"]').children().first().width();
-        var colWidth = model.attributes.attributes.width;
-        if (colWidth) {
-          sliderElem.value = parseInt(colWidth);
-          txtElem.value = parseInt(colWidth);
-          $(sliderElem).attr("max", parseInt(wrapperWidth));
-        }
-        else {
-          colWidth = Math.round(model.view.$el.width());
-          sliderElem.value = colWidth;
-          $(sliderElem).attr("max", parseInt(wrapperWidth));
-          txtElem.value = colWidth;
-        }
-      }
-    }
-  
-
-function addAlignmentSector() {
-   //add new sector
-   editor.StyleManager.addSector('ca',{
-    name: 'Content Alignment',
-    open: true
-  });
-}
-
-
-function convertWidthToText() {
-  // we don't want the slider to be used for the width, make it an integer
-  $("#gjs-sm-width").removeClass('gjs-sm-slider').addClass('gjs-sm-integer');
-      $("#gjs-sm-width .gjs-field-range").hide();
-      var widthProp = editor.StyleManager.getProperty("Dimension", "width");
-      widthProp.set('type', 'integer');
-      widthProp.set("min", 0);
-      widthProp.set("max", "");
-      widthProp.set("step", 1);
-      widthProp.unset("showInput");
-}
-
-
-function convertWidthToSlider() {
-  // we don't want the slider to be used for the width, make it an integer
-  $("#gjs-sm-width").addClass('gjs-sm-slider').removeClass('gjs-sm-integer');
-      $("#gjs-sm-width .gjs-field-range").show();
-      var widthProp = editor.StyleManager.getProperty("Dimension", "width");
-      widthProp.set('type', 'range');
-      widthProp.set("min", 0);
-      widthProp.set("max", "1200");
-      widthProp.set("step", 10);
-      widthProp.set("showInput", 1);
-}
-
-
-
-function setEditorListeners() {
-
-    var pn = editor.Panels;
-    var osm = 'open-sm';
-    var otm = 'open-tm';
-    var ola = 'open-layers';
-    var obl = 'open-blocks';
-    var ful = 'fullscreen';
-    var prv = 'preview';
-
- const openSmBtn = pn.getButton('views', osm);
-
-   //organize blocks into sections
-   editor.on('load', function() {
-      $(".gjs-blocks-c .divider").after("<hr>");
-      $(".gjs-blocks-c .buttonBlock").after("<hr>");
-    });
-
-
-// On component change show the Style Manager
-editor.on('component:selected', () => {
-	const selected = editor.getSelected();
-
-  if (selected) {
-    if (selected.is('mj-container')) {
-      // Don't switch when the Layer Manager is on or
-      convertWidthToSlider();
-      setSliderValue(selected);
-    }
-    if (selected.is('mj-column')) {
-      var acSector = editor.StyleManager.getSector("ca");
-      if (acSector === null)
-        addAlignmentSector();
-      else
-        $("#gjs-sm-content_alignment").show();
-
-      //reposition the sector to the top
-      var alignmentSector = $("#gjs-sm-content_alignment");
-      $("#gjs-sm-content_alignment").insertBefore($("#gjs-sm-decorations"));
-
-      convertWidthToSlider();
-      setSliderValue(selected);
-
-      // //add our event listeners to both select elements
-      // $("#gjs-sm-content_alignment select").each(function() {
-      //   $(this).on("change", function(e){
-      //       updateClass(selected);
-      //   })	
-      // });
-    }
-    if(selected.is('mj-image')) {
-      //set the style dimensions, not being picked up auto-magically
-      var widthProp = editor.StyleManager.getProperty('Dimension', 'width');
-      var heightProp = editor.StyleManager.getProperty('Dimension', 'height');
-      //get the text element
-      var txtElemW = widthProp.view.el.querySelector('input[type=text]');
-      txtElemW.value = selected.view.$el.find("img").width();
-
-      var txtElemH = heightProp.view.el.querySelector('input[type=text]');
-      txtElemH.value = selected.view.$el.find("img").height();
-
-      heightProp.view.$el.find(".input-unit option:nth-child(2)").attr("selected", "")
-      heightProp.view.$el.find(".input-unit option:nth-child(2)").removeAttr("selected")
-      heightProp.view.$el.find(".input-unit option").first().attr("selected", "")
-    }
-    else
-      $("#gjs-sm-content_alignment").hide();
-
-    //hide the typography sector for all comps except wrapper/body
-    if (selected.get('wrapper'))
-      $("#gjs-sm-typography").show();
-    else
-      $("#gjs-sm-typography").hide();
-
-      if(selected.get('type') !== 'mj-image') {
-        openSmBtn && openSmBtn.set('active', 1);
-        expandSections();
-      }
-
-  }
-});
-
-//on component drop show the style manager
-editor.on('canvas:drop', (DataTransfer, model) => {
-  try {  
-    if(model) {
-      if(model.get('type') !== "mj-image") {
-        editor.select(model);
-      }
-    }
-  }
-  catch(x) {}
-});
-}
-
-
-   </script>
+      editor.BlockManager.add('testBlock', {
+        label: 'Block',
+        attributes: { class:'gjs-fonts gjs-f-b1' },
+        content: `<div style="padding-top:50px; padding-bottom:50px; text-align:center">Test block</div>`
+      })
+    </script>
   </body>
 </html>

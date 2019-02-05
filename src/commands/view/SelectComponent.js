@@ -1,4 +1,4 @@
-import { bindAll, isElement } from 'underscore';
+import { bindAll, isElement, isUndefined } from 'underscore';
 import { on, off, getUnitFromValue } from 'utils/mixins';
 
 const ToolbarView = require('dom_components/view/ToolbarView');
@@ -9,7 +9,7 @@ let showOffsets;
 
 module.exports = {
   init(o) {
-    bindAll(this, 'onHover', 'onOut', 'onClick', 'onKeyPress', 'onFrameScroll');
+    bindAll(this, 'onHover', 'onOut', 'onClick', 'onFrameScroll');
   },
 
   enable() {
@@ -53,26 +53,8 @@ module.exports = {
     methods[method](body, 'mouseout', this.onOut);
     methods[method](body, 'click', this.onClick);
     methods[method](win, 'scroll resize', this.onFrameScroll);
-    methods[method](win, 'keydown', this.onKeyPress);
-    em[method]('change:selectedComponent', this.onSelect, this);
-  },
-
-  /**
-   * On key press event
-   * @private
-   * */
-  onKeyPress(e) {
-    var key = e.which || e.keyCode;
-    var comp = this.editorModel.get('selectedComponent');
-    var focused = this.frameEl.contentDocument.activeElement.tagName !== 'BODY';
-
-    // On CANC (46) or Backspace (8)
-    if (key == 8 || key == 46) {
-      if (!focused) e.preventDefault();
-      if (comp && !focused) {
-        this.editor.runCommand('core:component-delete');
-      }
-    }
+    em[method]('component:toggled', this.onSelect, this);
+    em[method]('change:componentHovered', this.onHovered, this);
   },
 
   /**
@@ -83,25 +65,40 @@ module.exports = {
   onHover(e) {
     e.stopPropagation();
     let trg = e.target;
-    const model = $(trg).data('model');
+    let $el = $(trg);
+    let model = $el.data('model');
+
+    if (!model) {
+      let parent = $el.parent();
+      while (!model && parent) {
+        model = parent.data('model');
+        parent = parent.parent();
+      }
+    }
 
     // Adjust tools scroll top
     if (!this.adjScroll) {
       this.adjScroll = 1;
-      this.onFrameScroll(e);
       this.updateAttached();
     }
 
     if (model && !model.get('hoverable')) {
-      let comp = model && model.parent();
-      while (comp && !comp.get('hoverable')) comp = comp.parent();
-      comp && (trg = comp.view.el);
+      let parent = model && model.parent();
+      while (parent && !parent.get('hoverable')) parent = parent.parent();
+      model = parent;
     }
 
-    const pos = this.getElementPos(trg);
-    this.updateBadge(trg, pos);
-    this.updateHighlighter(trg, pos);
-    this.showElementOffset(trg, pos);
+    this.em.setHovered(model, { forceChange: 1 });
+  },
+
+  onHovered(em, component) {
+    const trg = component && component.getEl();
+    if (trg) {
+      const pos = this.getElementPos(trg);
+      this.updateBadge(trg, pos);
+      this.updateHighlighter(trg, pos);
+      this.showElementOffset(trg, pos);
+    }
   },
 
   /**
@@ -180,19 +177,86 @@ module.exports = {
    */
   onClick(e) {
     e.stopPropagation();
-    const model = $(e.target).data('model');
+    const $el = $(e.target);
     const editor = this.editor;
+    let model = $el.data('model');
+
+    if (!model) {
+      let parent = $el.parent();
+      while (!model && parent) {
+        model = parent.data('model');
+        parent = parent.parent();
+      }
+    }
 
     if (model) {
       if (model.get('selectable')) {
-        editor.select(model);
-        this.initResize(model);
+        this.select(model, e);
       } else {
         let parent = model.parent();
         while (parent && !parent.get('selectable')) parent = parent.parent();
-        parent && editor.select(parent);
+        this.select(parent, e);
       }
     }
+  },
+
+  /**
+   * Select component
+   * @param  {Component} model
+   * @param  {Event} event
+   */
+  select(model, event = {}) {
+    if (!model) return;
+    const ctrlKey = event.ctrlKey || event.metaKey;
+    const shiftKey = event.shiftKey;
+    const { editor } = this;
+    const multiple = editor.getConfig('multipleSelection');
+    const em = this.em;
+
+    if (ctrlKey && multiple) {
+      editor.selectToggle(model);
+    } else if (shiftKey && multiple) {
+      em.clearSelection(editor.Canvas.getWindow());
+      const coll = model.collection;
+      const index = coll.indexOf(model);
+      const selAll = editor.getSelectedAll();
+      let min, max;
+
+      // Fin min and max siblings
+      editor.getSelectedAll().forEach(sel => {
+        const selColl = sel.collection;
+        const selIndex = selColl.indexOf(sel);
+        if (selColl === coll) {
+          if (selIndex < index) {
+            // First model BEFORE the selected one
+            min = isUndefined(min) ? selIndex : Math.max(min, selIndex);
+          } else if (selIndex > index) {
+            // First model AFTER the selected one
+            max = isUndefined(max) ? selIndex : Math.min(max, selIndex);
+          }
+        }
+      });
+
+      if (!isUndefined(min)) {
+        while (min !== index) {
+          editor.selectAdd(coll.at(min));
+          min++;
+        }
+      }
+
+      if (!isUndefined(max)) {
+        while (max !== index) {
+          editor.selectAdd(coll.at(max));
+          max--;
+        }
+      }
+
+      editor.selectAdd(model);
+    } else {
+      editor.select(model);
+    }
+
+    this.initResize(model);
   },
 
   /**
@@ -266,18 +330,15 @@ module.exports = {
     // Get the selected model directly from the Editor as the event might
     // be triggered manually without the model
     const model = this.em.getSelected();
+    const view = model && model.view;
     this.updateToolbar(model);
 
     if (view) {
-      try {
-        const { el } = view;
-        this.showFixedElementOffset(el);
-        this.hideElementOffset();
-        this.hideHighlighter();
-        this.initResize(el);
-      } catch (x) {
-        console.log(x);
-      }
+      const { el } = view;
+      this.showFixedElementOffset(el);
+      this.hideElementOffset();
+      this.hideHighlighter();
+      this.initResize(el);
     } else {
       this.editor.stopCommand('resize');
     }
@@ -289,7 +350,7 @@ module.exports = {
    * @private
    */
   initResize(elem) {
-    const em = this.em;
+    const { em, canvas } = this;
     const editor = em ? em.get('Editor') : '';
     const config = em ? em.get('Config') : '';
     const pfx = config.stylePrefix || '';
@@ -319,14 +380,30 @@ module.exports = {
         // Here the resizer is updated with the current element height and width
         onStart(e, opts = {}) {
           const { el, config, resizer } = opts;
-          const { keyHeight, keyWidth, currentUnit } = config;
+          const {
+            keyHeight,
+            keyWidth,
+            currentUnit,
+            keepAutoHeight,
+            keepAutoWidth
+          } = config;
           toggleBodyClass('add', e, opts);
           modelToStyle = em.get('StyleManager').getModelToStyle(model);
           const computedStyle = getComputedStyle(el);
           const modelStyle = modelToStyle.getStyle();
-          const currentWidth = modelStyle[keyWidth] || computedStyle[keyWidth];
-          const currentHeight =
-            modelStyle[keyHeight] || computedStyle[keyHeight];
+
+          let currentWidth = modelStyle[keyWidth];
+          config.autoWidth = keepAutoWidth && currentWidth === 'auto';
+          if (isNaN(parseFloat(currentWidth))) {
+            currentWidth = computedStyle[keyWidth];
+          }
+
+          let currentHeight = modelStyle[keyHeight];
+          config.autoHeight = keepAutoHeight && currentHeight === 'auto';
+          if (isNaN(parseFloat(currentHeight))) {
+            currentHeight = computedStyle[keyHeight];
+          }
+
           resizer.startDim.w = parseFloat(currentWidth);
           resizer.startDim.h = parseFloat(currentHeight);
           showOffsets = 0;
@@ -354,17 +431,30 @@ module.exports = {
           }
 
           const { store, selectedHandler, config } = options;
-          const { keyHeight, keyWidth } = config;
+          const {
+            keyHeight,
+            keyWidth,
+            autoHeight,
+            autoWidth,
+            unitWidth,
+            unitHeight
+          } = config;
           const onlyHeight = ['tc', 'bc'].indexOf(selectedHandler) >= 0;
           const onlyWidth = ['cl', 'cr'].indexOf(selectedHandler) >= 0;
           const style = modelToStyle.getStyle();
 
           if (!onlyHeight) {
-            style[keyWidth] = rect.w + config.unitWidth;
+            const padding = 10;
+            const frameOffset = canvas.getCanvasView().getFrameOffset();
+            const width =
+              rect.w < frameOffset.width - padding
+                ? rect.w
+                : frameOffset.width - padding;
+            style[keyWidth] = autoWidth ? 'auto' : `${width}${unitWidth}`;
           }
 
           if (!onlyWidth) {
-            style[keyHeight] = rect.h + config.unitHeight;
+            style[keyHeight] = autoHeight ? 'auto' : `${rect.h}${unitHeight}`;
           }
 
           modelToStyle.setStyle(style, { avoidStore: 1 });
@@ -398,7 +488,7 @@ module.exports = {
    */
   updateToolbar(mod) {
     var em = this.config.em;
-    var model = mod == em ? em.get('selectedComponent') : mod;
+    var model = mod == em ? em.getSelected() : mod;
     var toolbarEl = this.canvas.getToolbarEl();
     var toolbarStyle = toolbarEl.style;
 
@@ -429,7 +519,9 @@ module.exports = {
 
       this.toolbar.reset(toolbar);
       const view = model.view;
-      view && this.updateToolbarPos(view.el);
+      toolbarStyle.top = '-100px';
+      toolbarStyle.left = 0;
+      setTimeout(() => view && this.updateToolbarPos(view.el), 0);
     } else {
       toolbarStyle.display = 'none';
     }
@@ -441,20 +533,37 @@ module.exports = {
    * @param {Object} pos
    */
   updateToolbarPos(el, elPos) {
-    var unit = 'px';
-    var toolbarEl = this.canvas.getToolbarEl();
-    var toolbarStyle = toolbarEl.style;
-    const origDisp = toolbarStyle.display;
-    toolbarStyle.display = 'block';
-    var pos = this.canvas.getTargetToElementDim(toolbarEl, el, {
+    const { canvas } = this;
+    const unit = 'px';
+    const toolbarEl = canvas.getToolbarEl();
+    const toolbarStyle = toolbarEl.style;
+    toolbarStyle.opacity = 0;
+    const pos = canvas.getTargetToElementDim(toolbarEl, el, {
       elPos,
       event: 'toolbarPosUpdate'
     });
+
     if (pos) {
+      const frameOffset = canvas.getCanvasView().getFrameOffset();
+
+      // Scroll with the window if the top edge is reached and the
+      // element is bigger than the canvas
+      if (
+        pos.top <= pos.canvasTop &&
+        !(pos.elementHeight + pos.targetHeight >= frameOffset.height)
+      ) {
+        pos.top = pos.elementTop + pos.elementHeight;
+      }
+
+      // Check if not outside of the canvas
+      if (pos.left < pos.canvasLeft) {
+        pos.left = pos.canvasLeft;
+      }
+
       var leftPos = pos.left + pos.elementWidth - pos.targetWidth;
       toolbarStyle.top = pos.top + unit;
       toolbarStyle.left = (leftPos < 0 ? 0 : leftPos) + unit;
-      toolbarStyle.display = origDisp;
+      toolbarStyle.opacity = '';
     }
   },
 
@@ -492,7 +601,7 @@ module.exports = {
     if (el) {
       var elPos = this.getElementPos(el);
       this.updateBadge(el, elPos);
-      var model = this.em.get('selectedComponent');
+      var model = this.em.getSelected();
 
       if (model) {
         this.updateToolbarPos(model.view.el);
@@ -502,15 +611,15 @@ module.exports = {
 
   /**
    * Update attached elements, eg. component toolbar
-   * @return {[type]} [description]
    */
   updateAttached(updated) {
     const model = this.em.getSelected();
+    const view = model && model.view;
 
-    if (model) {
-      var view = model.view;
-      this.updateToolbarPos(view.el);
-      this.showFixedElementOffset(view.el);
+    if (view) {
+      const { el } = view;
+      this.updateToolbarPos(el);
+      this.showFixedElementOffset(el);
     }
   },
 
@@ -570,6 +679,5 @@ module.exports = {
 
     em.off('component:update', this.updateAttached, this);
     em.off('change:canvasOffset', this.updateAttached, this);
-    em.off('change:selectedComponent', this.updateToolbar, this);
   }
 };

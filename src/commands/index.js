@@ -1,66 +1,55 @@
 /**
+ * You can customize the initial state of the module from the editor initialization, by passing the following [Configuration Object](https://github.com/artf/grapesjs/blob/master/src/commands/config/config.js)
+ * ```js
+ * const editor = grapesjs.init({
+ *  commands: {
+ *    // options
+ *  }
+ * })
+ * ```
+ *
+ * Once the editor is instantiated you can use its API. Before using these methods you should get the module from the instance
+ *
+ * ```js
+ * const commands = editor.Commands;
+ * ```
  *
  * * [add](#add)
  * * [get](#get)
+ * * [getAll](#getall)
  * * [has](#has)
- *
- * You can init the editor with all necessary commands via configuration
- *
- * ```js
- * var editor = grapesjs.init({
- * 	...
- *  commands: {...} // Check below for the properties
- * 	...
- * });
- * ```
- *
- * Before using methods you should get first the module from the editor instance, in this way:
- *
- * ```js
- * var commands = editor.Commands;
- * ```
+ * * [run](#run)
+ * * [stop](#stop)
+ * * [isActive](#isactive)
+ * * [getActive](#getactive)
  *
  * @module Commands
- * @param {Object} config Configurations
- * @param {Array<Object>} [config.defaults=[]] Array of possible commands
- * @example
- * ...
- * commands: {
- * 	defaults: [{
- * 		id: 'helloWorld',
- * 		run:  function(editor, sender){
- * 			alert('Hello world!');
- * 		},
- * 		stop:  function(editor, sender){
- * 			alert('Stop!');
- * 		},
- * 	}],
- * },
- * ...
  */
-import { isFunction } from 'underscore';
+
+import { isFunction, isUndefined } from 'underscore';
+import CommandAbstract from './view/CommandAbstract';
 
 module.exports = () => {
   let em;
   var c = {},
     commands = {},
     defaultCommands = {},
-    defaults = require('./config/config'),
-    AbsCommands = require('./view/CommandAbstract');
+    defaults = require('./config/config');
+  const active = {};
 
   // Need it here as it would be used below
-  var add = function(id, obj) {
-    if (isFunction(obj)) {
-      obj = { run: obj };
-    }
-
+  const add = function(id, obj) {
+    if (isFunction(obj)) obj = { run: obj };
+    if (!obj.stop) obj.noStop = 1;
     delete obj.initialize;
     obj.id = id;
-    commands[id] = AbsCommands.extend(obj);
+    commands[id] = CommandAbstract.extend(obj);
     return this;
   };
 
   return {
+    CommandAbstract,
+
     /**
      * Name of the module
      * @type {String}
@@ -118,18 +107,8 @@ module.exports = () => {
 
       defaultCommands['tlb-clone'] = {
         run(ed) {
-          var sel = ed.getSelected();
-
-          if (!sel || !sel.get('copyable')) {
-            console.warn('The element is not clonable');
-            return;
-          }
-
-          var collection = sel.collection;
-          var index = collection.indexOf(sel);
-          const added = collection.add(sel.clone(), { at: index + 1 });
-          sel.emitUpdate();
-          ed.trigger('component:clone', added);
+          ed.runCommand('core:copy');
+          ed.runCommand('core:paste');
         }
       };
 
@@ -139,12 +118,14 @@ module.exports = () => {
           const em = ed.getModel();
           const event = opts && opts.event;
           const sel = ed.getSelected();
+          const selAll = [...ed.getSelectedAll()];
           const toolbarStyle = ed.Canvas.getToolbarEl().style;
           const nativeDrag = event && event.type == 'dragstart';
+          const defComOptions = { preserveSelected: 1 };
 
           const hideTlb = () => {
             toolbarStyle.display = 'none';
-            em.stopDefault();
+            em.stopDefault(defComOptions);
           };
 
           if (!sel || !sel.get('draggable')) {
@@ -164,8 +145,9 @@ module.exports = () => {
           };
 
           const onEnd = (e, opts) => {
-            em.runDefault();
-            em.setSelected(sel);
+            em.runDefault(defComOptions);
+            selAll.forEach(sel => sel.set('status', 'selected'));
+            ed.select(selAll);
             sel.emitUpdate();
             dragger && dragger.blur();
           };
@@ -194,10 +176,10 @@ module.exports = () => {
 
             const cmdMove = ed.Commands.get('move-comp');
             cmdMove.onEndMoveFromModel = onEnd;
-            cmdMove.initSorterFromModel(sel);
+            cmdMove.initSorterFromModels(selAll);
           }
 
-          sel.set('status', 'freezed-selected');
+          selAll.forEach(sel => sel.set('status', 'freezed-selected'));
         }
       };
 
@@ -277,6 +259,68 @@ module.exports = () => {
     },
 
     /**
+     * Get an object containing all the commands
+     * @return {Object}
+     */
+    getAll() {
+      return commands;
+    },
+
+    /**
+     * Execute the command
+     * @param {String} id Command ID
+     * @param {Object} [options={}] Options
+     * @return {*} The return is defined by the command
+     * @example
+     * commands.run('myCommand', { someOption: 1 });
+     */
+    run(id, options = {}) {
+      return this.runCommand(this.get(id), options);
+    },
+
+    /**
+     * Stop the command
+     * @param {String} id Command ID
+     * @param {Object} [options={}] Options
+     * @return {*} The return is defined by the command
+     * @example
+     * commands.stop('myCommand', { someOption: 1 });
+     */
+    stop(id, options = {}) {
+      return this.stopCommand(this.get(id), options);
+    },
+
+    /**
+     * Check if the command is active. You activate commands with `run`
+     * and disable them with `stop`. If the command was created without `stop`
+     * method it can't be registered as active
+     * @param  {String}  id Command id
+     * @return {Boolean}
+     * @example
+     * const cId = 'some-command';
+     * commands.run(cId);
+     * commands.isActive(cId);
+     * // -> true
+     * commands.stop(cId);
+     * commands.isActive(cId);
+     * // -> false
+     */
+    isActive(id) {
+      return this.getActive().hasOwnProperty(id);
+    },
+
+    /**
+     * Get all active commands
+     * @return {Object}
+     * @example
+     * console.log(commands.getActive());
+     * // -> { someCommand: itsLastReturn, anotherOne: ... };
+     */
+    getActive() {
+      return active;
+    },
+
+    /**
      * Load default commands
      * @return {this}
      * @private
@@ -287,6 +331,60 @@ module.exports = () => {
       }
 
       return this;
+    },
+
+    /**
+     * Run command via its object
+     * @param  {Object} command
+     * @param {Object} options
+     * @return {*} Result of the command
+     * @private
+     */
+    runCommand(command, options = {}) {
+      let result;
+
+      if (command && command.run) {
+        const id = command.id;
+        const editor = em.get('Editor');
+        result = command.callRun(editor, options);
+
+        if (id && command.stop && !command.noStop) {
+          active[id] = result;
+        }
+      }
+
+      return result;
+    },
+
+    /**
+     * [runCommand description]
+     * @param  {Object} command
+     * @param {Object} options
+     * @return {*} Result of the command
+     * @private
+     */
+    stopCommand(command, options = {}) {
+      let result;
+
+      if (command && command.run) {
+        const id = command.id;
+        const editor = em.get('Editor');
+        result = command.callStop(editor, options);
+        if (id) delete active[id];
+      }
+
+      return result;
+    },
+
+    /**
+     * Create anonymous Command instance
+     * @param {Object} command Command object
+     * @return {Command}
+     * @private
+     * */
+    create(command) {
+      const cmd = CommandAbstract.extend(command);
+      return new cmd(c);
     }
   };
 };
