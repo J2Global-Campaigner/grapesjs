@@ -742,7 +742,7 @@ module.exports = {
               property: 'border-width',
               type: 'integer',
               units: ['px', 'em'],
-              defaults: 'medium',
+              defaults: '0',
               min: 0
             },
             {

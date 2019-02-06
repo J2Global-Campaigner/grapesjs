@@ -20,12 +20,6 @@ define(function() {
     // });
    
     pnm.addButton('options', {
-      id: opt.cmdOpenImport,
-      className: 'fa fa-download',
-      command: opt.cmdOpenImport,
-      attributes: {[tltAttr]: opt.modalTitleImport},
-    });
-    pnm.addButton('options', {
       id: opt.cmdTglImages,
       className: 'fa fa-warning',
       command: opt.cmdTglImages,
