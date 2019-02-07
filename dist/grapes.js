@@ -64942,17 +64942,7 @@ module.exports = ComponentView.extend({
     var model = this.model;
     var file = model.get('file');
 
-    if (file) {
-      var fu = this.em.get('AssetManager').FileUploader();
-      fu.uploadFile({
-        dataTransfer: { files: [file] }
-      }, function (res) {
-        var obj = res && res.data && res.data[0];
-        var src = obj && ((0, _underscore.isString)(obj) ? obj : obj.src);
-        src && model.set({ src: src });
-      });
-      model.set('file', '');
-    }
+    if (false) { var fu; }
   },
 
 

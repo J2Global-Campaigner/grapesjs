@@ -6,3 +6,6 @@ coverage/
 bower_components/
 grapesjs-*.tgz
 _index.html
+plugins/grapesjs-preset-newsletter/node_modules/
+node_modules/.cache/terser-webpack-plugin/content-v2/sha512/45/9b/99d3184da57e9a0a64570dd18806a0575ffd809fd83c32189c89cf90a957d53f64515bb90464d693ea0277d6af1243105816e9ac5f3ff43349cee1f806a0
+node_modules/.cache/terser-webpack-plugin/index-v5/91/cf/c33bf73c9ad1ec95eac0f2e50ac1b6491ce6b4c262fef2963d05791d6c33
