@@ -225,7 +225,7 @@ module.exports = () => ({
           break;
         case 'font-size':
         case 'border-width':
-          obj.defaults = 'medium';
+          obj.defaults = '0';
           break;
         case 'font-weight':
           obj.defaults = '400';

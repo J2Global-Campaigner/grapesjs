@@ -36,7 +36,7 @@ export default class Droppable {
     // force out like in BlockView
     const sorter = this.sorter;
     cancel && (sorter.moved = 0);
-    sorter.endMove();
+    sorter.endMove(ev);
     em.trigger('canvas:dragend', ev);
   }
 

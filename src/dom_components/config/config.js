@@ -5,6 +5,8 @@ module.exports = {
 
   wrapperName: 'Body',
 
+  collection: {},
+
   // Default wrapper configuration
   wrapper: {
     removable: false,
@@ -22,6 +24,8 @@ module.exports = {
 
     ]
   },
+
+  highlightable: true,
 
   // Could be used for default components
   components: [],
