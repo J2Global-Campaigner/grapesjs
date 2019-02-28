@@ -90,6 +90,8 @@ module.exports = ComponentView.extend({
     // e.target.style.height = h;
 
     updateMediaLibaryTrait();
+
+    
   },
 
   /**
