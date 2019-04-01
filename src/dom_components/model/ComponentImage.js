@@ -72,7 +72,7 @@ module.exports = Component.extend(
 
       //add event listener with callback to set the dimensions once the image has loaded
       if (img.complete) {
-        this.imgLoaded(img.width, img.height, component);
+        this.imgLoaded(img.width, 'auto', component); // img.height
       } else {
         img.addEventListener('load', this.imgLoaded)
       }
@@ -88,7 +88,7 @@ module.exports = Component.extend(
       if(typeof w === "object") {
         thisModel = editor.getSelected();
         srcWidth = w.target.width;
-        srcHeight = w.target.height;
+        srcHeight = 'auto'; //w.target.height;
       }
       else {
         srcWidth = w;
@@ -96,8 +96,10 @@ module.exports = Component.extend(
       }
 
          thisModel.attributes.attributes.width = srcWidth + "px";
-         thisModel.attributes.attributes.height = srcHeight + "px";
-         thisModel.view.$el.find("img").attr("width", srcWidth + "px").attr("height", srcHeight + "px");
+         thisModel.attributes.attributes.height = 'auto'; //srcHeight + "px";
+         //thisModel.set('value', 'auto', { avoidStore: 1 });
+
+         thisModel.view.$el.find("img").attr("width", srcWidth + "px").attr("height", 'auto'); //srcHeight + "px");
 
           //unselect and reslect the component to adjust the resizer to the new size
           editor.select();
