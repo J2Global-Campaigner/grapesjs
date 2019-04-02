@@ -5,7 +5,7 @@ module.exports = {
   // With the empty value, nothing will be rendered
   appendTo: '',
 
-  labelContainer: 'Component settings',
+  labelContainer: 'Component Settings',
 
   // Placeholder label for text input types
   labelPlhText: 'eg. Text here',

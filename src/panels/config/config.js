@@ -27,7 +27,9 @@ module.exports = {
           className: 'fa fa-square-o',
           command: swv,
           context: swv,
-          attributes: { title: 'View components' }
+          attributes: { title: 'View components' },
+          //label:' Outline'
+          
         },
         {
           id: prv,
@@ -41,13 +43,17 @@ module.exports = {
           className: 'fa fa-arrows-alt',
           command: ful,
           context: ful,
-          attributes: { title: 'Fullscreen' }
+          attributes: { title: 'Fullscreen' },
+          //label: ' Fullscreen'
+          
         },
         {
           id: expt,
           className: 'fa fa-code',
           command: expt,
           attributes: { title: 'View code' }
+          //label:' View Code'
+          
         }
       ]
     },
@@ -56,20 +62,23 @@ module.exports = {
       buttons: [
         {
           id: obl,
-          className: 'fa fa-th-large',
+          className: 'gjs-block-label pn-button-spacing',
           command: obl,
+          label: 'Content',
           attributes: { title: 'Content Blocks' }
         },
         {
           id: osm,
-          className: 'fa fa-paint-brush',
+          className: 'gjs-block-label pn-button-spacing mr-60 ml-60',
           command: osm,
           active: true,
+          label: 'Style Manager',
           attributes: { title: 'Style Manager' }
         },
         {
           id: otm,
-          className: 'fa fa-cog',
+          className: 'gjs-block-label pn-button-spacing',
+          label: 'Settings',
           command: otm,
           attributes: { title: 'Settings' }
         },

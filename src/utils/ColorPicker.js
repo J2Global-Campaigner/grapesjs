@@ -128,7 +128,7 @@
         "<div class='sp-initial sp-thumb sp-cf'></div>",
         "<div class='sp-button-container sp-cf'>",
         "<a class='sp-cancel' href='#'></a>",
-        "<button type='button' class='sp-choose'></button>",
+        "<button type='button' class='btn btn-sm btn-primary btn-choose'></button>",
         '</div>',
         '</div>',
         '</div>'
@@ -247,7 +247,7 @@
       initialColorContainer = container.find('.sp-initial'),
       cancelButton = container.find('.sp-cancel'),
       clearButton = container.find('.sp-clear'),
-      chooseButton = container.find('.sp-choose'),
+      chooseButton = container.find('.btn-choose'),
       toggleButton = container.find('.sp-palette-toggle'),
       isInput = boundElement.is('input'),
       isInputTypeColor =

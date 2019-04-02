@@ -91,9 +91,9 @@ export default grapesjs.plugins.add('gjs-preset-newsletter', (editor, opts) => {
           property: 'margin',
           properties:[
             { name: 'Top', property: 'margin-top'},
-            { name: 'Left', property: 'margin-left'},
             { name: 'Right', property: 'margin-right'},
-            { name: 'Bottom', property: 'margin-bottom'}
+            { name: 'Bottom', property: 'margin-bottom'},
+            { name: 'Left', property: 'margin-left'}
           ],
         },{
           property  : 'padding',
@@ -159,7 +159,7 @@ export default grapesjs.plugins.add('gjs-preset-newsletter', (editor, opts) => {
             ],
         }],
       },{
-        name: 'Decorations',
+        name: 'Styles',
         open: false,
         buildProps: ['background-color', 'border-collapse', 'border-radius', 'border', 'background'],
         properties: [{

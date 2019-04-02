@@ -25,7 +25,7 @@
  * styleManager: {
  *    sectors: [{
  *      id: 'dim',
- *      name: 'Dimension',
+ *      name: 'Dimensions',
  *      properties: [{
  *        name: 'Width',
  *        property: 'width',

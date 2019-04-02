@@ -1,7 +1,7 @@
 .#{$app-prefix} {
   &traits-label {
-    border-bottom: 1px solid $mainDkColor;
-    font-weight: lighter;
+    border-bottom: 1px solid $mainBorderColor;
+    font-weight: 500;
     margin-bottom: 5px;
     padding: 10px;
     text-align: left;

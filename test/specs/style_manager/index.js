@@ -131,7 +131,7 @@ describe('StyleManager', () => {
           sectors: [
             {
               id: 'dim',
-              name: 'Dimension',
+              name: 'Dimensions',
               properties: [
                 {
                   name: 'Width',
@@ -164,7 +164,7 @@ describe('StyleManager', () => {
       it('Sectors added', () => {
         expect(obj.getSectors().length).toEqual(2);
         var sect1 = obj.getSector('dim');
-        expect(sect1.get('name')).toEqual('Dimension');
+        expect(sect1.get('name')).toEqual('Dimensions');
       });
 
       it('Properties added', () => {

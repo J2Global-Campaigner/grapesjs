@@ -8,7 +8,7 @@ define(function() {
     let tglImagesCommand = require('./toggleImagesCommand');
     //let editHtmlCommand = require('./openEditCommand');
     cmdm.add(opt.cmdOpenImport, importCommand(opt));
-    cmdm.add(opt.cmdTglImages, tglImagesCommand(opt));
+   // cmdm.add(opt.cmdTglImages, tglImagesCommand(opt));
     //cmdm.add(opt.cmdEditHtml, editHtmlCommand(opt));
 
     // Overwrite export template after the editor is loaded

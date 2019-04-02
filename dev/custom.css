@@ -573,7 +573,7 @@ hr {
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
 }
-
+/* 
 .badge {
     width: 290px;
     font-family: Helvetica, serif;
@@ -584,7 +584,7 @@ hr {
     font-weight: 100;
     overflow: hidden;
     text-align: center;
-}
+} */
 
 .badge-header {
     height: 115px;
@@ -704,12 +704,12 @@ hr {
 /* panel bgcolor */
 .gjs-pn-panel {
     /*background-color: #3E698F;*/
-    background-color: #eee;
-    border: 1px solid #BBB;
+    background-color: #ffffff;
+    border: 1px solid #dbdbdb;
 }
 
 .gjs-one-bg {
-    background-color: #eee;
+    background-color: #fafafa;
 }
 
 
@@ -728,12 +728,12 @@ hr {
 .gjs-sm-sector .gjs-sm-field.gjs-sm-composite,
 .gjs-sm-sector .gjs-sm-stack,
 .gjs-pn-active #gjs-sm-add {
-    color: #555; /*white*/
+    color: #424242; /*white*/
 }
 
 /* classes input */
 .gjs-clm-tags #gjs-clm-new {
-    color: #555;
+    color: #424242;
     padding: 5px 6px;
     display: none;
 }
@@ -765,23 +765,23 @@ hr {
 }
 
 .gjs-pn-views .gjs-pn-active {
-    border-bottom: 2px solid #5b8fe2; /* #2e7da7;rgba(0,0,0,.3);*/
+    border-bottom: 3px solid #3793d0 !important; /* #2e7da7;rgba(0,0,0,.3);*/
     color: #555;
 }
 
 
 
 .gjs-block {
-    color: #555;
-    background-color: #CCC;
-    border-color: #909090;
+    color: #757575;
+    background-color: inherit;
+    border-color: #dbdbdb;
     font-size:12px;
 }
 
     .gjs-block:hover, .gjs-btnt.gjs-pn-active, .gjs-color-active, .gjs-pn-btn.gjs-pn-active, .gjs-pn-btn:active {
-        color: #555;
-        border-color: #888;
-        background-color: #ddd;
+        color:#3793d0;
+        border-color: #dbdbdb;
+        background-color: inherit;
     }
 
 .gjs-rte-toolbar .gjs-rte-btn,
@@ -809,7 +809,8 @@ hr {
 }
 
 .gjs-field {
-    background-color: #a3a6a942;
+    background-color: #ffffff;
+    border:1px solid #dbdbdb;
 }
 
 .gjs-sm-sector .gjs-sm-field.gjs-sm-composite {
@@ -904,6 +905,10 @@ hr {
     justify-content: center;
 }
 
+.pn-button-spacing{
+    padding: 4px 10px 0 10px;
+}
+
 .gjs-pn-btn:hover, .gjs-color-warn, .gjs-four-color {
     color: #555;
 }
@@ -928,7 +933,7 @@ input[type="radio"]+label {
     display:inline;
     vertical-align: text-bottom;
 }
- .gjs-pn-views-container {font-size:1.3rem;} 
+ .gjs-pn-views-container {font-size:1.1rem;} 
 .gjs-trt-trait label {font-weight:normal;}
 
 .gjs-trt-trait .gjs-field-checkbox {display:inline-block;}
@@ -938,7 +943,7 @@ input[type="radio"]+label {
     margin-left:10px;
 }
 .gjs-trt-trait .gjs-label {
-    font-weight: 600;
+    font-weight: 400;
      width: auto;
 }
 
@@ -962,19 +967,27 @@ input[type="radio"]+label {
     margin-left:5px;
 }
 .gjs-block-label {
-   font-size: 1.3rem;
+    font-size:13px;
+    font-family: Roboto;
+    font-weight: 500;
 }
 
 .gjs-mdl-title {
     font-size: 13px;
+    font-family: Roboto;
 }
 
 .gjs-sm-title {
-   color: #555;
+   color: #424242;
+   font-size:14px;
+   font-family: Roboto;
 }
 
 .gjs-sm-label {
-    color: #555;
+    color: #424242;
+    font-weight:500;
+    font-size:14px;
+    font-family: Roboto;
 }
 
 .gjs-btn-prim.gjs-btn-import {
@@ -986,7 +999,7 @@ input[type="radio"]+label {
 .gjs-trt-trait {
     display: inline-block;
     font-size: 11px;
-    color: #555;
+    color: #424242;
     width:100%;
     white-space:nowrap;
 }
@@ -1006,7 +1019,7 @@ input[type="radio"]+label {
 
 .gjs-pn-panels input, .gjs-pn-panels .gjs-sm_label,
 .gjs-pn-panels .gjs-sm-label, .gjs-pn-panels .gjs-label 
- {font-size:1.2rem !important;}
+ {font-size:1.0rem !important;}
 
  .gjs-fields .gjs-radio-item {
     flex: 1 0 auto;
@@ -1016,7 +1029,7 @@ input[type="radio"]+label {
 }
 
  .gjs-pn-views-container select {
-     font-size: 1.2rem;
+     font-size: 1.0rem;
  }
- .gjs-block.fa.fa-rss {font-size:2.6em;}
+ .gjs-block.fa.fa-rss {font-size:2em;}
 

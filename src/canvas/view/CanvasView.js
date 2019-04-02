@@ -109,7 +109,7 @@ module.exports = Backbone.View.extend({
         ${em.config.baseCss || ''}
 
         .${ppfx}dashed *[data-highlightable] {
-          outline: 1px dashed rgba(170,170,170,0.7);
+          outline: 1px solid rgba(170,170,170,0.7);
           outline-offset: -2px;
         }
 

@@ -206,14 +206,14 @@
 .#{$app-prefix}radio-item {
   flex: 1 1 auto;
   text-align: center;
-  border-left: 1px solid $darkTextShadow;
+  border-left: 1px solid #dbdbdb;
 
   &:first-child {
     border: none;
   }
 
   &:hover {
-    background: $mainDkColor;
+    background: $mainSectionBkgColor;
   }
 
   input {
@@ -222,6 +222,7 @@
 
   input:checked + .#{$app-prefix}radio-item-label {
     background-color: rgba(255, 255, 255, 0.2);
+    color:#3793d0;
   }
 
   &s {

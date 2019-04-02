@@ -133,10 +133,10 @@ module.exports = Backbone.View.extend({
 
     if (this.model.get('disable')) return;
 
-    this.toogleActive();
+    this.toggleActive();
   },
 
-  toogleActive() {
+  toggleActive() {
     var active = this.model.get('active');
 
     //check if the button belongs to the views panel

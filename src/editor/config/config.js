@@ -253,7 +253,7 @@ module.exports = {
         ]
       },
       {
-        name: 'Decorations',
+        name: 'Styles',
         open: false,
         buildProps: [
           'border-radius-c',
