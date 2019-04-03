@@ -39,20 +39,20 @@ module.exports = {
           attributes: { title: 'Preview' }
         },
         {
+          id: expt,
+          className: 'fa fa-code',
+          command: expt,
+          attributes: { title: 'View code' }
+          //label:' View Code'
+          
+        },
+        {
           id: ful,
           className: 'fa fa-arrows-alt',
           command: ful,
           context: ful,
           attributes: { title: 'Fullscreen' },
           //label: ' Fullscreen'
-          
-        },
-        {
-          id: expt,
-          className: 'fa fa-code',
-          command: expt,
-          attributes: { title: 'View code' }
-          //label:' View Code'
           
         }
       ]

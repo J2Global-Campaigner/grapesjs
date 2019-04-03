@@ -5,7 +5,7 @@ define(function() {
     let importCommand = require('./openImportCommand');
     //let exportCommand = require('./openExportCommand');
     let cleanAllCommand = require('./cleanAllCommand');
-    let tglImagesCommand = require('./toggleImagesCommand');
+    //let tglImagesCommand = require('./toggleImagesCommand');
     //let editHtmlCommand = require('./openEditCommand');
     cmdm.add(opt.cmdOpenImport, importCommand(opt));
    // cmdm.add(opt.cmdTglImages, tglImagesCommand(opt));

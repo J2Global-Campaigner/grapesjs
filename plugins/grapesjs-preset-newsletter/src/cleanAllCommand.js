@@ -27,7 +27,7 @@ define(function() {
                         editor.select();
 
                          //reset the default mjml container
-                         editor.setComponents(`<mjml><mj-body><mj-container></mj-container></mj-body></mjml>`);
+                         editor.setComponents(`<mjml><mj-body><mj-container><mj-section><mj-column></mj-column></mj-section></mj-container></mj-body></mjml>`);
 
                         //reset the panels to the content blocks:
                         var openBlocksBtn = editor.Panels.getButton('views', 'open-blocks');

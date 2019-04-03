@@ -19,18 +19,18 @@ define(function() {
     //         attributes: {[tltAttr]: opt.modalEditHtml},
     // });
    
-    pnm.addButton('options', {
-      id: opt.cmdOpenImport,
-      className: 'fa fa-download',
-      command: opt.cmdOpenImport,
-      attributes: {[tltAttr]: opt.modalTitleImport},
-    });
-    pnm.addButton('options', {
-      id: opt.cmdTglImages,
-      className: 'fa fa-warning',
-      command: opt.cmdTglImages,
-      attributes: {[tltAttr]: opt.cmtTglImagesLabel},
-    });
+    // pnm.addButton('options', {
+    //   id: opt.cmdOpenImport,
+    //   className: 'fa fa-download',
+    //   command: opt.cmdOpenImport,
+    //   attributes: {[tltAttr]: opt.modalTitleImport},
+    // });
+    // pnm.addButton('options', {
+    //   id: opt.cmdTglImages,
+    //   className: 'fa fa-warning',
+    //   command: opt.cmdTglImages,
+    //   attributes: {[tltAttr]: opt.cmtTglImagesLabel},
+    // });
     if(optPanel){
       // Fix tooltip position
       var cmdBtns = optPanel.get('buttons');
