@@ -216,7 +216,7 @@ module.exports = {
         ]
       },
       {
-        name: 'Dimension',
+        name: 'Dimensions',
         open: false,
         buildProps: [
           'width',

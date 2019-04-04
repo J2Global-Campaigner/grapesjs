@@ -31,7 +31,7 @@ module.exports = ComponentView.extend({
   // we don't want the slider to be used for the width, make it an integer
   $("#gjs-sm-width").removeClass('gjs-sm-slider').addClass('gjs-sm-integer');
   $("#gjs-sm-width .gjs-field-range").hide();
-  let widthProp = editor.StyleManager.getProperty("Dimension", "width");
+  let widthProp = editor.StyleManager.getProperty("Dimensions", "width");
   widthProp.set('type', 'integer');
   widthProp.set("min", 0);
   widthProp.set("max", "");
