@@ -69,7 +69,7 @@ module.exports = {
         },
         {
           id: osm,
-          className: 'gjs-block-label pn-button-spacing mr-60 ml-60',
+          className: 'gjs-block-label pn-button-spacing mr-30 ml-30',
           command: osm,
           active: true,
           label: 'Style Manager',
