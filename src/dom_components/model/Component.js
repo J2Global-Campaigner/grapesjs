@@ -291,6 +291,8 @@ const Component = Backbone.Model.extend(Styleable).extend(
       const style = attrs.style;
       style && this.setStyle(style);
       delete attrs.style;
+	  // IE Fix
+      delete attrs.includes;
 
       this.set('attributes', attrs);
     },
@@ -617,6 +619,8 @@ const Component = Backbone.Model.extend(Styleable).extend(
       const opts = { ...this.opt };
       attr.attributes = { ...attr.attributes };
       delete attr.attributes.id;
+	  // IE Fix
+      delete attr.attributes.includes;
       attr.components = [];
       attr.classes = [];
       attr.traits = [];
@@ -709,6 +713,8 @@ const Component = Backbone.Model.extend(Styleable).extend(
     getAttrToHTML() {
       var attr = this.getAttributes();
       delete attr.style;
+	  // IE FIX
+      delete attr.includes;
       return attr;
     },
 
@@ -722,6 +728,8 @@ const Component = Backbone.Model.extend(Styleable).extend(
       const obj = Backbone.Model.prototype.toJSON.apply(this, args);
       obj.attributes = this.getAttributes();
       delete obj.attributes.class;
+	  // IE Fix
+      delete obj.attributes.includes;
       delete obj.toolbar;
 
       if (this.em.getConfig('avoidDefaults')) {

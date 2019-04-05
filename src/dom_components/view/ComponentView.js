@@ -213,6 +213,8 @@ module.exports = Backbone.View.extend({
     const src = model.get('src');
 
     for (let key in attr) {
+	  // IE Fix        
+      if (key == 'includes') continue;
       attrs[key] = attr[key];
     }
 
@@ -284,6 +286,8 @@ module.exports = Backbone.View.extend({
 
     if (typeof this.getChildrenSelector == 'function') {
       container = this.el.querySelector(this.getChildrenSelector());
+	  // IE FIX
+      if (container == null) container = "<div></div>";
     } else if (typeof this.getTemplate == 'function') {
       // Need to find deepest first child
     }
