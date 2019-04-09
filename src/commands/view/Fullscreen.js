@@ -38,6 +38,7 @@ module.exports = {
    */
   disable() {
     var d = document;
+    if (!this.isEnabled()) return; // CM-2455
     if (d.exitFullscreen) d.exitFullscreen();
     else if (d.webkitExitFullscreen) d.webkitExitFullscreen();
     else if (d.mozCancelFullScreen) d.mozCancelFullScreen();
