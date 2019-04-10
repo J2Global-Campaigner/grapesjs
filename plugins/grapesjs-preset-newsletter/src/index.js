@@ -50,9 +50,9 @@ export default grapesjs.plugins.add('gjs-preset-newsletter', (editor, opts) => {
     openLayersBtnTitle: c.openLayersBtnTitle || '',
     openSmBtnTitle: c.openSmBtnTitle || '',
     openTmBtnTitle: c.openTmBtnTitle || '',
-    expTplBtnTitle: c.expTplBtnTitle || 'View Code',
-    fullScrBtnTitle: c.fullScrBtnTitle || 'FullScreen',
-    swichtVwBtnTitle: c.swichtVwBtnTitle || 'View Components',
+    //expTplBtnTitle: c.expTplBtnTitle || 'View Code',
+    //fullScrBtnTitle: c.fullScrBtnTitle || 'FullScreen',
+    //swichtVwBtnTitle: c.swichtVwBtnTitle || 'View Components',
     categoryLabel: c.categoryLabel || '',
     importPlaceholder: '',
     defaultTemplate: '', // Default template in case the canvas is empty
@@ -84,7 +84,7 @@ export default grapesjs.plugins.add('gjs-preset-newsletter', (editor, opts) => {
     listItemsBlkLabel: 'List Items',
     assetsModalTitle: c.assetsModalTitle || 'Select image',
     styleManagerSectors: [{
-        name: 'Dimension',
+        name: 'Dimensions',
         open: false,
         buildProps: ['width', 'height', 'max-width', 'min-height', 'margin', 'padding'],
         properties:[{

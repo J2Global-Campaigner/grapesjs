@@ -27,7 +27,7 @@ module.exports = {
           className: 'fa fa-square-o',
           command: swv,
           context: swv,
-          attributes: { title: 'View components' },
+          attributes: { 'data-tooltip': 'View components' },
           //label:' Outline'
           
         },
@@ -36,13 +36,13 @@ module.exports = {
           className: 'fa fa-eye',
           command: prv,
           context: prv,
-          attributes: { title: 'Preview' }
+          //attributes: { title: 'Preview' }
         },
         {
           id: expt,
           className: 'fa fa-code',
           command: expt,
-          attributes: { title: 'View code' }
+          attributes: { 'data-tooltip': 'View code' }
           //label:' View Code'
           
         },
@@ -51,7 +51,7 @@ module.exports = {
           className: 'fa fa-arrows-alt',
           command: ful,
           context: ful,
-          attributes: { title: 'Fullscreen' },
+          attributes: { 'data-tooltip': 'Fullscreen', 'data-tooltip-pos': 'left' },
           //label: ' Fullscreen'
           
         }
