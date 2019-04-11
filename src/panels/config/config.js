@@ -24,7 +24,7 @@ module.exports = {
         {
           active: true,
           id: swv,
-          className: 'fa fa-square-o',
+          className: 'fa fa-square-o ml-20',
           command: swv,
           context: swv,
           attributes: { 'data-tooltip': 'View components' },
@@ -48,10 +48,10 @@ module.exports = {
         },
         {
           id: ful,
-          className: 'fa fa-arrows-alt',
+          className: 'fa fa-arrows-alt mr-20',
           command: ful,
           context: ful,
-          attributes: { 'data-tooltip': 'Fullscreen', 'data-tooltip-pos': 'left' },
+          attributes: { 'data-tooltip': 'Fullscreen' },
           //label: ' Fullscreen'
           
         }

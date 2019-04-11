@@ -78,7 +78,7 @@ define(function() {
     devicePanel.get('buttons').add([{
       id: 'deviceDesktop',
       command: 'set-device-desktop',
-      className: 'fa fa-desktop',
+      className: 'fa fa-desktop ml-20',
       attributes: {[tltAttr]: opt.cmdBtnDesktopLabel},
       active: 1,
     }, {
@@ -89,7 +89,7 @@ define(function() {
     }, {
       id: 'deviceMobile',
       command: 'set-device-mobile',
-      className: 'fa fa-mobile',
+      className: 'fa fa-mobile mr-20',
       attributes: {[tltAttr]: opt.cmdBtnMobileLabel},
     }])
     updateTooltip(deviceBtns);
