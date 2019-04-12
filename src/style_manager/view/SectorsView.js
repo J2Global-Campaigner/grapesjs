@@ -47,6 +47,20 @@ module.exports = Backbone.View.extend({
     let model = em.getSelected();
     if (!model) return;
 
+    // CM 1916 - This code sets the default alignment based on the default style of the element
+    // Instead of a single value in the mjml config
+    try {
+      var alignProp = em.get('StyleManager').getProperty("Dimensions", "align");
+      var align = model.get('attributes').align;
+
+      if (typeof align == 'undefined') {
+        var defaultAlign = model.attributes['style-default'].align;
+        if (typeof defaultAlign != 'undefined' && defaultAlign != '') {
+          alignProp.set('defaults', defaultAlign);
+        }
+      }
+    } catch (x) { }
+
     const config = em.get('Config');
     const state = !config.devicePreviewMode ? model.get('state') : '';
     const el = model.getEl();
