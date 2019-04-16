@@ -1,7 +1,11 @@
 {
   "name": "grapesjs",
   "description": "Free and Open Source Web Builder Framework",
+<<<<<<< Updated upstream
   "version": "0.14.122",
+=======
+  "version": "0.14.136",
+>>>>>>> Stashed changes
   "author": "Artur Arseniev",
   "license": "BSD-3-Clause",
   "homepage": "http://grapesjs.com",
