@@ -22,8 +22,6 @@ module.exports = ComponentView.extend({
     ComponentView.prototype.initialize.apply(this, arguments);
     //this.listenTo(model, 'change:src', this.updateSrc);
     //this.listenTo(model, 'dblclick active', this.openModal);
-  
-
 
     this.classEmpty = `${this.ppfx}plh-image`;
     const config = this.config;
@@ -35,9 +33,6 @@ module.exports = ComponentView.extend({
     e.preventDefault();
     editor.select(this.model);
     editor.showPanel('properties'); 
-
-    console.log('openSettings');
-    console.log(this.model);
 
   // we don't want the slider to be used for the width, make it an integer
   $("#gjs-sm-width").removeClass('gjs-sm-slider').addClass('gjs-sm-integer');
@@ -101,8 +96,6 @@ module.exports = ComponentView.extend({
     // e.target.style.height = h;
 
     updateMediaLibaryTrait();
-
-    
   },
 
   /**
@@ -138,8 +131,6 @@ module.exports = ComponentView.extend({
     el.attr('src', src);
     el[src ? 'removeClass' : 'addClass'](this.classEmpty);
   },
-
-  
 
   /**
    * Open dialog for image changing
