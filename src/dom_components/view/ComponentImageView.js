@@ -1,7 +1,15 @@
 var Backbone = require('backbone');
 var ComponentView = require('./ComponentView');
+const SRC_MODEL = 1;
+const ASPECT_MODEL = 2;
+const ALT_MODEL = 3;
+const HREF_MODEL = 4;
+const TRACK_MODEL = 5;
+const NAME_MODEL = 6;
+const BUTTON_MODEL = 7;
 
 module.exports = ComponentView.extend({
+  
   tagName: 'img',
 
   events: {
@@ -14,8 +22,6 @@ module.exports = ComponentView.extend({
     ComponentView.prototype.initialize.apply(this, arguments);
     //this.listenTo(model, 'change:src', this.updateSrc);
     //this.listenTo(model, 'dblclick active', this.openModal);
-  
-
 
     this.classEmpty = `${this.ppfx}plh-image`;
     const config = this.config;
@@ -46,7 +52,7 @@ module.exports = ComponentView.extend({
     try {
       var src = this.model.get('attributes').src;
       if(src.indexOf("imgPlaceholder150x150") > -1) src = "";
-      editor.TraitManager.getTraitsViewer().collection.models[1].setTargetValue(src);
+      editor.TraitManager.getTraitsViewer().collection.models[SRC_MODEL].setTargetValue(src);
     
     }
     catch (x) { }
@@ -56,7 +62,7 @@ module.exports = ComponentView.extend({
       var alt = this.model.get('attributes').alt;
       if (alt == null || alt == "null")
         alt = "";
-      editor.TraitManager.getTraitsViewer().collection.models[2].setTargetValue(alt);
+      editor.TraitManager.getTraitsViewer().collection.models[ALT_MODEL].setTargetValue(alt);
     }
     catch (x) { }
 
@@ -65,7 +71,7 @@ module.exports = ComponentView.extend({
       var href = this.model.get('attributes').href;
       if (href == null)
         href = "";
-      editor.TraitManager.getTraitsViewer().collection.models[3].setTargetValue(href);
+      editor.TraitManager.getTraitsViewer().collection.models[HREF_MODEL].setTargetValue(href);
     }
     catch (x) { }
 
@@ -74,12 +80,12 @@ module.exports = ComponentView.extend({
       var name = this.model.get('attributes').name;
       if (name == null)
         name = "";
-      editor.TraitManager.getTraitsViewer().collection.models[5].setTargetValue(name);
+      editor.TraitManager.getTraitsViewer().collection.models[NAME_MODEL].setTargetValue(name);
 
       if (name == "LinkIsNotTracked" || name == '' || name == null)
-        editor.TraitManager.getTraitsViewer().collection.models[4].setTargetValue(false);
+        editor.TraitManager.getTraitsViewer().collection.models[TRACK_MODEL].setTargetValue(false);
       else
-        editor.TraitManager.getTraitsViewer().collection.models[4].setTargetValue(true);
+        editor.TraitManager.getTraitsViewer().collection.models[TRACK_MODEL].setTargetValue(true);
     }
     catch (x) { }
 
@@ -90,8 +96,6 @@ module.exports = ComponentView.extend({
     // e.target.style.height = h;
 
     updateMediaLibaryTrait();
-
-    
   },
 
   /**
@@ -127,8 +131,6 @@ module.exports = ComponentView.extend({
     el.attr('src', src);
     el[src ? 'removeClass' : 'addClass'](this.classEmpty);
   },
-
-  
 
   /**
    * Open dialog for image changing
