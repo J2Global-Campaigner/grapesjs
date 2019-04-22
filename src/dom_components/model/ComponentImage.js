@@ -95,15 +95,20 @@ module.exports = Component.extend(
         srcHeight = h;
       }
 
-         thisModel.attributes.attributes.width = srcWidth + "px";
-         thisModel.attributes.attributes.height = 'auto'; //srcHeight + "px";
-         //thisModel.set('value', 'auto', { avoidStore: 1 });
+      thisModel.attributes.attributes.width = srcWidth + "px";
+      thisModel.attributes.attributes.height = 'auto'; //srcHeight + "px";
+      //thisModel.set('value', 'auto', { avoidStore: 1 });
 
-         thisModel.view.$el.find("img").attr("width", srcWidth + "px").attr("height", 'auto'); //srcHeight + "px");
+      // CM-1851 Set the Image Height
+      var imgEl = thisModel.view.$el.find("img");
+      imgEl.attr("width", srcWidth + "px").attr("height", 'auto'); //srcHeight + "px");
+      //imgTemp[0].width = srcWidth; // This and the above width didn't seem to be necessary
+      imgEl.prop('style').width = srcWidth + "px"; // This sets the css style width which is what was
+      // preventing the image from changing size when adding it
 
-          //unselect and reslect the component to adjust the resizer to the new size
-          editor.select();
-          editor.select(thisModel);
+      //unselect and reslect the component to adjust the resizer to the new size
+      editor.select();
+      editor.select(thisModel);
     },
    
     updateHref: function (component, value) {
