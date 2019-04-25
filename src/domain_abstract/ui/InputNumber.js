@@ -129,6 +129,7 @@ module.exports = Input.extend({
    * Invoked when the up arrow is clicked
    * */
   upArrowClick() {
+    if (!this.canProcessArrowClick()) return;
     const model = this.model;
     const step = model.get('step');
     let value = parseInt(model.get('value'), 10);
@@ -142,6 +143,7 @@ module.exports = Input.extend({
    * Invoked when the down arrow is clicked
    * */
   downArrowClick() {
+    if (!this.canProcessArrowClick()) return;
     const model = this.model;
     const step = model.get('step');
     const value = parseInt(model.get('value'), 10);
@@ -149,6 +151,21 @@ module.exports = Input.extend({
     var valid = this.validateInputValue(val);
     model.set('value', valid.value);
     this.elementUpdated();
+  },
+
+  /**
+   * Check if it is an image with keepAspectRatio and this is a height adjustment
+   * CM-2467
+   * 
+   * @return bool
+   */
+  canProcessArrowClick() {
+    var model = this.model;
+    if (model.get('name') == 'Height') {
+       var trait = editor.TraitManager.getTraitsViewer().collection.models.find(function (x) { return x.attributes.name == "keepAspectRatio" });
+       if (trait && trait.attributes.value) return false;
+    }
+    return true;
   },
 
   /**
