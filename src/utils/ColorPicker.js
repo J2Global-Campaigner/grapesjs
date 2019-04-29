@@ -1111,6 +1111,11 @@
         : extraY
     );
 
+    var maxTop = viewHeight - dpHeight;
+    if (offset.top > maxTop) {
+        offset.top = maxTop;
+    }
+
     return offset;
   }
 
