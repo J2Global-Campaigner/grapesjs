@@ -19,7 +19,8 @@ bower_components/
 grapesjs-*.tgz
 _index.html
 dist/js/node_modules/
-plugins/
+plugins/*
+!plugins/CKEditor
 dev/
 dist/
 grapesjs.sln
