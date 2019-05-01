@@ -162,8 +162,8 @@ module.exports = Input.extend({
   canProcessArrowClick() {
     var model = this.model;
     if (model.get('name') == 'Height') {
-       var trait = editor.TraitManager.getTraitsViewer().collection.models.find(function (x) { return x.attributes.name == "keepAspectRatio" });
-       if (trait && trait.attributes.value) return false;
+       var trait = editor.StyleManager.getProperty('Dimensions', 'height')
+       if (trait && trait.attributes.value == "auto") return false;
     }
     return true;
   },

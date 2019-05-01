@@ -16,12 +16,11 @@ module.exports = Component.extend(
       editable: 1,
       highlightable: 0,
       resizable: 1,
+      traits: ['alt'],
       unstylable: ['max-width', 'min-height', 'text-shadow',
       'font', 'font-size', 'font-weight', 'letter-spacing', 'vertical-align',
       'color', 'line-height', 'text-decoration', 'font-family', 'font-style'
      ],
-     
-
       // File to load asynchronously once the model is rendered
       file: ''
     },
@@ -56,61 +55,7 @@ module.exports = Component.extend(
       
       
       convertWidthToText();
-      
     },
-    updateDimensions: function(component, src) {
-     
-
-      var m = this;
-      var img = new Image();
-      var srcHeight = 0;
-      var srcWidth = 0;
-        
-    
-      //set the image src in order to get the read dimensions
-      img.src = src;
-
-      //add event listener with callback to set the dimensions once the image has loaded
-      if (img.complete) {
-        this.imgLoaded(img.width, 'auto', component); // img.height
-      } else {
-        img.addEventListener('load', this.imgLoaded)
-      }
-     
-    },
-    //updateDimensions image load callback
-    imgLoaded: function(w, h, thisModel) {
-      var srcWidth = 0;
-      var srcHeight = 0;
-      var classId = "";
-
-      //check if we have info passed in or an object 
-      if(typeof w === "object") {
-        thisModel = editor.getSelected();
-        srcWidth = w.target.width;
-        srcHeight = 'auto'; //w.target.height;
-      }
-      else {
-        srcWidth = w;
-        srcHeight = h;
-      }
-
-      thisModel.attributes.attributes.width = srcWidth + "px";
-      thisModel.attributes.attributes.height = 'auto'; //srcHeight + "px";
-      //thisModel.set('value', 'auto', { avoidStore: 1 });
-
-      // CM-1851 Set the Image Height
-      var imgEl = thisModel.view.$el.find("img");
-      imgEl.attr("width", srcWidth + "px").attr("height", 'auto'); //srcHeight + "px");
-      //imgTemp[0].width = srcWidth; // This and the above width didn't seem to be necessary
-      imgEl.prop('style').width = srcWidth + "px"; // This sets the css style width which is what was
-      // preventing the image from changing size when adding it
-
-      //unselect and reslect the component to adjust the resizer to the new size
-      editor.select();
-      editor.select(thisModel);
-    },
-   
     updateHref: function (component, value) {
 
       if (this) {
@@ -142,7 +87,6 @@ module.exports = Component.extend(
         catch (x) { }
       }
     },
-
     initToolbar(...args) {
       Component.prototype.initToolbar.apply(this, args);
       const em = this.em;
@@ -221,5 +165,3 @@ module.exports = Component.extend(
     }
   }
 );
-
-
