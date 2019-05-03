@@ -23,6 +23,7 @@ module.exports = ComponentView.extend({
    * */
   enableEditing() {
     const rte = this.rte;
+    rte.model = this.model;
 
     if (this.rteEnabled || !this.model.get('editable')) {
       return;

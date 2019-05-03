@@ -1079,6 +1079,9 @@ CKEDITOR.STYLE_OBJECT = 3;
             var maxSize = getLargestSpan(parentControl.$, 0);
 			if (maxSize > 0) {
 				parentControl.$.style.fontSize = maxSize + "px";
+				try {
+				this.editor.RichTextEditor.model.attributes.attributes['font-size'] = maxSize + "px";
+				} catch (e) {};
 			}
         }
 	}

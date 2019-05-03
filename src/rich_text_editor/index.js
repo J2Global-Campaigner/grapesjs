@@ -254,6 +254,8 @@ module.exports = () => {
       toolbar.style.display = '';
       rte = customRte ? customRte.enable(el, rte) : this.initRte(el).enable();
 
+      rte.model = view.model;
+
       if (em) {
         setTimeout(this.udpatePosition.bind(this), 0);
         const event = 'change:canvasOffset canvasScroll';
