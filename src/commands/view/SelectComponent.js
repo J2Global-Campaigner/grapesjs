@@ -83,6 +83,12 @@ module.exports = {
   onHover(e) {
     e.stopPropagation();
     let trg = e.target;
+
+    // IE 11 fix
+    if (typeof $(trg).data('model') === 'undefined') {
+      trg = trg.parentElement; 
+    }
+
     const model = $(trg).data('model');
 
     // Adjust tools scroll top
@@ -180,7 +186,15 @@ module.exports = {
    */
   onClick(e) {
     e.stopPropagation();
-    const model = $(e.target).data('model');
+
+    let trg = e.target;
+
+    // IE 11 fix
+    if (typeof $(trg).data('model') === 'undefined') {
+      trg = trg.parentElement; 
+    }
+
+    const model = $(trg).data('model');
     const editor = this.editor;
 
     if (model) {
