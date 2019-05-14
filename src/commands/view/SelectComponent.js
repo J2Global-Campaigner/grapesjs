@@ -190,7 +190,7 @@ module.exports = {
     let trg = e.target;
 
     // IE 11 fix
-    if (typeof $(trg).data('model') === 'undefined') {
+    if (typeof $(trg).data('model') === 'undefined' && trg.parentElement != null) {
       trg = trg.parentElement; 
     }
 
