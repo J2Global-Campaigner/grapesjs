@@ -234,12 +234,36 @@ module.exports = () => {
           console.warn('The element is not removable');
           return;
         }
+        let componentType = component.parent().get('type');
+
         //add logic for customImg handling
-        if(component.parent().get('type') === "customImg")
+        if(componentType === "customImg"){
           component.parent().destroy();
+        }
 
         ed.select(null);
         component.destroy();
+        //Special case where we reset the canvas if the last container to about to be removed
+        if (componentType === "mj-container" && editor.getHtml() == "<mjml><mj-body><mj-container></mj-container></mj-body></mjml>"){
+          // cancel returns null
+          editor.DomComponents.clear();
+          editor.CssComposer.clear()
+          editor.CssComposer.getAll().reset();
+          editor.DomComponents.getWrapper().setStyle('') //needed to reset the body background
+          setTimeout(function () {
+              clearLocalStorage();
+          }, 0);
+          //clear the selected component, otherwise there will be the blue resize outline left on the canvas
+          editor.select();
+
+           //reset the default mjml container
+           editor.setComponents(`<mjml><mj-body><mj-container><mj-section><mj-column></mj-column></mj-section></mj-container></mj-body></mjml>`);
+
+          //reset the panels to the content blocks:
+          var openBlocksBtn = editor.Panels.getButton('views', 'open-blocks');
+          openBlocksBtn && openBlocksBtn.set('active', 1);
+          toastr.warning("The content canvas requires at least one content block to be present.", "Warning");
+        }
         return component;
       };
 
