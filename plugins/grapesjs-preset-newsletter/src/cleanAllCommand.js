@@ -6,34 +6,27 @@ define(function() {
             if (sender) sender.set('active', false);
 
             try {
-                swal({
-                    title: "Are you sure?",
-                    text: "Click OK to clean the canvas?",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true
-                }).then(function (result) {
-    
-                    if (result === true) {
-                        // cancel returns null
-                        editor.DomComponents.clear();
-                        editor.CssComposer.clear()
-                        editor.CssComposer.getAll().reset();
-                        editor.DomComponents.getWrapper().setStyle('') //needed to reset the body background
-                        setTimeout(function () {
-                            clearLocalStorage();
-                        }, 0);
-                        //clear the selected component, otherwise there will be the blue resize outline left on the canvas
-                        editor.select();
+                alertify.confirm('Are you sure you want to clean the canvas?', function(){ 
+                   // cancel returns null
+                   editor.DomComponents.clear();
+                   editor.CssComposer.clear()
+                   editor.CssComposer.getAll().reset();
+                   editor.DomComponents.getWrapper().setStyle('') //needed to reset the body background
+                   setTimeout(function () {
+                       clearLocalStorage();
+                   }, 0);
+                   //clear the selected component, otherwise there will be the blue resize outline left on the canvas
+                   editor.select();
 
-                         //reset the default mjml container
-                         editor.setComponents(`<mjml><mj-body><mj-container><mj-section><mj-column></mj-column></mj-section></mj-container></mj-body></mjml>`);
+                    //reset the default mjml container
+                    editor.setComponents(`<mjml><mj-body><mj-container><mj-section><mj-column></mj-column></mj-section></mj-container></mj-body></mjml>`);
 
-                        //reset the panels to the content blocks:
-                        var openBlocksBtn = editor.Panels.getButton('views', 'open-blocks');
-                        openBlocksBtn && openBlocksBtn.set('active', 1);
-                    }
-                });
+                   //reset the panels to the content blocks:
+                   var openBlocksBtn = editor.Panels.getButton('views', 'open-blocks');
+                   openBlocksBtn && openBlocksBtn.set('active', 1);
+                   
+               });
+
             }
             catch(x){
                 if (confirm('Are you sure you want to clean the canvas?')) {
