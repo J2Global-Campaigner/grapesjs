@@ -602,14 +602,11 @@
 						data.button = this.getValue()
 					},
 					setup: function(data) {
+						this.setValue(true);
 						if(data.advanced || data.trackClicks) {
 							if(data.advanced.advName == "LinkIsNotTracked")
 								this.setValue(false);
-							else
-								this.setValue(true);
-						}
-						// else
-						// 	this.setValue(true);
+						}						 	
 					},
 					onChange: function(data) {
 							toggleReportname(this.getValue(), data);

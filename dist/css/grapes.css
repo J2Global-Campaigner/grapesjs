@@ -4392,8 +4392,10 @@ span.CodeMirror-selectedtext {
         cursor: pointer;
         padding: 5px;
         display: block; }
-      .gjs-sm-sector .gjs-sm-field.gjs-sm-list .gjs-sm-radio:checked + label, .gjs-clm-tags .gjs-sm-field.gjs-sm-list .gjs-sm-radio:checked + label, .gjs-sm-sector .gjs-sm-list.gjs-clm-field .gjs-sm-radio:checked + label, .gjs-clm-tags .gjs-sm-list.gjs-clm-field .gjs-sm-radio:checked + label {
+      .gjs-clm-tags .gjs-sm-field.gjs-sm-list .gjs-sm-radio:checked + label, .gjs-sm-sector .gjs-sm-list.gjs-clm-field .gjs-sm-radio:checked + label, .gjs-clm-tags .gjs-sm-list.gjs-clm-field .gjs-sm-radio:checked + label {
         background-color: rgba(255, 255, 255, 0.2); }
+      .gjs-sm-sector .gjs-sm-field.gjs-sm-list .gjs-sm-radio:checked + label {
+        color: blue; } 
       .gjs-sm-sector .gjs-sm-field.gjs-sm-list .gjs-sm-icon, .gjs-clm-tags .gjs-sm-field.gjs-sm-list .gjs-sm-icon, .gjs-sm-sector .gjs-sm-list.gjs-clm-field .gjs-sm-icon, .gjs-clm-tags .gjs-sm-list.gjs-clm-field .gjs-sm-icon {
         background-repeat: no-repeat;
         background-position: center;
