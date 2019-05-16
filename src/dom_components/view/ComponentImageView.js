@@ -1,12 +1,12 @@
 var Backbone = require('backbone');
 var ComponentView = require('./ComponentView');
 const SRC_MODEL = 1;
-const ASPECT_MODEL = 2;
-const ALT_MODEL = 3;
-const HREF_MODEL = 4;
-const TRACK_MODEL = 5;
-const NAME_MODEL = 6;
-const BUTTON_MODEL = 7;
+//const ASPECT_MODEL = 2;
+const ALT_MODEL = 2;
+const HREF_MODEL = 3;
+const TRACK_MODEL = 4;
+const NAME_MODEL = 5;
+const BUTTON_MODEL = 6;
 
 module.exports = ComponentView.extend({
   
@@ -82,7 +82,7 @@ module.exports = ComponentView.extend({
         name = "";
       editor.TraitManager.getTraitsViewer().collection.models[NAME_MODEL].setTargetValue(name);
 
-      if (name == "LinkIsNotTracked" || name == '' || name == null)
+      if (name == "LinkIsNotTracked" || (name == '' && href != ''))
         editor.TraitManager.getTraitsViewer().collection.models[TRACK_MODEL].setTargetValue(false);
       else
         editor.TraitManager.getTraitsViewer().collection.models[TRACK_MODEL].setTargetValue(true);
