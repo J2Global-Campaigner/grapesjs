@@ -28,5 +28,5 @@ module.exports = {
   clearProperties: 0,
 
   // Properties not to take in account for computed styles
-  avoidComputed: ['width', 'height']
+  avoidComputed: ['height']
 };
