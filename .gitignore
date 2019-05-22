@@ -22,9 +22,7 @@ dist/js/node_modules/
 plugins/*
 !plugins/CKEditor
 dev/
-!plugins/CKEditor/ckeditor-dev/dev/
-plugins/CKEditor/ckeditor-dev/dev/builder/release/*.gz
-plugins/CKEditor/ckeditor-dev/dev/builder/release/*.zip
+plugins/CKEditor/ckeditor-dev/dev/builder/release/
 dist/
 grapesjs.sln
 grapesjs.vssscc
