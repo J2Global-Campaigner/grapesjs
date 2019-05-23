@@ -32,7 +32,7 @@
 				return $(this).text() == "Link Text"
 				}).parent().find("input").val();
 			
-			if(!button) {
+			if(!trackClicks) {
 				$(reportingNameInput).prop('disabled', true);
 				$(reportingNameInput).val('LinkIsNotTracked');
 				$(reportingNameInput).css('opacity', '0.6');
@@ -255,7 +255,7 @@
 					attributes.set.name = data.linkText;
 
 				//over-ride name if tracking is not enabled
-				if (!data.button)
+				if (!data.trackClicks)
 					attributes.set.name = "LinkIsNotTracked";
 
 
@@ -599,14 +599,14 @@
 					type: "checkbox",
 					label: "Track Clicks",
 					commit: function(data) {
-						data.button = this.getValue()
+						data.trackClicks = this.getValue()
 					},
 					setup: function(data) {
 						this.setValue(true);
 						if(data.advanced || data.trackClicks) {
 							if(data.advanced.advName == "LinkIsNotTracked")
 								this.setValue(false);
-						}						 	
+						}	
 					},
 					onChange: function(data) {
 							toggleReportname(this.getValue(), data);
