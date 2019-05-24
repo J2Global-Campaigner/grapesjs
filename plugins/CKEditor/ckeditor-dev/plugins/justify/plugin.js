@@ -204,7 +204,7 @@
 				// 2 & 3 in one condition.
 				this.setState( getAlignment( firstBlock, this.editor.config.useComputedState ) == this.value ? CKEDITOR.TRISTATE_ON : CKEDITOR.TRISTATE_OFF );
 			} else {
-				this.setState( CKEDITOR.TRISTATE_DISABLED );
+				//this.setState( CKEDITOR.TRISTATE_DISABLED );
 			}
 		}
 	};
