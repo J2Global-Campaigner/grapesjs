@@ -51,16 +51,19 @@ module.exports = {
       overflow-x: hidden;
     }
 
+
+    /* Set the scrollbar for the editor*/
     * ::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.1)
+        background: #fafafa;
     }
-
+    
     * ::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.2)
+        background: #c5c5c5;
+        border-radius:4px
     }
-
+    
     * ::-webkit-scrollbar {
-      width: 10px
+        width: 5px;
     }
   `,
 
